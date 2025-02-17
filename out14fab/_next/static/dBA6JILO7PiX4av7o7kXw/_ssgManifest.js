@@ -1,0 +1,1 @@
+self.__SSG_MANIFEST=new Set(["\u002Fcoworking-space\u002F[id]","\u002Fserviced-offices\u002F[id]","\u002Fvirtual-offices\u002F[id]"]);self.__SSG_MANIFEST_CB&&self.__SSG_MANIFEST_CB()

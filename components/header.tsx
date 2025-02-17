@@ -1,0 +1,165 @@
+"use client"
+
+import { useEffect } from "react"
+import Link from "next/link"
+import { Phone, Menu } from "lucide-react"
+import { Button } from "@/components/ui/button"
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
+import Image from "next/image"
+import logo from '../app/logo.png'
+import { useAppDispatch, useAppSelector } from "@/hooks/hooks"
+import { useRouter } from "next/navigation"
+import { getContacts, getRequirment, loadUser } from "@/lib/actions/user"
+
+const navItems = [
+  {
+    name: "Our Services",
+    href: "#",
+    dropdown: [
+      { name: "Coworking Spaces", href: "/coworking-space" },
+      { name: "Serviced Offices", href: "/serviced-offices" },
+      { name: "Virtual Offices", href: "/virtual-offices" },
+      { name: "Meeting Rooms", href: "#" },
+    ],
+  },
+  { name: "About", href: "/about" },
+  { name: "Share Your Space ", href: "/add-workspace" },
+]
+
+export function Header() {
+  const { isAuthenticated, } = useAppSelector((state) => state.user);// Manage authentication state
+  const router = useRouter();
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    dispatch(loadUser());
+    dispatch(getContacts());
+    dispatch(getRequirment());
+  }, [dispatch]);
+  const handleLogout = () => {
+    fetch("http://localhost:4000/api/auth/logout", {
+      method: "GET",
+      credentials: "include",
+    })
+      .then((response) => {
+        if (response.ok) {
+          // Handle successful logout
+          router.push("/login");
+          //refresh 
+          window.location.reload();
+        } else {
+          // Handle error
+          console.error("Logout failed");
+        }
+      })
+      .catch((error) => {
+        console.error("An error occurred during logout:", error);
+      });
+  }
+
+  const handleLogin = () => {
+    router.push("/login")
+  }
+
+  return (
+    <header className="fixed z-50 w-full border-b bg-white/80 backdrop-blur-sm">
+      <div className="container flex items-center justify-between h-16 px-4 mx-auto">
+        <Link href="/" className="flex items-center gap-2">
+          <Image src={logo} alt="Seven Wonders" width={32} height={32} />
+          <span className="text-xl font-semibold">Seven Wonders</span>
+        </Link>
+
+        <nav className="items-center hidden gap-8 lg:flex">
+          {navItems.map((item) => (
+            <div key={item.name} className="relative group">
+              <Link href={item.href} className="py-2">
+                {item.name}
+              </Link>
+              {item.dropdown && (
+                <div className="absolute left-0 invisible w-48 mt-2 transition-all duration-300 ease-in-out bg-white rounded-md shadow-lg opacity-0 ring-1 ring-black ring-opacity-5 group-hover:opacity-100 group-hover:visible">
+                  <div className="py-1">
+                    {item.dropdown.map((subItem) => (
+                      <Link
+                        key={subItem.name}
+                        href={subItem.href}
+                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                      >
+                        {subItem.name}
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          ))}
+
+        </nav>
+
+        <div className="items-center hidden gap-4 lg:flex">
+          <Button variant="outline" className="flex items-center gap-2 text-white bg-primary hover:bg-red-500">
+            <Link href='/share-requirment'>Post Your Requirment</Link>
+          </Button>
+          <Link href="tel:+919015651565" className="flex items-center gap-2">
+            <Phone className="w-4 h-4" />
+            <span>+91-90-1565-1565</span>
+          </Link>
+          {isAuthenticated ? (
+            <Button variant="outline" onClick={handleLogout}>
+              LOGOUT
+            </Button>
+          ) : (
+            <Button variant="outline" onClick={handleLogin}>
+              LOGIN
+            </Button>
+          )}
+        </div>
+
+        <Sheet>
+          <SheetTrigger asChild>
+            <Button variant="ghost" size="icon" className="lg:hidden">
+              <Menu className="w-6 h-6" />
+              <span className="sr-only">Open menu</span>
+            </Button>
+          </SheetTrigger>
+          <SheetContent side="right">
+            <SheetHeader>
+              <SheetTitle>Menu</SheetTitle>
+            </SheetHeader>
+            <nav className="flex flex-col gap-4 mt-8">
+              {navItems.map((item) => (
+                <div key={item.name}>
+                  <Link href={item.href} className="text-lg font-semibold">
+                    {item.name}
+                  </Link>
+                  {item.dropdown && (
+                    <div className="flex flex-col gap-2 mt-2 ml-4">
+                      {item.dropdown.map((subItem) => (
+                        <Link key={subItem.name} href={subItem.href} className="text-sm text-gray-600">
+                          {subItem.name}
+                        </Link>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              ))}
+            </nav>
+            <div className="flex flex-col gap-4 mt-8">
+              <Link href="tel:+91 90156 51565" className="flex items-center gap-2">
+                <Phone className="w-4 h-4" />
+                <span>+91 90156 51565</span>
+              </Link>
+              {isAuthenticated ? (
+                <Button variant="outline" className="w-full" onClick={handleLogout}>
+                  LOGOUT
+                </Button>
+              ) : (
+                <Button variant="outline" className="w-full" onClick={handleLogin}>
+                  LOGIN
+                </Button>
+              )}
+            </div>
+          </SheetContent>
+        </Sheet>
+      </div>
+    </header>
+  )
+}
