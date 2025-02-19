@@ -92,7 +92,7 @@ export default function WorkspaceDetailsClient({ workspace }: { workspace: any }
                                         { icon: Home, label: "Bedrooms", value: "3 Bedrooms" },
                                         { icon: Calendar, label: "Published At", value: "2025-02-08" },
                                         { icon: Home, label: "Carpet Area", value: "1540 Sq.ft" },
-                                        { icon: Home, label: "Built-up Area", value: "1840 Sq.ft" },
+                                        { icon: Home, label: "Built-up Area", value: workspace.area },
                                         { icon: Home, label: "Flooring", value: "Vitrified" },
                                         { icon: Calendar, label: "Age of Property", value: "2015" },
                                         { icon: CheckCircle, label: "Parking", value: "Available" }

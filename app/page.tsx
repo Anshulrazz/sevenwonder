@@ -25,6 +25,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { BrandDeals } from "@/components/clients";
 
 const propertyTypes = ["Commercial Office/Spaces", "Commercial Shop", "Commercial Showroom", "Commercial Coworking Spaces", "Commercial Time Share", "Commercial Space in Retail Mall", "Commercial Office in Business Park", "Commercial Offices in IT Park", "Commercial Business Center", "Commercial Hotel/Resort", "Commercial Financial Institution", "Commercial Medical/Hospital Premise", "Corporate House", "Commercial Institutes", "Commercial Labor Camp", "Commercial Chemical Zone", "Commercial Restaurant", "Commercial Flat", "Commercial Terrace Restaurant", "Commercial Education Institutes", "Commercial Built to Suit", "Home Stay", "Commercial Multiplex", "Commercial Basement", "Commercial Bungalow", "Commercial Shop Cum Office Spaces(CSO)", "Commercial Shop Cum Flat(SCF)", "Commercial Booth", "Commercial Bay Shop", "Commercial building", "PG", "Spacial Economic Zone(SEZ)", "Cloud Kitchen"];
 const residebtial = [
@@ -310,6 +311,7 @@ export default function Home() {
       <Investwihus />
       <BrandCollaboration />
       <CustomerReviews />
+      <BrandDeals/>
       <section className="py-16 bg-gray-50">
         <div className="container grid gap-12 px-4 mx-auto md:grid-cols-2">
           <div>

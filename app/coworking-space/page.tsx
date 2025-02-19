@@ -98,7 +98,7 @@ export default function CoworkingSpaces() {
                                         </h3>
                                         <p className="mb-3 text-lg text-gray-600">{workspace.address}</p>
                                         <p className="text-lg font-bold text-primary">
-                                            ₹{workspace.pricePerDay} / day
+                                            ₹{workspace?.pricePerHour} / day
                                         </p>
                                         <p className="text-sm text-gray-500">
                                             Capacity: {workspace.capacity} | Amenities: {workspace.amenities.join(", ")}

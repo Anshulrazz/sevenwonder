@@ -24,6 +24,7 @@ const reviews = [
     rating: 5,
     review: "The team at Seven Wonders was super helpful in finding us our new home. Their knowledge of the area and attention to detail made the process so much easier. Highly recommend!",
   },
+  
 ]
 
 function StarRating({ rating }: { rating: number }) {

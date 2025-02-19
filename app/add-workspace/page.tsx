@@ -22,7 +22,7 @@ const AddWorkspaceForm = () => {
         capacity: '50',
         amenities: ['wifi', 'parking', 'ac'] as string[],
         pricePerHour: '10000',
-        pricePerDay: '1999',
+        area: '200',
         description: 'A modern workspace designed for productivity and collaboration.',
     });
 
@@ -310,6 +310,20 @@ const AddWorkspaceForm = () => {
                                                 className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500"
                                                 onChange={(e) =>
                                                     setFormData({ ...formData, pricePerHour: e.target.value })
+                                                }
+                                            />
+                                        </div>
+                                        <div>
+                                            <label className="block mb-2 text-sm font-medium text-gray-700">
+                                                Area In sq Feet*
+                                            </label>
+                                            <input
+                                                type="number"
+                                                required
+                                                value={formData.area}
+                                                className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500"
+                                                onChange={(e) =>
+                                                    setFormData({ ...formData, area: e.target.value })
                                                 }
                                             />
                                         </div>

@@ -6,6 +6,7 @@ import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 import Link from "next/link";
 import imgs from './image.png';
+import AwardPage from "@/components/awards/page";
 export default function AboutPage() {
     return (
         <>
@@ -213,7 +214,7 @@ export default function AboutPage() {
                 </section> */}
 
                 {/* Awards & Recognition */}
-                <section className="py-16 bg-white md:py-24">
+                {/* <section className="py-16 bg-white md:py-24">
                     <div className="container px-4 mx-auto">
                         <h2 className="mb-12 text-3xl font-bold text-center">Awards & Recognition</h2>
                         <div className="grid gap-8 md:grid-cols-3">
@@ -239,7 +240,8 @@ export default function AboutPage() {
                         </div>
                         <p className="text-right"><Link className="text-blue-600 hover:underline" href={"/awards"}> See All</Link></p>
                     </div>
-                </section>
+                </section> */}
+                <AwardPage />
 
                 {/* News & Media */}
                 <section className="py-16 md:py-24 bg-gray-50">
@@ -296,13 +298,13 @@ export default function AboutPage() {
                 </section>
 
                 {/* Call to Action */}
-                <section className="py-16 text-white bg-red-600 md:py-24">
+                <section className="py-16 md:py-24">
                     <div className="container px-4 mx-auto text-center">
                         <h2 className="mb-6 text-3xl font-bold md:text-4xl">Ready to Find Your Perfect Workspace?</h2>
-                        <p className="mb-8 text-xl text-red-100">
+                        <p className="mb-8 text-xl">
                             Join thousands of businesses who trust Seven Wonders for their workspace needs.
                         </p>
-                        <button className="px-8 py-3 font-semibold text-red-600 transition-colors bg-white rounded-lg hover:bg-red-50">
+                        <button className="px-8 py-3 font-semibold text-white transition-colors rounded-lg bg-primary hover:bg-primary">
                             Explore Spaces
                         </button>
                     </div>
