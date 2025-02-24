@@ -7,6 +7,7 @@ import { Footer } from "@/components/footer";
 import Link from "next/link";
 import imgs from './image.png';
 import AwardPage from "@/components/awards/page";
+
 export default function AboutPage() {
     return (
         <>

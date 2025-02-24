@@ -1,0 +1,19 @@
+[
+    {
+      "id": 1,
+      "title": "Top Real Estate Trends in 2023",
+      "summary": "Discover the latest trends in the real estate market for 2023.",
+      "content": "This is the full content of the blog post about real estate trends in 2023.",
+      "date": "2023-10-01",
+      "image": "/images/trends.jpg"
+    },
+    {
+      "id": 2,
+      "title": "How to Invest in Real Estate",
+      "summary": "Learn the basics of investing in real estate and maximizing your returns.",
+      "content": "This is the full content of the blog post about investing in real estate.",
+      "date": "2023-10-05",
+      "image": "/images/investing.jpg"
+    }
+  ]
+  

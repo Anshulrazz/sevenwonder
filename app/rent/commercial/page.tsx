@@ -34,7 +34,6 @@ export default function CoworkingSpaces() {
 
         fetchWorkspaces();
     }, []);
-
     // Filter workspaces based on search query
     const filteredWorkspaces = useMemo(() => {
         if (!searchQuery) return workspaces;
@@ -62,10 +61,10 @@ export default function CoworkingSpaces() {
                             />
                         </div>
                         <h1 className="mb-4 text-4xl font-bold sm:text-5xl">
-                            Coworking Spaces
+                            Commercail Properties for Rent
                         </h1>
                         <p className="mb-8 text-lg">
-                            Discover the best coworking spaces that suit your business needs.
+                            Discover the best commercial Property accourding to your requirment
                         </p>
                         <div className="max-w-md mx-auto">
                             <Input
@@ -76,7 +75,7 @@ export default function CoworkingSpaces() {
                             />
                         </div>
                     </div>
-                    <h2 className="font-sans text-3xl text-left">Suitable coworking office for you ❤️💕</h2>
+                    <h2 className="font-sans text-3xl text-left">Best Commercial Properties for you❤️</h2>
                     {/* Grid of Office Cards */}
                     <div className="grid grid-cols-1 gap-8 py-12 sm:grid-cols-2 lg:grid-cols-3">
                         {filteredWorkspaces.map((workspace: any) => (

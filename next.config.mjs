@@ -20,9 +20,7 @@ const nextConfig = {
     webpackBuildWorker: true,
     parallelServerBuildTraces: true,
     parallelServerCompiles: true,
-    appDir: true, // Keep App Router enabled
   },
-  // ❌ Remove: output: "export"
 };
 
 mergeConfig(nextConfig, userConfig);

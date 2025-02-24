@@ -31,3 +31,14 @@
   background: linear-gradient(135deg, rgb(219, 155, 155) 0%, rgb(133, 122, 171) 100%);
 }
 
+
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+

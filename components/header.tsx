@@ -10,20 +10,64 @@ import logo from '../app/logo.png'
 import { useAppDispatch, useAppSelector } from "@/hooks/hooks"
 import { useRouter } from "next/navigation"
 import { getContacts, getRequirment, loadUser } from "@/lib/actions/user"
+import { dropdown } from "@heroui/react"
 
 const navItems = [
   {
-    name: "Our Services",
-    href: "#",
+    name: "About US", href: "#",
     dropdown: [
-      { name: "Coworking Spaces", href: "/coworking-space" },
-      { name: "Serviced Offices", href: "/serviced-offices" },
-      { name: "Virtual Offices", href: "/virtual-offices" },
-      { name: "Meeting Rooms", href: "#" },
-    ],
+      { name: "Our Story", href: "/our-story", },
+      { name: "Press News", href: "/news", },
+      { name: "Careers", href: "/careers", },
+      { name: "Blogs", href: "/blog" },
+      { name: "Contact Us", href: "/contact", }
+    ]
   },
-  { name: "About", href: "/about" },
-  { name: "Share Your Space ", href: "/add-workspace" },
+  {
+    name: "Buy", href: "#",
+    dropdown: [
+      { name: "Commercial Properties", href: "/buy/commercial" },
+      { name: "Residential Properties", href: "/buy/residential" }
+    ]
+  },
+  {
+    name: "Rent", href: "#",
+    dropdown: [
+      { name: "Commercial Properties", href: "/rent/commercial" },
+      { name: "Residential Properties", href: "/rent/residential" }
+    ]
+  },
+  {
+    name: "Projects", href: "#",
+    dropdown: [
+      { name: "Commercial Projects", href: "/projects/commercial" },
+      { name: "Residential Projects ", href: "/projects/residential" }
+    ]
+  },
+
+  {
+    "name": "Services",
+    "href": "#",
+    "dropdown": [
+      { "name": "Rent/Sell Property", "href": "/rent-sell-property" },
+      { "name": "Property Consulting", "href": "/property-consulting" },
+      { "name": "Co-working / Business Centres", "href": "/coworking-business-centres" },
+      { "name": "Home Loan", "href": "/home-loan" },
+      { "name": "Home Interior", "href": "/home-interior" },
+      { "name": "Property Legal Services", "href": "/property-legal-services" },
+      { "name": "Property Management", "href": "/property-management" },
+      { "name": "Escrow Services", "href": "/escrow-services" },
+      { "name": "Online Rent Agreement", "href": "/online-rent-agreement" },
+      { "name": "Rent Receipt Generator", "href": "/rent-receipt-generator" },
+      { "name": "Title Search", "href": "/title-search" },
+      { "name": "Litigation", "href": "/litigation" },
+      { "name": "Valuation", "href": "/valuation" },
+      { "name": "Property Registration", "href": "/property-registration" }
+    ]
+  },  
+  { name: "Agents ", href: "/add-workspace" },
+  { name: "Share Space ", href: "/add-workspace" },
+  { name: "Share Requirment", href: "/share-requirment" },
 ]
 
 export function Header() {
@@ -68,7 +112,7 @@ export function Header() {
           <span className="text-xl font-semibold">Seven Wonders</span>
         </Link>
 
-        <nav className="items-center hidden gap-8 lg:flex">
+        <nav className="items-center hidden gap-4 lg:flex">
           {navItems.map((item) => (
             <div key={item.name} className="relative group">
               <Link href={item.href} className="py-2">
@@ -95,9 +139,6 @@ export function Header() {
         </nav>
 
         <div className="items-center hidden gap-4 lg:flex">
-          <Button variant="outline" className="flex items-center gap-2 text-white bg-primary hover:bg-red-500">
-            <Link href='/share-requirment'>Post Your Requirment</Link>
-          </Button>
           <Link href="tel:+919015651565" className="flex items-center gap-2">
             <Phone className="w-4 h-4" />
             <span>+91-90-1565-1565</span>
