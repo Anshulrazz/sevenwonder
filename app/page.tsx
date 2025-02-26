@@ -26,6 +26,8 @@ import {
 } from "@/components/ui/select";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { BrandDeals } from "@/components/clients";
+import axios from 'axios';
+import PlaceComponent from "@/components/inputcom";
 
 const propertyTypes = ["Commercial Office/Spaces", "Commercial Shop", "Commercial Showroom", "Commercial Coworking Spaces", "Commercial Time Share", "Commercial Space in Retail Mall", "Commercial Office in Business Park", "Commercial Offices in IT Park", "Commercial Business Center", "Commercial Hotel/Resort", "Commercial Financial Institution", "Commercial Medical/Hospital Premise", "Corporate House", "Commercial Institutes", "Commercial Labor Camp", "Commercial Chemical Zone", "Commercial Restaurant", "Commercial Flat", "Commercial Terrace Restaurant", "Commercial Education Institutes", "Commercial Built to Suit", "Home Stay", "Commercial Multiplex", "Commercial Basement", "Commercial Bungalow", "Commercial Shop Cum Office Spaces(CSO)", "Commercial Shop Cum Flat(SCF)", "Commercial Booth", "Commercial Bay Shop", "Commercial building", "PG", "Spacial Economic Zone(SEZ)", "Cloud Kitchen"];
 const residebtial = [
@@ -75,6 +77,25 @@ const backgroundImages = [
 ];
 
 export default function Home() {
+  const [email, setEmail] = useState('');
+  const [submitted, setSubmitted] = useState(false);
+
+  const handleSubscribe = async (e:any) => {
+    e.preventDefault();
+    try {
+      const recipientEmail = email;
+      const response = await axios.post('http://localhost:5000/send-email', { recipientEmail });
+      if (response.status === 200) {
+        setEmail('');
+      } else {
+        alert('Subscription failed. Please try again.');
+      }
+    } catch (error) {
+      alert('An error occurred. Please try again.');
+      console.log(error)
+    }
+  };
+
   const [propertyStatus, setPropertyStatus] = useState("buy");
   const [propertyCategory, setPropertyCategory] = useState("commercial");
   const dispatch = useAppDispatch();
@@ -337,6 +358,33 @@ export default function Home() {
           <ContactForm />
         </div>
       </section>
+      <div className="py-24 md:px-20">
+      <div className="max-w-4xl mx-auto text-center">
+        <h2 className="mb-4 text-3xl font-bold md:text-4xl">Subscribe to Seven Wonders</h2>
+        <p className="mb-8 text-lg md:text-xl">
+          Stay updated with the latest travel deals, offers, and updates from Seven Wonders Promoters & Developers Pvt. Ltd. Enter your email below to subscribe to our newsletter.
+        </p>
+        <form onSubmit={handleSubscribe} className="flex flex-col items-center justify-center gap-4 md:flex-row">
+          <div className="relative w-full md:w-auto">
+            <input
+              type="email"
+              placeholder="Enter your Email..."
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="w-full px-4 py-3 rounded-lg shadow-md focus:outline-none text-black border border-gray-300"
+              required
+            />
+          </div>
+          <PlaceComponent/>
+          <button type="submit" className="px-6 py-3 font-bold transition bg-yellow-500 rounded-lg shadow-lg hover:bg-yellow-600">
+            Subscribe
+          </button>
+        </form>
+        {submitted && (
+          <p className="mt-4 font-medium text-green-500">Thank you for subscribing! 🎉</p>
+        )}
+      </div>
+    </div>
       <Footer />
     </div >
   );
