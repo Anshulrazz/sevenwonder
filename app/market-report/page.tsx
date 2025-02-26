@@ -1,5 +1,5 @@
 'use client'
-import React from 'react';
+import React, { useState } from 'react';
 import { Download, Mail, Phone } from 'lucide-react';
 import { MarketMetrics } from '@/components/MarketMetrics';
 import MarketTrends from '@/components/MarketTrends';
@@ -7,8 +7,25 @@ import NewsSection from '@/components/NewsSection';
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 import Link from "next/link"
-
+import axios from "axios"
 function Market() {
+  const [email, setEmail] = useState('');
+  const [submitted, setSubmitted] = useState(false);
+  const handleSubscribe = async (e:any) => {
+    e.preventDefault();
+    try {
+      const recipientEmail = email;
+      const response = await axios.post('http://localhost:5000/send-email', { recipientEmail });
+      if (response.status === 200) {
+        setEmail('');
+      } else {
+        alert('Subscription failed. Please try again.');
+      }
+    } catch (error) {
+      alert('An error occurred. Please try again.');
+      console.log(error)
+    }
+  };
   return (
     <>
       <Header />
@@ -80,12 +97,17 @@ function Market() {
           <input
             type="email"
             placeholder="Enter your email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
             required
             className="w-full max-w-md px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
           />
-          <button className="ml-4 px-6 py-2 text-white font-semibold rounded-lg bg-primary">
+          <button className="ml-4 px-6 py-2 text-white font-semibold rounded-lg bg-primary" onClick={handleSubscribe}>
             Subscribe
           </button>
+          {submitted && (
+          <p className="mt-4 font-medium text-green-500">Thank you for subscribing! 🎉</p>
+        )}
         </div>
       </div>
       <Footer />

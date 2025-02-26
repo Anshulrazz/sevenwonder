@@ -39,44 +39,6 @@ const MarketTrends: React.FC = () => {
     ],
   }), []);
 
-  const options = useMemo(() => ({
-    responsive: true,
-    maintainAspectRatio: false,
-    scales: {
-      x: {
-        type: 'category',
-        title: {
-          display: true,
-          text: 'Months',
-        },
-        ticks: {
-          autoSkip: false,
-        },
-        grid: {
-          display: false,
-        },
-      },
-      y: {
-        beginAtZero: false,
-        title: {
-          display: true,
-          text: 'Values',
-        },
-        grid: {
-          color: '#e5e7eb',
-        },
-      },
-    },
-    plugins: {
-      legend: {
-        position: 'top',
-      },
-      tooltip: {
-        enabled: true,
-        backgroundColor: 'rgba(0, 0, 0, 0.7)',
-      },
-    },
-  }), []);
 
   return (
     <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
@@ -94,7 +56,44 @@ const MarketTrends: React.FC = () => {
         </div>
       </div>
       <div className="h-64">
-        <Line data={chartData} options={options} />
+        <Line data={chartData} options={useMemo(() => ({
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            x: {
+              type: 'category',
+              title: {
+                display: true,
+                text: 'Months',
+              },
+              ticks: {
+                autoSkip: false,
+              },
+              grid: {
+                display: false,
+              },
+            },
+            y: {
+              beginAtZero: false,
+              title: {
+                display: true,
+                text: 'Values',
+              },
+              grid: {
+                color: '#e5e7eb',
+              },
+            },
+          },
+          plugins: {
+            legend: {
+              position: 'top',
+            },
+            tooltip: {
+              enabled: true,
+              backgroundColor: 'rgba(0, 0, 0, 0.7)',
+            },
+          },
+        }), [])} />
       </div>
     </div>
   );
