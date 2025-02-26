@@ -58,11 +58,14 @@ export default function CareersPage() {
               <h1 className="text-4xl" data-aos="fade-right">
                 Build Your Future with <span className='text-primary'>Seven Wonders <br /> Promoters & Developers Pvt. Ltd.</span> –<br /> Where Innovation Meets Opportunity
               </h1>
-              <p data-aos="fade-right">
+              <p data-aos="fade-right mb-8">
                 At Seven Wonders Promoters & Developers Pvt. Ltd.,<br /> we believe in building not just dream projects but also<br />
                 rewarding careers. As a leading name in the real <br /> industry, we offer a dynamic and growth-driven environment where innovation, <br />
                 integrity, and excellence thrive.
               </p>
+              <br/>
+              <br/>
+              <Link href='/careers-cv' className="mt-3 px-8 py-3 bg-white text-primary font-bold rounded-lg hover:bg-gray-200">Apply Now</Link>
             </div>
             <DotLottieReact
               src="https://lottie.host/21797fb4-8dd1-4c91-81a0-08d9a500652a/pFeoIPSYrS.lottie"

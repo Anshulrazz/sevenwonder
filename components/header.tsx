@@ -14,61 +14,78 @@ import { dropdown } from "@heroui/react"
 
 const navItems = [
   {
-    name: "About US", href: "#",
+    name: "Services",
+    href: "#",
     dropdown: [
-      { name: "Our Story", href: "/our-story", },
-      { name: "Press News", href: "/news", },
-      { name: "Careers", href: "/careers", },
-      { name: "Blogs", href: "/blog" },
-      { name: "Contact Us", href: "/contact", }
+      { name: "Rent/Sell Property", href: "/rent-sell/property" },
+      { name: "Commercial Sales/Leasing", href: "/commercial-sales-leasing" },
+      { name: "Residential Sales/Leasing", href: "/residential-sales-leasing" },
+      { name: "Co-working / Business Centre", href: "/co-working-business-centre" },
+      { name: "Property Management", href: "/p-management" },
+      { name: "Property Valuations", href: "/p-valuation" },
+      { name: "Investment Advisory", href: "/investment-advisory" },
+      { name: "Home Loan", href: "/home-loan" },
+      { name: "Mortgage", href: "/mortgage" }
     ]
   },
   {
-    name: "Buy", href: "#",
+    name: "Buy",
+    href: "#",
     dropdown: [
       { name: "Commercial Properties", href: "/buy/commercial" },
       { name: "Residential Properties", href: "/buy/residential" }
     ]
   },
   {
-    name: "Rent", href: "#",
+    name: "Rent",
+    href: "#",
     dropdown: [
       { name: "Commercial Properties", href: "/rent/commercial" },
       { name: "Residential Properties", href: "/rent/residential" }
     ]
   },
   {
-    name: "Projects", href: "#",
+    name: "Projects/Off-Plan",
+    href: "#",
     dropdown: [
-      { name: "Commercial Projects", href: "/projects/commercial" },
-      { name: "Residential Projects ", href: "/projects/residential" }
+      { name: "Residential Projects", href: "/projects/residential" },
+      { name: "Commercial Projects", href: "/projects/commercial" }
     ]
   },
-
   {
-    "name": "Services",
-    "href": "#",
-    "dropdown": [
-      { "name": "Rent/Sell Property", "href": "/rent-sell-property" },
-      { "name": "Property Consulting", "href": "/property-consulting" },
-      { "name": "Co-working / Business Centres", "href": "/coworking-business-centres" },
-      { "name": "Home Loan", "href": "/home-loan" },
-      { "name": "Home Interior", "href": "/home-interior" },
-      { "name": "Property Legal Services", "href": "/property-legal-services" },
-      { "name": "Property Management", "href": "/property-management" },
-      { "name": "Escrow Services", "href": "/escrow-services" },
-      { "name": "Online Rent Agreement", "href": "/online-rent-agreement" },
-      { "name": "Rent Receipt Generator", "href": "/rent-receipt-generator" },
-      { "name": "Title Search", "href": "/title-search" },
-      { "name": "Litigation", "href": "/litigation" },
-      { "name": "Valuation", "href": "/valuation" },
-      { "name": "Property Registration", "href": "/property-registration" }
+    name: "Media",
+    href: "#",
+    dropdown: [
+      { name: "News & Insights", href: "/news" },
+      { name: "Articles & Blogs", href: "/blog" },
+      { name: "Guides", href: "/guides" },
+      { name: "Market Reports", href: "/market-report" },
+      { name: "Images/Videos Gallery", href: "/gallary" }
     ]
-  },  
-  { name: "Agents ", href: "/add-workspace" },
-  { name: "Share Space ", href: "/add-workspace" },
-  { name: "Share Requirment", href: "/share-requirment" },
-]
+  },
+  {
+    name: "About Us",
+    href: "#",
+    dropdown: [
+      { name: "Our Story", href: "/our-story" },
+      { name: "Why Choose Us", href: "/about" },
+      { name: "Our Team", href: "/our-team" },
+      { name: "Careers", href: "/careers" }
+    ]
+  },
+  {
+    name: "Contact Us",
+    href: "#",
+    dropdown: [
+      { name: "General Enquiry", href: "/contact" },
+      { name: "List a Property", href: "/addworkspace" },
+      { name: "Share Your Requirement", href: "/share-requirement" },
+      { name: "Careers/Send Us Your CV", href: "/careers-cv" },
+      { name: "Leave a Suggestion", href: "/leave-suggestion" }
+    ]
+  }
+];
+
 
 export function Header() {
   const { isAuthenticated, } = useAppSelector((state) => state.user);// Manage authentication state
@@ -106,6 +123,7 @@ export function Header() {
 
   return (
     <header className="fixed z-50 w-full border-b bg-white/80 backdrop-blur-sm">
+
       <div className="container flex items-center justify-between h-16 px-4 mx-auto">
         <Link href="/" className="flex items-center gap-2">
           <Image src={logo} alt="Seven Wonders" width={32} height={32} />
