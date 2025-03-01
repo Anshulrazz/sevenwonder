@@ -1,10 +1,8 @@
 "use client";
-
 import * as React from "react";
 import { useState, useEffect, useMemo } from "react";
 import Image from "next/image";
 import { Card } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 import axios from "axios";
@@ -23,7 +21,7 @@ export default function ProjectsResidential() {
                 const response = await axios.get("http://localhost:4000/api/projects");
                 if (response.data.success) {
                     const filteredProjects = response.data.projects.filter(
-                        (project) => project.projectCategory === "residential"
+                        (project:any) => project.projectCategory === "residential"
                     );
                     setProjects(filteredProjects);
                 } else {
@@ -31,6 +29,15 @@ export default function ProjectsResidential() {
                 }
             } catch (error) {
                 console.error("Error fetching projects:", error);
+                // Using dummy data in case of error
+                const dummyProjects = Array.from({ length: 50 }, (_, index) => ({
+                    id: index + 1,
+                    projectName: `Project ${index + 1}`,
+                    location: `City ${index % 10 + 1}`,
+                    category: `BC-${(index % 9) + 1}`,
+                    image: `/images/project${(index % 10) + 1}.jpg`
+                }));
+                setProjects(dummyProjects);
             }
         };
 
@@ -38,12 +45,12 @@ export default function ProjectsResidential() {
     }, []);
 
     const filteredProjects = useMemo(() => {
-        return projects.filter((project) => {
+        return projects.filter((project:any) => {
             const matchesSearch = searchQuery
                 ? project.projectName.toLowerCase().includes(searchQuery.toLowerCase()) ||
                   project.location.toLowerCase().includes(searchQuery.toLowerCase())
                 : true;
-            const matchesCategory = activeTab === "all" || project.category === activeTab;
+            const matchesCategory = activeTab === "All" || project.category === activeTab;
             return matchesSearch && matchesCategory;
         });
     }, [searchQuery, activeTab, projects]);
@@ -68,7 +75,7 @@ export default function ProjectsResidential() {
 
             <section className="p-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {filteredProjects.length > 0 ? (
-                    filteredProjects.map((project) => (
+                    filteredProjects.map((project:any) => (
                         <Card key={project.id} className="p-4">
                             <Image src={project.image} alt={project.projectName} width={300} height={200} className="rounded-lg" />
                             <h3 className="mt-2 font-semibold">{project.projectName}</h3>

@@ -9,3 +9,18 @@ script for google busniss
 location autocomplete wait for api key from google
 code push on github for version cantrol 
 market report download pdf file 
+
+
+6 post on social media 
+commercial-projects page for website 
+map 50 dummy projects on website 
+add continue with google
+add auth provider 
+add client id for signin in with google
+modify login page (for signin)
+modify register page (for signup )
+decode jwt_secrate
+    for user detail from token 
+    name
+    email
+    profile pic
