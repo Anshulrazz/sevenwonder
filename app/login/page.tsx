@@ -11,6 +11,7 @@ import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter }
 import { Header } from "@/components/header"
 import { useAppDispatch } from "@/hooks/hooks"
 import { loginUser } from "@/lib/actions/user"
+import { FcGoogle } from "react-icons/fc" // Google icon for button
 
 export default function LoginPage() {
   const dispatch = useAppDispatch();
@@ -39,15 +40,20 @@ export default function LoginPage() {
     }
 
     try {
-      // Here you would typically make an API call to authenticate the user
-      // For this example, we'll just simulate a successful login
       await new Promise((resolve) => setTimeout(resolve, 1000))
-
-      // Redirect to home page after successful login
       router.push("/")
       dispatch(loginUser(formData))
     } catch (err) {
       setError("Invalid email or password")
+    }
+  }
+
+  const handleGoogleLogin = async () => {
+    try {
+      // Here you would integrate Google authentication logic
+      console.log("Continue with Google clicked")
+    } catch (err) {
+      setError("Google login failed")
     }
   }
 
@@ -96,6 +102,14 @@ export default function LoginPage() {
                 Login
               </Button>
             </form>
+            <div className="flex items-center my-4">
+              <div className="flex-grow border-t border-gray-300"></div>
+              <span className="px-2 text-sm text-gray-500">OR</span>
+              <div className="flex-grow border-t border-gray-300"></div>
+            </div>
+            <Button onClick={handleGoogleLogin} variant="outline" className="w-full flex items-center justify-center gap-2">
+              <FcGoogle size={20} /> Continue with Google
+            </Button>
           </CardContent>
           <CardFooter className="flex justify-between">
             <Link href="/forgot-password" className="text-sm text-primary ">
@@ -110,4 +124,3 @@ export default function LoginPage() {
     </>
   )
 }
-

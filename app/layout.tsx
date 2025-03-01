@@ -7,6 +7,7 @@ import MouseMoveEffect from "@/components/mouse";
 import { Providers } from "./UIprovider";
 import { useState } from "react";
 import { X } from "lucide-react";
+import GoogleProvider from './GoogleOAuthProvider';
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -59,6 +60,7 @@ export default function RootLayout({
         <title>Seven Wonders Limited - Find Your Perfect Workspace</title>
       </head>
       <body className={inter.className}>
+      <GoogleProvider>
         <StoreProvider>
           <Providers>
             <MouseMoveEffect />
@@ -95,6 +97,7 @@ export default function RootLayout({
             {children}
           </Providers>
         </StoreProvider>
+        </GoogleProvider>
         <script
           type="text/javascript"
           src="https://d3mkw6s8thqya7.cloudfront.net/integration-plugin.js"

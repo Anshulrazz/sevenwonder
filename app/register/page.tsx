@@ -12,6 +12,9 @@ import Image from "next/image"
 import logo from '../logo.png'
 import { useAppDispatch } from "@/hooks/hooks"
 import { registerUser } from "@/lib/actions/user"
+import { GoogleLogin, googleLogout } from "@react-oauth/google";
+import {jwtDecode} from "jwt-decode";
+
 
 export default function RegisterPage() {
   const dispatch = useAppDispatch();
@@ -63,6 +66,23 @@ export default function RegisterPage() {
       setError("An error occurred during registration")
     }
   }
+  
+  const handleGoogleLoginSuccess = (credentialResponse: any) => {
+    console.log(credentialResponse);
+    if (credentialResponse?.credential) {
+      const decoded: any = jwtDecode(credentialResponse.credential);
+      console.log(decoded);
+      const { name, email } = decoded;
+      router.push("/");
+    } else {
+      setError("Failed to retrieve Google user information.");
+    }
+  };
+  
+
+  const handleGoogleLoginError = () => {
+    setError("Google sign-in was unsuccessful. Please try again later.");
+  };
 
   return (
     <>
@@ -79,6 +99,12 @@ export default function RegisterPage() {
             <CardDescription>Enter your details to create your account</CardDescription>
           </CardHeader>
           <CardContent>
+            <div className="mt-4 flex flex-col items-center">
+              <Button variant="outline" className="w-full flex items-center justify-center gap-2">
+              <GoogleLogin onSuccess={handleGoogleLoginSuccess} onError={handleGoogleLoginError} />
+              </Button>
+              <span className="text-gray-600">or</span>
+            </div>
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="space-y-2">
                 <Label htmlFor="name">Full Name</Label>
@@ -158,5 +184,8 @@ export default function RegisterPage() {
       </div>
     </>
   )
+}
+function jwt_decode(credential: any) {
+  throw new Error("Function not implemented.")
 }
 

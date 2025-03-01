@@ -10,16 +10,26 @@ import logo from '../app/logo.png'
 import { useAppDispatch, useAppSelector } from "@/hooks/hooks"
 import { useRouter } from "next/navigation"
 import { getContacts, getRequirment, loadUser } from "@/lib/actions/user"
-import { dropdown } from "@heroui/react"
+
 
 const navItems = [
+  {
+    name: "About Us",
+    href: "#",
+    dropdown: [
+      { name: "Our Story", href: "/our-story" },
+      { name: "Why Choose Us", href: "/about" },
+      { name: "Our Team", href: "/team" },
+      { name: "Careers", href: "/careers" }
+    ]
+  },
   {
     name: "Services",
     href: "#",
     dropdown: [
       { name: "Rent/Sell Property", href: "/rent-sell/property" },
-      { name: "Commercial Sales/Leasing", href: "/commercial-sales-leasing" },
-      { name: "Residential Sales/Leasing", href: "/residential-sales-leasing" },
+      { name: "Commercial Sales/Leasing", href: "/commercail-salse-lease" },
+      { name: "Residential Sales/Leasing", href: "/residential-salse-lease" },
       { name: "Co-working / Business Centre", href: "/co-working-business-centre" },
       { name: "Property Management", href: "/p-management" },
       { name: "Property Valuations", href: "/p-valuation" },
@@ -32,24 +42,24 @@ const navItems = [
     name: "Buy",
     href: "#",
     dropdown: [
-      { name: "Commercial Properties", href: "/buy/commercial" },
-      { name: "Residential Properties", href: "/buy/residential" }
+      { name: "Commercial Properties", href: "/buy-commercial" },
+      { name: "Residential Properties", href: "/buy-residential" }
     ]
   },
   {
     name: "Rent",
     href: "#",
     dropdown: [
-      { name: "Commercial Properties", href: "/rent/commercial" },
-      { name: "Residential Properties", href: "/rent/residential" }
+      { name: "Commercial Properties", href: "/rent-commercial" },
+      { name: "Residential Properties", href: "/rent-residential" }
     ]
   },
   {
-    name: "Projects/Off-Plan",
+    name: "Projects",
     href: "#",
     dropdown: [
-      { name: "Residential Projects", href: "/projects/residential" },
-      { name: "Commercial Projects", href: "/projects/commercial" }
+      { name: "Residential Projects", href: "/projects-residential" },
+      { name: "Commercial Projects", href: "/projects-commercial" }
     ]
   },
   {
@@ -61,16 +71,6 @@ const navItems = [
       { name: "Guides", href: "/guides" },
       { name: "Market Reports", href: "/market-report" },
       { name: "Images/Videos Gallery", href: "/gallary" }
-    ]
-  },
-  {
-    name: "About Us",
-    href: "#",
-    dropdown: [
-      { name: "Our Story", href: "/our-story" },
-      { name: "Why Choose Us", href: "/about" },
-      { name: "Our Team", href: "/our-team" },
-      { name: "Careers", href: "/careers" }
     ]
   },
   {
