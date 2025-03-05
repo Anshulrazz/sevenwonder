@@ -6,152 +6,182 @@ import { Footer } from "@/components/footer";
 // ... (keep the teamData array the same)
 
 const teamData = [
-    {
-      department: "Founders & Directors",
-      members: [
-        {
-          name: "John Doe",
-          role: "CEO & Founder",
-          image: "/images/john.jpg",
-          bio: "John is a seasoned real estate expert with 15+ years in the industry.",
-        },
-        {
-          name: "Jane Smith",
-          role: "Co-Founder & Managing Director",
-          image: "/images/jane.jpg",
-          bio: "Jane leads business operations and strategic growth.",
-        },
-        {
-          name: "David Harris",
-          role: "Operations Director",
-          image: "/images/david.jpg",
-          bio: "David ensures smooth company operations and team coordination.",
-        },
-        {
-          name: "Sophia Green",
-          role: "Business Strategy Head",
-          image: "/images/sophia.jpg",
-          bio: "Sophia focuses on long-term business growth and expansion.",
-        },
-      ],
-    },
-    {
-      department: "Sales Team",
-      members: [
-        {
-          name: "Michael Johnson",
-          role: "Head of Sales",
-          image: "/images/michael.jpg",
-          bio: "Michael ensures top-notch sales strategies and client satisfaction.",
-        },
-        {
-          name: "Samantha Lee",
-          role: "Senior Sales Executive",
-          image: "/images/samantha.jpg",
-          bio: "Samantha specializes in high-end property transactions.",
-        },
-        {
-          name: "Daniel Carter",
-          role: "Sales Executive",
-          image: "/images/daniel.jpg",
-          bio: "Daniel assists clients in finding their dream homes.",
-        },
-        {
-          name: "Jessica Adams",
-          role: "Client Relations Manager",
-          image: "/images/jessica.jpg",
-          bio: "Jessica ensures excellent client communication and support.",
-        },
-      ],
-    },
-    {
-      department: "Marketing",
-      members: [
-        {
-          name: "Mark Lee",
-          role: "Marketing Director",
-          image: "/images/mark.jpg",
-          bio: "Mark drives innovative marketing campaigns for maximum reach.",
-        },
-        {
-          name: "Olivia Brown",
-          role: "Social Media Manager",
-          image: "/images/olivia.jpg",
-          bio: "Olivia manages digital content and brand visibility.",
-        },
-        {
-          name: "Ryan Foster",
-          role: "Content Strategist",
-          image: "/images/ryan.jpg",
-          bio: "Ryan develops engaging content for various marketing platforms.",
-        },
-        {
-          name: "Natalie Brooks",
-          role: "SEO Specialist",
-          image: "/images/natalie.jpg",
-          bio: "Natalie optimizes our online presence for better search visibility.",
-        },
-      ],
-    },
-    {
-      department: "IT & Development",
-      members: [
-        {
-          name: "Chris Wilson",
-          role: "CTO & Lead Developer",
-          image: "/images/chris.jpg",
-          bio: "Chris leads the development of cutting-edge real estate tech.",
-        },
-        {
-          name: "Emma Carter",
-          role: "UI/UX Designer",
-          image: "/images/emma.jpg",
-          bio: "Emma creates intuitive user experiences for our platform.",
-        },
-        {
-          name: "Luke Anderson",
-          role: "Full Stack Developer",
-          image: "/images/luke.jpg",
-          bio: "Luke develops and maintains our real estate platform.",
-        },
-        {
-          name: "Sophia Martinez",
-          role: "Cybersecurity Specialist",
-          image: "/images/sophia_m.jpg",
-          bio: "Sophia ensures our platform is secure from cyber threats.",
-        },
-      ],
-    },
-    {
-      department: "Accounts & Finance",
-      members: [
-        {
-          name: "Robert Davis",
-          role: "Chief Financial Officer",
-          image: "/images/robert.jpg",
-          bio: "Robert ensures financial stability and strategic investments.",
-        },
-        {
-          name: "Emily White",
-          role: "Senior Accountant",
-          image: "/images/emily.jpg",
-          bio: "Emily oversees budgeting and financial compliance.",
-        },
-        {
-          name: "Kevin Thompson",
-          role: "Tax Consultant",
-          image: "/images/kevin.jpg",
-          bio: "Kevin handles taxation and financial regulations.",
-        },
-        {
-          name: "Laura Bennett",
-          role: "Payroll Manager",
-          image: "/images/laura.jpg",
-          bio: "Laura manages payroll and employee financial records.",
-        },
-      ],
-    },
-  ];
+  {
+    department: "Founders & Directors",
+    members: [
+      {
+        name: "Ashish Mittal",
+        role: "Founder",
+        image: "/images/john.jpg",
+        bio: "Ashish Mittal is a seasoned real estate expert with 15+ years in the industry.",
+      },
+      {
+        name: "Lokesh",
+        role: "CEO & Director",
+        image: "/images/jane.jpg",
+        bio: "Jane leads business operations and strategic growth.",
+      },
+      {
+        name: "Renu Sharma",
+        role: "Managing Director",
+        image: "/images/david.jpg",
+        bio: "Renu ensures smooth company operations and team coordination.",
+      },
+      {
+        name: "Amit Rathore",
+        role: "Director",
+        image: "/images/sophia.jpg",
+        bio: "Amit focuses on long-term business growth and expansion.",
+      },
+    ],
+  },
+  {
+    department: "Sales Team",
+    members: [
+      {
+        name: "Kajal Awasthi",
+        role: "Head of Sales",
+        image: "/images/michael.jpg",
+        bio: "Kajal ensures top-notch sales strategies and client satisfaction.",
+      },
+      {
+        name: "Samantha Lee",
+        role: "Senior Sales Executive",
+        image: "/images/samantha.jpg",
+        bio: "Samantha specializes in high-end property transactions.",
+      },
+      {
+        name: "Kashish Thakur",
+        role: "Client Coordinator",
+        image: "/images/daniel.jpg",
+        bio: "Coordination to clients for graving more and valuable leads.",
+      },
+      {
+        name: "Jessica Adams",
+        role: "Client Relations Manager",
+        image: "/images/jessica.jpg",
+        bio: "Jessica ensures excellent client communication and support.",
+      },
+    ],
+  },
+  {
+    department: "Marketing",
+    members: [
+      {
+        name: "Tisha Sharma",
+        role: "Ad Management Executive",
+        image: "/images/mark.jpg",
+        bio: "Tisha drives innovative marketing campaigns for maximum reach.",
+      },
+      {
+        name: "Olivia Brown",
+        role: "Social Media Manager",
+        image: "/images/olivia.jpg",
+        bio: "Olivia manages digital content and brand visibility.",
+      },
+      {
+        name: "Ryan Foster",
+        role: "Content Strategist",
+        image: "/images/ryan.jpg",
+        bio: "Ryan develops engaging content for various marketing platforms.",
+      },
+      {
+        name: "Natalie Brooks",
+        role: "SEO Specialist",
+        image: "/images/natalie.jpg",
+        bio: "Natalie optimizes our online presence for better search visibility.",
+      },
+    ],
+  },
+  {
+    department: "IT & Development",
+    members: [
+      {
+        name: "Anshul Kumar",
+        role: "CTO & Lead Developer",
+        image: "/images/chris.jpg",
+        bio: "Anshul leads the development of cutting-edge real estate tech.",
+      },
+      {
+        name: "Kuldeep Rana",
+        role: "UI/UX Designer",
+        image: "/images/emma.jpg",
+        bio: "Kuldeep creates intuitive user experiences for our platform.",
+      },
+      {
+        name: "Ansh Verma",
+        role: "Full Stack Developer",
+        image: "/images/luke.jpg",
+        bio: "Ansh develops and maintains our real estate platform.",
+      },
+      {
+        name: "Sophia M.",
+        role: "Cybersecurity Specialist",
+        image: "/images/sophia_m.jpg",
+        bio: "Sophia ensures our platform is secure from cyber threats.",
+      },
+    ],
+  },
+  {
+    department: "Accounts & Finance",
+    members: [
+      {
+        name: "Robert Davis",
+        role: "Chief Financial Officer",
+        image: "/images/robert.jpg",
+        bio: "Robert ensures financial stability and strategic investments.",
+      },
+      {
+        name: "Emily White",
+        role: "Senior Accountant",
+        image: "/images/emily.jpg",
+        bio: "Emily oversees budgeting and financial compliance.",
+      },
+      {
+        name: "Kevin Thompson",
+        role: "Tax Consultant",
+        image: "/images/kevin.jpg",
+        bio: "Kevin handles taxation and financial regulations.",
+      },
+      {
+        name: "Laura Bennett",
+        role: "Payroll Manager",
+        image: "/images/laura.jpg",
+        bio: "Laura manages payroll and employee financial records.",
+      },
+    ],
+  },
+  {
+    department: "Human Resources",
+    members: [
+      {
+        name: "Neha Gupta",
+        role: "HR Manager",
+        image: "/images/neha.jpg",
+        bio: "Neha oversees recruitment, employee relations, and HR policies.",
+      },
+      {
+        name: "Rajesh Verma",
+        role: "Talent Acquisition Specialist",
+        image: "/images/rajesh.jpg",
+        bio: "Rajesh focuses on hiring the best talent for the company.",
+      },
+      {
+        name: "Priya Sharma",
+        role: "Employee Engagement Officer",
+        image: "/images/priya.jpg",
+        bio: "Priya ensures employee satisfaction and organizational culture.",
+      },
+      {
+        name: "Aarav Mehta",
+        role: "HR Coordinator",
+        image: "/images/aarav.jpg",
+        bio: "Aarav handles HR administration and employee records.",
+      },
+    ],
+  },
+];
+
   
   
 

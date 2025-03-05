@@ -78,7 +78,7 @@ const navItems = [
     href: "#",
     dropdown: [
       { name: "General Enquiry", href: "/contact" },
-      { name: "List a Property", href: "/addworkspace" },
+      { name: "List a Property", href: "/add-workspace" },
       { name: "Share Your Requirement", href: "/share-requirement" },
       { name: "Careers/Send Us Your CV", href: "/careers-cv" },
       { name: "Leave a Suggestion", href: "/leave-suggestion" }
