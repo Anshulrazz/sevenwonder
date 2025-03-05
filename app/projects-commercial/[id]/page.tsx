@@ -10,6 +10,8 @@ import { Heart, MapPin, User, CheckCircle, Home, Calendar } from "lucide-react";
 import { FaRupeeSign } from "react-icons/fa"; // Added missing import
 import Link from "next/link";
 
+
+
 const facilities = [
     "Terrace Garden Area",
     "Smoking Zone",
@@ -221,7 +223,7 @@ export default function ProjectDetails() {
                             <div className="p-6 w-full md:w-1/3">
                                 <div className="p-6 bg-white rounded-lg shadow-md">
                                     <h2 className="mb-4 text-2xl font-semibold">Inquire About This Space</h2>
-                                    <form onSubmit={(e) => {
+                                    <form onSubmit={(e:any) => {
                                         e.preventDefault();
                                         const formData = new FormData(e.target);
                                         const name = formData.get("name");

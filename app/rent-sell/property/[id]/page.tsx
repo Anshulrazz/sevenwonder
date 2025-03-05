@@ -1,4 +1,4 @@
-import WorkspaceDetailsClient from "../../../components/workspace-details-client"; // Import client component
+import WorkspaceDetailsClient from "@/components/workspace-details-client"; // Import client component
 
 // Generate static paths for SSG (Static Site Generation)
 export async function generateStaticParams() {
