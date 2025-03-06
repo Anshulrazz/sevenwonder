@@ -80,7 +80,7 @@ export default function ProjectsResidential() {
     }, []);
 
     const filteredProjects = useMemo(() => {
-        return businessCenters.flatMap((bc) =>
+        return businessCenters.flatMap((bc: any) =>
             bc.offices.filter((office: any) => {
                 const matchesSearch = searchQuery
                     ? office.projectName.toLowerCase().includes(searchQuery.toLowerCase()) ||
