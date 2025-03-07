@@ -3,8 +3,6 @@ import { motion } from "framer-motion";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 
-// ... (keep the teamData array the same)
-
 const teamData = [
   {
     department: "Founders & Directors",
@@ -12,26 +10,26 @@ const teamData = [
       {
         name: "Ashish Mittal",
         role: "Founder",
-        image: "/images/john.jpg",
-        bio: "Ashish Mittal is a seasoned real estate expert with 15+ years in the industry.",
+        image: "/team/ashish.jpg",
+        bio: "Ashish Mittal is a seasoned real estate expert with 15+ years in the industry, driving innovation and excellence.",
       },
       {
         name: "Lokesh",
         role: "CEO & Director",
-        image: "/images/jane.jpg",
-        bio: "Jane leads business operations and strategic growth.",
+        image: "/team/Lokesh.jpg",
+        bio: "Lokesh oversees company growth, strategic planning, and overall business operations.",
       },
       {
         name: "Renu Sharma",
         role: "Managing Director",
-        image: "/images/david.jpg",
-        bio: "Renu ensures smooth company operations and team coordination.",
+        image: "/team/renu.jpg",
+        bio: "Renu ensures smooth company operations, team coordination, and process efficiency.",
       },
       {
         name: "Amit Rathore",
         role: "Director",
-        image: "/images/sophia.jpg",
-        bio: "Amit focuses on long-term business growth and expansion.",
+        image: "/team/amit.jpg",
+        bio: "Amit focuses on long-term business growth, strategic partnerships, and expansion.",
       },
     ],
   },
@@ -41,26 +39,26 @@ const teamData = [
       {
         name: "Kajal Awasthi",
         role: "Head of Sales",
-        image: "/images/michael.jpg",
-        bio: "Kajal ensures top-notch sales strategies and client satisfaction.",
+        image: "/team/kajal2.jpg",
+        bio: "Kajal leads the sales team with innovative strategies to drive revenue growth and client satisfaction.",
       },
       {
-        name: "Samantha Lee",
-        role: "Senior Sales Executive",
-        image: "/images/samantha.jpg",
-        bio: "Samantha specializes in high-end property transactions.",
+        name: "Manish Sharma",
+        role: "Senior Sales Manager",
+        image: "/team/manish.jpg",
+        bio: "Manish specializes in high-value property transactions and client relationship management.",
       },
       {
         name: "Kashish Thakur",
         role: "Client Coordinator",
-        image: "/images/daniel.jpg",
-        bio: "Coordination to clients for graving more and valuable leads.",
+        image: "/team/kashish.jpg",
+        bio: "Kashish ensures seamless client communication, support, and lead generation.",
       },
       {
-        name: "Jessica Adams",
-        role: "Client Relations Manager",
-        image: "/images/jessica.jpg",
-        bio: "Jessica ensures excellent client communication and support.",
+        name: "Pardeep",
+        role: "Sales Executive",
+        image: "/team/pardeep.jpg",
+        bio: "Pardeep focuses on building strong client relationships and closing successful deals.",
       },
     ],
   },
@@ -68,28 +66,28 @@ const teamData = [
     department: "Marketing",
     members: [
       {
+        name: "Ajay Chaudhary",
+        role: "Senior Ads Manager",
+        image: "/team/ajay.jpg",
+        bio: "Ajay optimizes ad campaigns to maximize brand reach and engagement.",
+      },
+      {
+        name: "Kajal Awasthi",
+        role: "Ads Manager",
+        image: "/team/kajal.jpg",
+        bio: "Kajal manages digital advertising campaigns for brand growth and lead generation.",
+      },
+      {
         name: "Tisha Sharma",
         role: "Ad Management Executive",
-        image: "/images/mark.jpg",
-        bio: "Tisha drives innovative marketing campaigns for maximum reach.",
+        image: "/team/tisha.jpg",
+        bio: "Tisha strategizes and executes innovative marketing campaigns for maximum outreach.",
       },
       {
-        name: "Olivia Brown",
-        role: "Social Media Manager",
-        image: "/images/olivia.jpg",
-        bio: "Olivia manages digital content and brand visibility.",
-      },
-      {
-        name: "Ryan Foster",
-        role: "Content Strategist",
-        image: "/images/ryan.jpg",
-        bio: "Ryan develops engaging content for various marketing platforms.",
-      },
-      {
-        name: "Natalie Brooks",
-        role: "SEO Specialist",
-        image: "/images/natalie.jpg",
-        bio: "Natalie optimizes our online presence for better search visibility.",
+        name: "Kuldeep Rana",
+        role: "Ads Designer",
+        image: "/team/kuldeep.jpg",
+        bio: "Kuldeep creates visually compelling ad designs to enhance brand visibility.",
       },
     ],
   },
@@ -99,91 +97,55 @@ const teamData = [
       {
         name: "Anshul Kumar",
         role: "CTO & Lead Developer",
-        image: "/images/chris.jpg",
-        bio: "Anshul leads the development of cutting-edge real estate tech.",
+        image: "/team/ansh.jpg",
+        bio: "Anshul leads technology innovation and software development for our org.",
       },
       {
         name: "Kuldeep Rana",
         role: "UI/UX Designer",
-        image: "/images/emma.jpg",
-        bio: "Kuldeep creates intuitive user experiences for our platform.",
+        image: "/team/kuldeep.jpg",
+        bio: "Kuldeep designs user-friendly interfaces to enhance digital experiences.",
       },
       {
-        name: "Ansh Verma",
+        name: "Anshul Verma",
         role: "Full Stack Developer",
-        image: "/images/luke.jpg",
-        bio: "Ansh develops and maintains our real estate platform.",
+        image: "/team/ansh2.jpg",
+        bio: "Anshul develops and maintains robust web applications for the our Org.",
       },
       {
-        name: "Sophia M.",
-        role: "Cybersecurity Specialist",
-        image: "/images/sophia_m.jpg",
-        bio: "Sophia ensures our platform is secure from cyber threats.",
-      },
-    ],
-  },
-  {
-    department: "Accounts & Finance",
-    members: [
-      {
-        name: "Robert Davis",
-        role: "Chief Financial Officer",
-        image: "/images/robert.jpg",
-        bio: "Robert ensures financial stability and strategic investments.",
-      },
-      {
-        name: "Emily White",
-        role: "Senior Accountant",
-        image: "/images/emily.jpg",
-        bio: "Emily oversees budgeting and financial compliance.",
-      },
-      {
-        name: "Kevin Thompson",
-        role: "Tax Consultant",
-        image: "/images/kevin.jpg",
-        bio: "Kevin handles taxation and financial regulations.",
-      },
-      {
-        name: "Laura Bennett",
-        role: "Payroll Manager",
-        image: "/images/laura.jpg",
-        bio: "Laura manages payroll and employee financial records.",
+        name: "Rohit Kumar",
+        role: "Hardware Expert",
+        image: "/team/rohit.png",
+        bio: "Rohit manages hardware infrastructure and ensures seamless IT operations.",
       },
     ],
   },
   {
-    department: "Human Resources",
+    department: "Accounts & HR",
     members: [
       {
-        name: "Neha Gupta",
+        name: "Garima Singh",
+        role: "HR Head",
+        image: "/team/garima.jpg",
+        bio: "Garima oversees talent acquisition, employee relations, and HR operations.",
+      },
+      {
+        name: "Soni Mishra",
         role: "HR Manager",
-        image: "/images/neha.jpg",
-        bio: "Neha oversees recruitment, employee relations, and HR policies.",
+        image: "/team/soni.jpg",
+        bio: "Soni manages recruitment, employee engagement, and HR policies to ensure a productive work environment.",
       },
       {
-        name: "Rajesh Verma",
-        role: "Talent Acquisition Specialist",
-        image: "/images/rajesh.jpg",
-        bio: "Rajesh focuses on hiring the best talent for the company.",
-      },
-      {
-        name: "Priya Sharma",
-        role: "Employee Engagement Officer",
-        image: "/images/priya.jpg",
-        bio: "Priya ensures employee satisfaction and organizational culture.",
-      },
-      {
-        name: "Aarav Mehta",
-        role: "HR Coordinator",
-        image: "/images/aarav.jpg",
-        bio: "Aarav handles HR administration and employee records.",
+        name: "Rohan Verma",
+        role: "Accounts Manager",
+        image: "/team/rohan.jpg",
+        bio: "Rohan handles company finances, taxation, and regulatory compliance.",
       },
     ],
   },
 ];
 
-  
-  
+
 
 export default function Team() {
   return (
@@ -251,7 +213,7 @@ export default function Team() {
                     <div className="mt-4 flex justify-center space-x-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                       <button className="p-2 rounded-full bg-blue-100 hover:bg-blue-200 text-blue-600 transition-colors">
                         <span className="sr-only">LinkedIn</span>
-                        {/* Add LinkedIn icon */}
+                        {/* Add LinkedIn icon */} 
                       </button>
                       <button className="p-2 rounded-full bg-purple-100 hover:bg-purple-200 text-purple-600 transition-colors">
                         <span className="sr-only">Email</span>

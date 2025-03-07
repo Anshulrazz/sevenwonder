@@ -26,8 +26,6 @@ decode jwt_secrate
     profile pic
 
 
-
-
 const dummyBusinessCenters = [
             {
                 id: "BC-1",
@@ -61,3 +59,35 @@ const dummyBusinessCenters = [
                 ]
             }
         ];
+
+
+
+whatsapp Business Setup with busniss profile  
+ad edit on meta
+1 post on social media (insta , facebook)
+mail to magicbricks : regarding CRM integration
+Google Drive Mailtain with FB_LEADS.xlsx
+map offices on website {
+            {
+                id: "BC-1",
+                name: "Business Center 1",
+                location: "Preet Vihar",
+                offices: [
+                ]
+            },
+            {
+                id: "BC-2",
+                name: "Business Center 2",
+                location: "City 2",
+                offices: [
+                    
+                ]
+            },
+            {
+                id: "BC-3",
+                name: "Business Center 3",
+                location: "City 2",
+                offices: [
+                    ]
+            }
+        }

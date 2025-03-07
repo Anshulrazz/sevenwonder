@@ -69,9 +69,19 @@ export default function ProjectsResidential() {
                     { id: "28", projectName: "Office C11", price: 38000, image: "/bc3/303/aa.jpeg" },
                     { id: "29", projectName: "Office C12", price: 36000, image: "/bc3/304/aa.jpeg" },
                     { id: "30", projectName: "Office C13", price: 30000, image: "/bc3/401/aa.jpeg" },
-                    { id: "31", projectName: "Office C14", price: 33000, image: "/bc3/402/aa.jpeg" },
-                    { id: "32", projectName: "Office C15", price: 34000, image: "/bc3/402/aa.jpeg" },
-                    { id: "33", projectName: "Office C15", price: 34000, image: "/bc3/403/aa.jpeg" }
+                    { id: "31", projectName: "Office C14", price: 33000, image: "/bc3/402/aa.jpg" },
+                    { id: "32", projectName: "Office C15", price: 34000, image: "/bc3/402/aa.jpg" },
+                    { id: "33", projectName: "Office C15", price: 34000, image: "/bc3/403/aa.jpg" }
+                ]
+            },
+            {
+                id: "BC-4",
+                name: "Business Center 4",
+                location: "City 4",
+                offices: [
+                    { id: "34", projectName: "Office D1", price: 34000, image: "/bc4/office1/aa.jpeg" },
+                    { id: "35", projectName: "Office D2", price: 34000, image: "/bc4/office2/aa.jpeg" },
+
                 ]
             }
         ];
