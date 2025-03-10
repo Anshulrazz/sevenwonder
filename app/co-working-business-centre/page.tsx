@@ -19,10 +19,10 @@ export default function CoworkingBusinessCenters() {
     useEffect(() => {
         const fetchWorkspaces = async () => {
             try {
-                const response = await axios.get("http://localhost:4000/api/workspaces");
+                const response = await axios.get("http://localhost:4000/api/workspace");
                 if (response.data.success) {
                     const filteredWorkspaces = response.data.workspaces.filter(
-                        (workspace: any) => workspace.workspaceType === "coworking-business-centre"
+                        (workspace: any) => workspace.workspaceType === "coworking-space"
                     );
                     setWorkspaces(filteredWorkspaces);
                 } else {

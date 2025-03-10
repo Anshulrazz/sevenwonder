@@ -33,15 +33,24 @@ const AddWorkspaceForm = () => {
         return () => clearInterval(interval);
     }, [images.length]);
 
-    const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const files = e.target.files;
-        if (files) {
-            const newImages = Array.from(files).map((file) =>
-                URL.createObjectURL(file)
-            );
-            setImages([...images, ...newImages]);
-        }
+    const handleImageChange = (e) => {
+        const files = Array.from(e.target.files);
+        const imageArray = [];
+
+        files.forEach((file) => {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = () => {
+                if (reader.readyState === 2) {
+                    imageArray.push(reader.result);
+                    if (imageArray.length === files.length) {
+                        setImages(imageArray);
+                    }
+                }
+            };
+        });
     };
+
 
     const removeImage = (index: number) => {
         setImages(images.filter((_, i) => i !== index));
@@ -280,7 +289,7 @@ const AddWorkspaceForm = () => {
                                                         multiple
                                                         accept="image/*"
                                                         className="hidden"
-                                                        onChange={handleImageUpload}
+                                                        onChange={handleImageChange}
                                                     />
                                                     <Camera className="w-8 h-8 text-gray-400" />
                                                 </label>
