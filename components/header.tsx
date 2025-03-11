@@ -18,7 +18,6 @@ const navItems = [
     href: "#",
     dropdown: [
       { name: "Our Story", href: "/our-story" },
-      { name: "Why Choose Us", href: "/about" },
       { name: "Our Team", href: "/team" },
       { name: "Careers", href: "/careers" }
     ]
@@ -68,7 +67,6 @@ const navItems = [
     dropdown: [
       { name: "News & Insights", href: "/news" },
       { name: "Articles & Blogs", href: "/blog" },
-      { name: "Guides", href: "/guides" },
       { name: "Market Reports", href: "/market-report" },
       { name: "Images/Videos Gallery", href: "/gallary" }
     ]
@@ -79,9 +77,8 @@ const navItems = [
     dropdown: [
       { name: "General Enquiry", href: "/contact" },
       { name: "List a Property", href: "/add-workspace" },
-      { name: "Share Your Requirement", href: "/share-requirement" },
+      { name: "Share Your Requirement", href: "/share-requirment" },
       { name: "Careers/Send Us Your CV", href: "/careers-cv" },
-      { name: "Leave a Suggestion", href: "/leave-suggestion" }
     ]
   }
 ];
