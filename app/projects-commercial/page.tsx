@@ -19,7 +19,7 @@ export default function ProjectsResidential() {
     const itemsPerPage = 21;
 
     useEffect(() => {
-        axios.get("http://46.202.167.117:4000/api/business_center")
+        axios.get("https://api.sevenwonder.in/api/business_center")
             .then((response) => setBusinessCenters(response.data))
             .catch((error) => console.error("Error fetching business centers:", error));
     }, []);
@@ -118,7 +118,7 @@ export default function ProjectsResidential() {
                         <Card key={center._id} className="p-4">
                             <div className="relative w-full h-56">
                                 <Image
-                                src={`http://46.202.167.117:4000${center.images[0]}`}
+                                src={`https://api.sevenwonder.in${center.images[0]}`}
                                     alt={center.title}
                                     layout="fill"
                                     objectFit="cover"

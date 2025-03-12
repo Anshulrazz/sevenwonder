@@ -57,7 +57,7 @@ export default function CreateBusinessForm() {
         const fData = { ...formData, images };
         // Assuming you're sending the data to your server via axios
         try {
-            const response = await axios.post("http://46.202.167.117:4000/api/business_center", fData);
+            const response = await axios.post("https://api.sevenwonder.in/api/business_center", fData);
             console.log("Business created successfully:", response.data);
         } catch (error) {
             console.error("Error creating business:", error);
@@ -67,7 +67,7 @@ export default function CreateBusinessForm() {
     return (
         <div className="max-w-3xl p-8 mx-auto mt-10 bg-white border border-gray-200 shadow-lg rounded-2xl">
             <h2 className="mb-6 text-3xl font-bold text-center text-gray-900">
-                Create a New Business
+                List A New Busniss Center
             </h2>
             <form onSubmit={handleSubmit} encType="multipart/form-data" className="space-y-5">
                 <div className="grid grid-cols-2 gap-4">
@@ -261,7 +261,7 @@ export default function CreateBusinessForm() {
                         {imagePreviews.map((img, index) => (
                             <img
                                 key={index}
-                                src={img.startsWith("data") ? img : `http://46.202.167.117:4000/uploads/${img}`}
+                                src={img.startsWith("data") ? img : `https://api.sevenwonder.in/uploads/${img}`}
                                 alt={`Preview ${index}`}
                                 className="object-cover w-24 h-24 rounded-lg shadow-md"
                                 onError={(e) => (e.currentTarget.src = "/fallback-image.jpg")} // Fallback if image is broken

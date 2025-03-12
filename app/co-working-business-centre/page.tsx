@@ -19,7 +19,7 @@ export default function CoworkingBusinessCenters() {
     useEffect(() => {
         const fetchWorkspaces = async () => {
             try {
-                const response = await axios.get("http://46.202.167.117:4000/api/workspace");
+                const response = await axios.get("https://api.sevenwonder.in/api/workspace");
                 if (response.data.success) {
                     const filteredWorkspaces = response.data.workspaces.filter(
                         (workspace: any) => workspace.workspaceType === "coworking-space"
@@ -97,7 +97,7 @@ export default function CoworkingBusinessCenters() {
                                 >
                                     <div className="relative w-full h-64">
                                         <Image
-                                            src={`http://46.202.167.117:4000${workspace.images[0] || "/placeholder.svg"}`}
+                                            src={`https://api.sevenwonder.in${workspace.images[0] || "/placeholder.svg"}`}
                                             alt={workspace.workspaceName}
                                             fill
                                             className="object-cover"

@@ -3,7 +3,7 @@ import WorkspaceDetailsClient from "@/components/workspace-details-client"; // I
 // Generate static paths for SSG (Static Site Generation)
 export async function generateStaticParams() {
     try {
-        const response = await fetch("http://46.202.167.117:4000/api/workspace");
+        const response = await fetch("https://api.sevenwonder.in/api/workspace");
         const data = await response.json();
 
         if (!data.success || !data.workspaces) {
@@ -26,7 +26,7 @@ export default async function WorkspaceDetailsPage({ params }: { params: { id: s
 
     try {
         // Fetch workspace data for the specific ID
-        const res = await fetch(`http://46.202.167.117:4000/api/workspace/${id}`, {
+        const res = await fetch(`https://api.sevenwonder.in/api/workspace/${id}`, {
             cache: "no-store", // Ensures fresh data on every request
         });
 
