@@ -19,7 +19,7 @@ export default function ProjectsResidential() {
     const itemsPerPage = 21;
 
     useEffect(() => {
-        axios.get("http://localhost:4000/api/business_center")
+        axios.get("http://46.202.167.117:4000/api/business_center")
             .then((response) => setBusinessCenters(response.data))
             .catch((error) => console.error("Error fetching business centers:", error));
     }, []);
@@ -80,7 +80,7 @@ export default function ProjectsResidential() {
                     ))}
                 </div>
 
-                <div className="mt-4 flex flex-wrap gap-4 p-4">
+                <div className="flex flex-wrap gap-4 p-4 mt-4">
                     <input
                         type="text"
                         placeholder="Search by name or location"
@@ -112,13 +112,13 @@ export default function ProjectsResidential() {
                 </div>
             </section>
 
-            <section className="p-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <section className="grid grid-cols-1 gap-6 p-6 md:grid-cols-2 lg:grid-cols-3">
                 {displayedProjects.length > 0 ? (
                     displayedProjects.map((center) => (
                         <Card key={center._id} className="p-4">
                             <div className="relative w-full h-56">
                                 <Image
-                                src={`http://localhost:4000${center.images[0]}`}
+                                src={`http://46.202.167.117:4000${center.images[0]}`}
                                     alt={center.title}
                                     layout="fill"
                                     objectFit="cover"
@@ -136,7 +136,7 @@ export default function ProjectsResidential() {
                         </Card>
                     ))
                 ) : (
-                    <p className="col-span-full text-center text-gray-500">No projects found.</p>
+                    <p className="text-center text-gray-500 col-span-full">No projects found.</p>
                 )}
             </section>
 

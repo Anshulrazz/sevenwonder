@@ -29,7 +29,7 @@ export default function WorkspaceDetailsClient({ workspace }: { workspace: any }
                                 <>
                                     <div className="relative w-full h-[37rem]">
                                         <img
-                                            src={`http://localhost:4000${images[currentImageIndex]}`}
+                                            src={`http://46.202.167.117:4000${images[currentImageIndex]}`}
                                             alt={`Image ${currentImageIndex + 1}`}
                                             className="object-cover w-full h-full transition-opacity duration-500 rounded-lg"
                                         />

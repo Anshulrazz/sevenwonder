@@ -28,7 +28,7 @@ function Market() {
     e.preventDefault();
     try {
       const recipientEmail = email;
-      const response = await axios.post('http://localhost:5000/send-email', { recipientEmail });
+      const response = await axios.post('http://46.202.167.117:5000/send-email', { recipientEmail });
 
       if (response.status === 200) {
         setEmail('');
@@ -46,23 +46,23 @@ function Market() {
     <>
       <Header />
 
-      <div className="min-h-screen bg-gray-50 py-16">
+      <div className="min-h-screen py-16 bg-gray-50">
         {/* Header */}
         <header className="bg-white border-b border-gray-200">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+          <div className="px-4 py-6 mx-auto max-w-7xl sm:px-6 lg:px-8">
             <h1 className="text-3xl font-bold text-gray-900">Market Report</h1>
             <p className="mt-2 text-gray-600">Comprehensive analysis of the real estate market trends and insights</p>
           </div>
         </header>
 
         {/* Main Content */}
-        <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <main className="px-4 py-8 mx-auto max-w-7xl sm:px-6 lg:px-8">
           <div className="space-y-8">
             {/* Actions Bar */}
             <div className="flex flex-wrap gap-4">
               {/* Download Report Button */}
               <button
-                className="flex items-center px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary"
+                className="flex items-center px-4 py-2 text-white rounded-lg bg-primary hover:bg-primary"
                 onClick={downloadReport}
               >
                 <Download size={20} className="mr-2" />
@@ -94,7 +94,7 @@ function Market() {
             <MarketMetrics />
 
             {/* Market Trends */}
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
               <div className="lg:col-span-2">
                 <MarketTrends />
               </div>
@@ -104,13 +104,13 @@ function Market() {
             </div>
 
             {/* Market Map */}
-            <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
-              <h3 className="text-lg font-semibold text-gray-900 mb-6">Market Activity Map</h3>
-              <div className="h-96 bg-gray-100 rounded-lg flex items-center justify-center text-gray-500">
+            <div className="p-6 bg-white border border-gray-100 shadow-sm rounded-xl">
+              <h3 className="mb-6 text-lg font-semibold text-gray-900">Market Activity Map</h3>
+              <div className="flex items-center justify-center text-gray-500 bg-gray-100 rounded-lg h-96">
                 <img
                   src="https://awealthofcommonsense.com/wp-content/uploads/2019/03/Capture1-1.png"
                   alt="Market Activity Chart"
-                  className="h-full w-full object-cover rounded-lg"
+                  className="object-cover w-full h-full rounded-lg"
                 />
               </div>
             </div>
@@ -119,8 +119,8 @@ function Market() {
       </div>
 
       {/* Call to Action - Subscription Section */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center mb-8" id="cta">
-        <h2 className="text-2xl font-bold mb-4">Stay Updated!</h2>
+      <div className="px-4 mx-auto mb-8 text-center max-w-7xl sm:px-6 lg:px-8" id="cta">
+        <h2 className="mb-4 text-2xl font-bold">Stay Updated!</h2>
         <p className="mb-6">Subscribe to our newsletter to get the latest market insights delivered to your inbox.</p>
 
         <div className="flex justify-center">
@@ -132,7 +132,7 @@ function Market() {
             required
             className="w-full max-w-md px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
           />
-          <button className="ml-4 px-6 py-2 text-white font-semibold rounded-lg bg-primary" onClick={handleSubscribe}>
+          <button className="px-6 py-2 ml-4 font-semibold text-white rounded-lg bg-primary" onClick={handleSubscribe}>
             Subscribe
           </button>
         </div>

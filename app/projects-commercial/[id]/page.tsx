@@ -26,7 +26,7 @@ const ImageGallery = ({ images }) => {
                 <div className="relative">
                     <div className="relative w-full h-[37rem]">
                         <Image
-                            src={`http://localhost:4000${images[currentImageIndex]}`}
+                            src={`http://46.202.167.117:4000${images[currentImageIndex]}`}
                             alt={`Image ${currentImageIndex + 1}`}
                             fill
                             className="object-cover rounded-lg"
@@ -61,7 +61,7 @@ export default function ProjectDetails() {
     useEffect(() => {
         const fetchOfficeDetails = async () => {
             try {
-                const response = await axios.get(`http://localhost:4000/api/business_center/${id}`);
+                const response = await axios.get(`http://46.202.167.117:4000/api/business_center/${id}`);
                 setOffice(response.data);
             } catch (error) {
                 console.error("Error fetching office data:", error);
@@ -74,11 +74,11 @@ export default function ProjectDetails() {
     }, [id]);
 
     if (loading) {
-        return <p className="text-center mt-10">Loading...</p>;
+        return <p className="mt-10 text-center">Loading...</p>;
     }
 
     if (!office) {
-        return <p className="text-center mt-10 text-red-500">Office not found!</p>;
+        return <p className="mt-10 text-center text-red-500">Office not found!</p>;
     }
 
     return (

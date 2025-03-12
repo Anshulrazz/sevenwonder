@@ -18,7 +18,7 @@ export default function VirtualOffices() {
     useEffect(() => {
         const fetchWorkspaces = async () => {
             try {
-                const response = await axios.get("https://api.anshulkumar.tech/api/workspace");
+                const response = await axios.get("http://46.202.167.117:4000/api/workspace");
                 if (response.data.success) {
                     const filteredWorkspaces = response.data.workspaces.filter(
                         (workspace) => workspace.workspaceType === "virtual-office"
@@ -86,7 +86,7 @@ export default function VirtualOffices() {
                                 >
                                     <div className="relative w-full h-64">
                                         <Image
-                                            src={`https://api.anshulkumar.tech${workspace.images[0] || "/placeholder.svg"}`}
+                                            src={`http://46.202.167.117:4000${workspace.images[0] || "/placeholder.svg"}`}
                                             alt={workspace.workspaceName}
                                             fill
                                             className="object-cover"

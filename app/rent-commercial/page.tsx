@@ -20,7 +20,7 @@ export default function CommercialRentals() {
     useEffect(() => {
         const fetchProperties = async () => {
             try {
-                const response = await axios.get("http://localhost:4000/api/properties");
+                const response = await axios.get("http://46.202.167.117:4000/api/properties");
                 if (response.data.success) {
                     const filteredProperties = response.data.properties.filter(
                         (property: any) => property.propertyCategory === "commercial" && property.forRent
@@ -109,7 +109,7 @@ export default function CommercialRentals() {
                                 >
                                     <div className="relative w-full h-64">
                                         <Image
-                                            src={`http://localhost:4000${property.images[0] || "/placeholder.svg"}`}
+                                            src={`http://46.202.167.117:4000${property.images[0] || "/placeholder.svg"}`}
                                             alt={property.propertyName}
                                             fill
                                             className="object-cover"

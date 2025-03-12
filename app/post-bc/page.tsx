@@ -17,11 +17,21 @@ export default function CreateBusinessForm() {
         status: "",
         builtUpArea: "",
         parking: "",
-        amenities: "",
+        amenities: [] as string[],
         description: "",
         googleMapLink: "",
     });
+    const [amenityInput, setAmenityInput] = useState("");
 
+    const handleAddAmenity = () => {
+        if (amenityInput.trim() !== "") {
+            setFormData((prev) => ({
+                ...prev,
+                amenities: [...prev.amenities, amenityInput],
+            }));
+            setAmenityInput("");
+        }
+    };
     // Handle Image Uploads
     const handleImageChange = (e: any) => {
         const files = Array.from(e.target.files);
@@ -47,7 +57,7 @@ export default function CreateBusinessForm() {
         const fData = { ...formData, images };
         // Assuming you're sending the data to your server via axios
         try {
-            const response = await axios.post("http://localhost:4000/api/business_center", fData);
+            const response = await axios.post("http://46.202.167.117:4000/api/business_center", fData);
             console.log("Business created successfully:", response.data);
         } catch (error) {
             console.error("Error creating business:", error);
@@ -55,8 +65,8 @@ export default function CreateBusinessForm() {
     };
 
     return (
-        <div className="max-w-3xl mx-auto bg-white shadow-lg rounded-2xl p-8 mt-10 border border-gray-200">
-            <h2 className="text-3xl font-bold text-gray-900 mb-6 text-center">
+        <div className="max-w-3xl p-8 mx-auto mt-10 bg-white border border-gray-200 shadow-lg rounded-2xl">
+            <h2 className="mb-6 text-3xl font-bold text-center text-gray-900">
                 Create a New Business
             </h2>
             <form onSubmit={handleSubmit} encType="multipart/form-data" className="space-y-5">
@@ -69,7 +79,7 @@ export default function CreateBusinessForm() {
                             id="title" 
                             value={formData.title}
                             onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                            className="w-full p-2 border rounded-lg shadow-sm text-gray-700"
+                            className="w-full p-2 text-gray-700 border rounded-lg shadow-sm"
                         />
                     </div>
 
@@ -81,7 +91,7 @@ export default function CreateBusinessForm() {
                             id="address" 
                             value={formData.address}
                             onChange={(e) => setFormData({ ...formData, address: e.target.value })}
-                            className="w-full p-2 border rounded-lg shadow-sm text-gray-700"
+                            className="w-full p-2 text-gray-700 border rounded-lg shadow-sm"
                         />
                     </div>
 
@@ -93,7 +103,7 @@ export default function CreateBusinessForm() {
                             id="rent" 
                             value={formData.rent}
                             onChange={(e) => setFormData({ ...formData, rent: e.target.value })}
-                            className="w-full p-2 border rounded-lg shadow-sm text-gray-700"
+                            className="w-full p-2 text-gray-700 border rounded-lg shadow-sm"
                         />
                     </div>
 
@@ -105,7 +115,7 @@ export default function CreateBusinessForm() {
                             id="type" 
                             value={formData.type}
                             onChange={(e) => setFormData({ ...formData, type: e.target.value })}
-                            className="w-full p-2 border rounded-lg shadow-sm text-gray-700"
+                            className="w-full p-2 text-gray-700 border rounded-lg shadow-sm"
                         />
                     </div>
 
@@ -116,7 +126,7 @@ export default function CreateBusinessForm() {
                             id="capacity" 
                             value={formData.capacity}
                             onChange={(e) => setFormData({ ...formData, capacity: e.target.value })}
-                            className="w-full p-2 border rounded-lg shadow-sm text-gray-700"
+                            className="w-full p-2 text-gray-700 border rounded-lg shadow-sm"
                         />
                     </div> 
                     
@@ -128,7 +138,7 @@ export default function CreateBusinessForm() {
                             id="furnishing" 
                             value={formData.furnishing}
                             onChange={(e) => setFormData({ ...formData, furnishing: e.target.value })}
-                            className="w-full p-2 border rounded-lg shadow-sm text-gray-700"
+                            className="w-full p-2 text-gray-700 border rounded-lg shadow-sm"
                         />
                     </div>
 
@@ -142,7 +152,7 @@ export default function CreateBusinessForm() {
                             id="propertyUid" 
                             value={formData.BC}
                             onChange={(e) => setFormData({ ...formData, BC: e.target.value })}
-                            className="w-full p-2 border rounded-lg shadow-sm text-gray-700"
+                            className="w-full p-2 text-gray-700 border rounded-lg shadow-sm"
                         />
                     </div>
 
@@ -154,7 +164,7 @@ export default function CreateBusinessForm() {
                             id="status" 
                             value={formData.status}
                             onChange={(e) => setFormData({ ...formData, status: e.target.value })}
-                            className="w-full p-2 border rounded-lg shadow-sm text-gray-700"
+                            className="w-full p-2 text-gray-700 border rounded-lg shadow-sm"
                         />
                     </div>
 
@@ -166,7 +176,7 @@ export default function CreateBusinessForm() {
                             id="builtUpArea" 
                             value={formData.builtUpArea}
                             onChange={(e) => setFormData({ ...formData, builtUpArea: e.target.value })}
-                            className="w-full p-2 border rounded-lg shadow-sm text-gray-700"
+                            className="w-full p-2 text-gray-700 border rounded-lg shadow-sm"
                         />
                     </div>
 
@@ -178,20 +188,36 @@ export default function CreateBusinessForm() {
                             id="parking" 
                             value={formData.parking}
                             onChange={(e) => setFormData({ ...formData, parking: e.target.value })}
-                            className="w-full p-2 border rounded-lg shadow-sm text-gray-700"
+                            className="w-full p-2 text-gray-700 border rounded-lg shadow-sm"
                         />
                     </div>
 
                     {/* Amenities */}
                     <div className="col-span-2">
-                        <label htmlFor="amenities" className="text-sm font-semibold text-gray-700">Amenities</label>
-                        <input 
-                            type="text" 
-                            id="amenities" 
-                            value={formData.amenities}
-                            onChange={(e) => setFormData({ ...formData, amenities: e.target.value })}
-                            className="w-full p-2 border rounded-lg shadow-sm text-gray-700"
-                        />
+                        <label htmlFor="amenities" className="text-sm font-semibold text-gray-700">
+                            Amenities
+                        </label>
+                        <div className="flex space-x-2">
+                            <input
+                                type="text"
+                                id="amenities"
+                                value={amenityInput}
+                                onChange={(e) => setAmenityInput(e.target.value)}
+                                className="w-full p-2 text-gray-700 border rounded-lg shadow-sm"
+                            />
+                            <button
+                                type="button"
+                                onClick={handleAddAmenity}
+                                className="px-4 py-2 text-white bg-green-500 rounded-lg hover:bg-green-600"
+                            >
+                                Add
+                            </button>
+                        </div>
+                        <ul className="mt-2">
+                            {formData.amenities.map((amenity, index) => (
+                                <li key={index} className="text-gray-700">- {amenity}</li>
+                            ))}
+                        </ul>
                     </div>
 
                     {/* Description */}
@@ -201,7 +227,7 @@ export default function CreateBusinessForm() {
                             id="description"
                             value={formData.description}
                             onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                            className="w-full p-2 border rounded-lg shadow-sm text-gray-700"
+                            className="w-full p-2 text-gray-700 border rounded-lg shadow-sm"
                         />
                     </div>
 
@@ -213,7 +239,7 @@ export default function CreateBusinessForm() {
                             id="googleMapLink" 
                             value={formData.googleMapLink}
                             onChange={(e) => setFormData({ ...formData, googleMapLink: e.target.value })}
-                            className="w-full p-2 border rounded-lg shadow-sm text-gray-700"
+                            className="w-full p-2 text-gray-700 border rounded-lg shadow-sm"
                         />
                     </div>
 
@@ -226,25 +252,25 @@ export default function CreateBusinessForm() {
                             accept="image/*" 
                             multiple 
                             onChange={handleImageChange} 
-                            className="w-full p-2 border rounded-lg shadow-sm text-gray-700"
+                            className="w-full p-2 text-gray-700 border rounded-lg shadow-sm"
                         />
                     </div>
 
                     {/* Image Previews */}
-                    <div className="mt-4 flex flex-wrap gap-2 col-span-2">
+                    <div className="flex flex-wrap col-span-2 gap-2 mt-4">
                         {imagePreviews.map((img, index) => (
                             <img
                                 key={index}
-                                src={img.startsWith("data") ? img : `http://localhost:4000/uploads/${img}`}
+                                src={img.startsWith("data") ? img : `http://46.202.167.117:4000/uploads/${img}`}
                                 alt={`Preview ${index}`}
-                                className="w-24 h-24 object-cover rounded-lg shadow-md"
+                                className="object-cover w-24 h-24 rounded-lg shadow-md"
                                 onError={(e) => (e.currentTarget.src = "/fallback-image.jpg")} // Fallback if image is broken
                             />
                         ))}
                     </div>
                 </div>
 
-                <button type="submit" className="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition">
+                <button type="submit" className="w-full py-3 text-white transition bg-blue-600 rounded-lg hover:bg-blue-700">
                     Submit
                 </button>
             </form>

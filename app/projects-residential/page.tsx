@@ -18,7 +18,7 @@ export default function ProjectsResidential() {
     useEffect(() => {
         const fetchProjects = async () => {
             try {
-                const response = await axios.get("http://localhost:4000/api/projects");
+                const response = await axios.get("http://46.202.167.117:4000/api/projects");
                 if (response.data.success) {
                     const filteredProjects = response.data.projects.filter(
                         (project: any) => project.projectCategory === "residential"
@@ -82,7 +82,7 @@ export default function ProjectsResidential() {
                                 >
                                     <div className="relative w-full h-64">
                                         <Image
-                                            src={`http://localhost:4000${project.images[0] || "/placeholder.svg"}`}
+                                            src={`http://46.202.167.117:4000${project.images[0] || "/placeholder.svg"}`}
                                             alt={project.projectName}
                                             fill
                                             className="object-cover"

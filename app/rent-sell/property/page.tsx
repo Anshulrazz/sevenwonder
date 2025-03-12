@@ -18,7 +18,7 @@ export default function CoworkingSpaces() {
     useEffect(() => {
         const fetchWorkspaces = async () => {
             try {
-                const response = await axios.get("http://localhost:4000/api/workspace");
+                const response = await axios.get("http://46.202.167.117:4000/api/workspace");
                 if (response.data.success) {
                     const filteredWorkspaces = response.data.workspaces.filter(
                         (workspace: any) => workspace.workspaceType === "coworking-space"
@@ -85,7 +85,7 @@ export default function CoworkingSpaces() {
                                 >
                                     <div className="relative w-full h-64">
                                         <Image
-                                            src={`http://localhost:4000${workspace.images[0] || "/placeholder.svg"}`}
+                                            src={`http://46.202.167.117:4000${workspace.images[0] || "/placeholder.svg"}`}
                                             alt={workspace.workspaceName}
                                             fill
                                             className="object-cover"
