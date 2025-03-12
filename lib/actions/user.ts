@@ -22,8 +22,7 @@ interface FormData {
     email: string;
     password: string;
     [key: string]: any; // Add any additional fields
-}
-
+}//,cvbndbnkfn
 // Async function to login the user
 export const loginUser = (formData: FormData) => async (dispatch: (action: any) => void) => {
     try {
