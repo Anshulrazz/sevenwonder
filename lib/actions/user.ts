@@ -13,8 +13,8 @@ import { workspaceRequest, workspaceSuccess } from '../store/features/data/works
 
 // Create an axios instance
 const api = axios.create({
-    baseURL: process.env.NEXT_PUBLIC_API_URL,
-    withCredentials: true,
+    baseURL: "https://api.sevenwonder.in",
+    withCredentials: true,  // ✅ Ensure this is included
 });
 
 // Define the form data type (replace `any` with specific types if available)

@@ -1,279 +1,499 @@
 "use client";
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import axios from "axios";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+const INITIAL_FORM_STATE = {
+  title: "",
+  BC: "",
+  address: "",
+  rent: "",
+  type: "",
+  furnishing: "",
+  capacity: "",
+  propertyUid: "",
+  status: "",
+  builtUpArea: "",
+  parking: "",
+  amenities: [] as string[],
+  description: "",
+  googleMapLink: "",
+};
 
 export default function CreateBusinessForm() {
-    const [images, setImages] = useState<string[]>([]);
-    const [imagePreviews, setImagePreviews] = useState<string[]>([]);
-    const [formData, setFormData] = useState({
-        title: '',
-        BC: "", // Assign the generated UID
-        address: "",
-        rent: "",
-        type: "",
-        furnishing: "",
-        capacity: "",
-        propertyUid: "",
-        status: "",
-        builtUpArea: "",
-        parking: "",
-        amenities: [] as string[],
-        description: "",
-        googleMapLink: "",
+  const [loading, setLoading] = useState(false);
+  const [images, setImages] = useState<string[]>([]);
+  const [imagePreviews, setImagePreviews] = useState<string[]>([]);
+  const [amenityInput, setAmenityInput] = useState("");
+  const [formData, setFormData] = useState(INITIAL_FORM_STATE);
+
+  // Handle input changes efficiently using a single function
+  const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    const { id, value } = e.target;
+    setFormData(prev => ({ ...prev, [id]: value }));
+  }, []);
+
+  // Handle amenity addition with Enter key and button
+  const handleAddAmenity = useCallback(() => {
+    if (amenityInput.trim() !== "") {
+      setFormData(prev => ({
+        ...prev,
+        amenities: [...prev.amenities, amenityInput.trim()],
+      }));
+      setAmenityInput("");
+    }
+  }, [amenityInput]);
+
+  // Handle Enter key for amenity input
+  const handleAmenityKeyDown = useCallback((e: React.KeyboardEvent) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      handleAddAmenity();
+    }
+  }, [handleAddAmenity]);
+
+  // Remove amenity efficiently
+  const handleRemoveAmenity = useCallback((index: number) => {
+    setFormData(prev => ({
+      ...prev,
+      amenities: prev.amenities.filter((_, i) => i !== index),
+    }));
+  }, []);
+
+  // Image handling with improved error handling
+  const handleImageChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (!files?.length) return;
+    
+    const fileArray = Array.from(files);
+    const maxSize = 10 * 1024 * 1024; // 10MB limit
+    
+    // Filter out files that are too large
+    const validFiles = fileArray.filter(file => {
+      if (file.size > maxSize) {
+        toast.error(`File ${file.name} is too large (max 10MB)`);
+        return false;
+      }
+      return true;
     });
-    const [amenityInput, setAmenityInput] = useState("");
-
-    const handleAddAmenity = () => {
-        if (amenityInput.trim() !== "") {
-            setFormData((prev) => ({
-                ...prev,
-                amenities: [...prev.amenities, amenityInput],
-            }));
-            setAmenityInput("");
+    
+    if (!validFiles.length) return;
+    
+    // Process valid files
+    validFiles.forEach(file => {
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        if (typeof event.target?.result === 'string') {
+          setImages(prev => [...prev, event.target!.result as string]);
+          setImagePreviews(prev => [...prev, event.target!.result as string]);
         }
-    };
-    // Handle Image Uploads
-    const handleImageChange = (e: any) => {
-        const files = Array.from(e.target.files);
-        const imageArray = [];
+      };
+      reader.onerror = () => toast.error(`Failed to read file ${file.name}`);
+      reader.readAsDataURL(file);
+    });
+  }, []);
 
-        files.forEach((file) => {
-            const reader = new FileReader();
-            reader.readAsDataURL(file);
-            reader.onload = () => {
-                if (reader.readyState === 2) {
-                    imageArray.push(reader.result);
-                    if (imageArray.length === files.length) {
-                        setImages(imageArray);
-                        setImagePreviews(imageArray);
-                    }
-                }
-            };
-        });
-    };
+  // Remove image with confirmation
+  const removeImage = useCallback((index: number) => {
+    setImages(prev => prev.filter((_, i) => i !== index));
+    setImagePreviews(prev => prev.filter((_, i) => i !== index));
+  }, []);
 
-    const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault();
-        const fData = { ...formData, images };
-        // Assuming you're sending the data to your server via axios
-        try {
-            const response = await axios.post("https://api.sevenwonder.in/api/business_center", fData);
-            console.log("Business created successfully:", response.data);
-        } catch (error) {
-            console.error("Error creating business:", error);
-        }
-    };
+  // Reset form to initial state
+  const resetForm = useCallback(() => {
+    setFormData(INITIAL_FORM_STATE);
+    setImages([]);
+    setImagePreviews([]);
+    setAmenityInput("");
+  }, []);
 
-    return (
-        <div className="max-w-3xl p-8 mx-auto mt-10 bg-white border border-gray-200 shadow-lg rounded-2xl">
-            <h2 className="mb-6 text-3xl font-bold text-center text-gray-900">
-                List A New Busniss Center
-            </h2>
-            <form onSubmit={handleSubmit} encType="multipart/form-data" className="space-y-5">
-                <div className="grid grid-cols-2 gap-4">
-                    {/* Title */}
-                    <div className="col-span-2">
-                        <label htmlFor="title" className="text-sm font-semibold text-gray-700">Business Center Title</label>
-                        <input 
-                            type="text" 
-                            id="title" 
-                            value={formData.title}
-                            onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                            className="w-full p-2 text-gray-700 border rounded-lg shadow-sm"
-                        />
-                    </div>
+  // Form submission with improved error handling
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    // Basic validation
+    if (!formData.title || !formData.address || !formData.rent) {
+      toast.error("Please fill in all required fields");
+      return;
+    }
+    
+    setLoading(true);
+    
+    try {
+      const response = await axios.post(
+        "https://api.sevenwonder.in/api/business_center", 
+        { ...formData, images }
+      );
+      
+      toast.success("Business center created successfully! 🎉");
+      resetForm();
+    } catch (error: any) {
+      const errorMessage = error.response?.data?.message || "Error creating business center. Please try again.";
+      toast.error(errorMessage);
+      console.error("Error creating business center:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-                    {/* Address */}
-                    <div className="col-span-2">
-                        <label htmlFor="address" className="text-sm font-semibold text-gray-700">Address</label>
-                        <input 
-                            type="text" 
-                            id="address" 
-                            value={formData.address}
-                            onChange={(e) => setFormData({ ...formData, address: e.target.value })}
-                            className="w-full p-2 text-gray-700 border rounded-lg shadow-sm"
-                        />
-                    </div>
+  return (
+    <div className="p-4 mx-auto mt-4 max-w-4xl bg-white rounded-xl shadow-lg md:p-8">
+      <ToastContainer position="top-right" autoClose={3000} />
+      
+      <div className="mb-6 text-center">
+        <h1 className="text-2xl font-bold text-gray-800 md:text-3xl">List a New Business Center</h1>
+        <p className="mt-2 text-gray-600">Fill in the details below</p>
+      </div>
 
-                    {/* Rent */}
-                    <div className="col-span-2">
-                        <label htmlFor="rent" className="text-sm font-semibold text-gray-700">Rent</label>
-                        <input 
-                            type="text" 
-                            id="rent" 
-                            value={formData.rent}
-                            onChange={(e) => setFormData({ ...formData, rent: e.target.value })}
-                            className="w-full p-2 text-gray-700 border rounded-lg shadow-sm"
-                        />
-                    </div>
+      <form onSubmit={handleSubmit} className="space-y-4 md:space-y-6">
+        {/* Basic Info Section */}
+        <FormSection title="Basic Information">
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+            <div className="col-span-2">
+              <FormInput
+                id="title"
+                label="Business Center Title*"
+                value={formData.title}
+                onChange={handleChange}
+                required
+              />
+            </div>
 
-                    {/* Type */}
-                    <div className="col-span-2">
-                        <label htmlFor="type" className="text-sm font-semibold text-gray-700">Cabin </label>
-                        <input 
-                            type="text" 
-                            id="type" 
-                            value={formData.type}
-                            onChange={(e) => setFormData({ ...formData, type: e.target.value })}
-                            className="w-full p-2 text-gray-700 border rounded-lg shadow-sm"
-                        />
-                    </div>
+            <div className="col-span-2">
+              <FormInput
+                id="address"
+                label="Address*"
+                value={formData.address}
+                onChange={handleChange}
+                required
+              />
+            </div>
 
-                    <div className="col-span-2">
-                        <label htmlFor="capacity" className="text-sm font-semibold text-gray-700">WorkStations</label>
-                        <input 
-                            type="text" 
-                            id="capacity" 
-                            value={formData.capacity}
-                            onChange={(e) => setFormData({ ...formData, capacity: e.target.value })}
-                            className="w-full p-2 text-gray-700 border rounded-lg shadow-sm"
-                        />
-                    </div> 
-                    
-                    {/* Furnishing */}
-                    <div className="col-span-2">
-                        <label htmlFor="furnishing" className="text-sm font-semibold text-gray-700">Furnishing</label>
-                        <input 
-                            type="text" 
-                            id="furnishing" 
-                            value={formData.furnishing}
-                            onChange={(e) => setFormData({ ...formData, furnishing: e.target.value })}
-                            className="w-full p-2 text-gray-700 border rounded-lg shadow-sm"
-                        />
-                    </div>
+            <FormInput
+              id="rent"
+              label="Rent (₹)*"
+              value={formData.rent}
+              onChange={handleChange}
+              required
+            />
 
-                    {/* Capacity */}
+            <div>
+              <label htmlFor="BC" className="block mb-1 text-sm font-medium text-gray-700">
+                Business Center ID
+              </label>
+              <select
+                id="BC"
+                value={formData.BC}
+                onChange={handleChange}
+                className="px-4 py-2 w-full rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"
+              >
+                <option value="">Select Business Center</option>
+                <option value="BC-1">BC-1</option>
+                <option value="BC-2">BC-2</option>
+                <option value="BC-3">BC-3</option>
+                <option value="BC-4">BC-4</option>
+                <option value="BC-5">BC-5</option>
+                <option value="BC-6">BC-6</option>
+                <option value="BC-7">BC-7</option>
+                <option value="BC-8">BC-8</option>
+                <option value="BC-9">BC-9</option>
+              </select>
+            </div>
+          </div>
+        </FormSection>
 
-                    {/* Property UID */}
-                    <div className="col-span-2">
-                        <label htmlFor="propertyUid" className="text-sm font-semibold text-gray-700">BC UID</label>
-                        <input 
-                            type="text" 
-                            id="propertyUid" 
-                            value={formData.BC}
-                            onChange={(e) => setFormData({ ...formData, BC: e.target.value })}
-                            className="w-full p-2 text-gray-700 border rounded-lg shadow-sm"
-                        />
-                    </div>
+        {/* Property Details Section */}
+        <FormSection title="Property Details">
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+            <FormInput
+              id="type"
+              label="Cabins"
+              type="number"
+              value={formData.type}
+              onChange={handleChange}
+            />
 
-                    {/* Status */}
-                    <div className="col-span-2">
-                        <label htmlFor="status" className="text-sm font-semibold text-gray-700">Status</label>
-                        <input 
-                            type="text" 
-                            id="status" 
-                            value={formData.status}
-                            onChange={(e) => setFormData({ ...formData, status: e.target.value })}
-                            className="w-full p-2 text-gray-700 border rounded-lg shadow-sm"
-                        />
-                    </div>
+            <FormInput
+              id="capacity"
+              label="Workstations"
+              type="number"
+              value={formData.capacity}
+              onChange={handleChange}
+            />
 
-                    {/* Built-Up Area */}
-                    <div className="col-span-2">
-                        <label htmlFor="builtUpArea" className="text-sm font-semibold text-gray-700">Supper Area</label>
-                        <input 
-                            type="text" 
-                            id="builtUpArea" 
-                            value={formData.builtUpArea}
-                            onChange={(e) => setFormData({ ...formData, builtUpArea: e.target.value })}
-                            className="w-full p-2 text-gray-700 border rounded-lg shadow-sm"
-                        />
-                    </div>
+            <div>
+              <label htmlFor="furnishing" className="block mb-1 text-sm font-medium text-gray-700">
+                Furnishing
+              </label>
+              <select
+                id="furnishing"
+                value={formData.furnishing}
+                onChange={handleChange}
+                className="px-4 py-2 w-full rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"
+              >
+                <option value="">Select Furnishing</option>
+                <option value="Fully Furnished">Fully Furnished</option>
+                <option value="Semi Furnished">Semi Furnished</option>
+                <option value="Unfurnished">Unfurnished</option>
+              </select>
+            </div>
 
-                    {/* Parking */}
-                    <div className="col-span-2">
-                        <label htmlFor="parking" className="text-sm font-semibold text-gray-700">Parking</label>
-                        <input 
-                            type="text" 
-                            id="parking" 
-                            value={formData.parking}
-                            onChange={(e) => setFormData({ ...formData, parking: e.target.value })}
-                            className="w-full p-2 text-gray-700 border rounded-lg shadow-sm"
-                        />
-                    </div>
+            <div>
+              <label htmlFor="status" className="block mb-1 text-sm font-medium text-gray-700">
+                Status
+              </label>
+              <select
+                id="status"
+                value={formData.status}
+                onChange={handleChange}
+                className="px-4 py-2 w-full rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"
+              >
+                <option value="">Select Status</option>
+                <option value="Available">Available</option>
+                <option value="Occupied">Occupied</option>
+                <option value="Maintenance">Under Maintenance</option>
+              </select>
+            </div>
 
-                    {/* Amenities */}
-                    <div className="col-span-2">
-                        <label htmlFor="amenities" className="text-sm font-semibold text-gray-700">
-                            Amenities
-                        </label>
-                        <div className="flex space-x-2">
-                            <input
-                                type="text"
-                                id="amenities"
-                                value={amenityInput}
-                                onChange={(e) => setAmenityInput(e.target.value)}
-                                className="w-full p-2 text-gray-700 border rounded-lg shadow-sm"
-                            />
-                            <button
-                                type="button"
-                                onClick={handleAddAmenity}
-                                className="px-4 py-2 text-white bg-green-500 rounded-lg hover:bg-green-600"
-                            >
-                                Add
-                            </button>
-                        </div>
-                        <ul className="mt-2">
-                            {formData.amenities.map((amenity, index) => (
-                                <li key={index} className="text-gray-700">- {amenity}</li>
-                            ))}
-                        </ul>
-                    </div>
+            <FormInput
+              id="builtUpArea"
+              label="Super Area (sq ft)"
+              value={formData.builtUpArea}
+              onChange={handleChange}
+            />
 
-                    {/* Description */}
-                    <div className="col-span-2">
-                        <label htmlFor="description" className="text-sm font-semibold text-gray-700">Description</label>
-                        <textarea 
-                            id="description"
-                            value={formData.description}
-                            onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                            className="w-full p-2 text-gray-700 border rounded-lg shadow-sm"
-                        />
-                    </div>
+            <FormInput
+              id="parking"
+              label="Parking"
+              value={formData.parking}
+              onChange={handleChange}
+              placeholder="e.g., 2 cars, 4 bikes"
+            />
+          </div>
+        </FormSection>
 
-                    {/* Google Map Link */}
-                    <div className="col-span-2">
-                        <label htmlFor="googleMapLink" className="text-sm font-semibold text-gray-700">Google Map Link</label>
-                        <input 
-                            type="text" 
-                            id="googleMapLink" 
-                            value={formData.googleMapLink}
-                            onChange={(e) => setFormData({ ...formData, googleMapLink: e.target.value })}
-                            className="w-full p-2 text-gray-700 border rounded-lg shadow-sm"
-                        />
-                    </div>
+        {/* Amenities Section */}
+        <FormSection title="Amenities">
+          <div className="flex space-x-2">
+            <input
+              type="text"
+              id="amenities"
+              value={amenityInput}
+              onChange={(e) => setAmenityInput(e.target.value)}
+              onKeyDown={handleAmenityKeyDown}
+              className="flex-1 px-4 py-2 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"
+              placeholder="Add an amenity (e.g., WiFi, Conference Room)"
+            />
+            <button
+              type="button"
+              onClick={handleAddAmenity}
+              className="px-4 py-2 text-white bg-blue-600 rounded-lg hover:bg-blue-700"
+            >
+              Add
+            </button>
+          </div>
 
-                    {/* Image Upload */}
-                    <div className="col-span-2">
-                        <label htmlFor="imageUpload" className="text-sm font-semibold text-gray-700">Upload Images</label>
-                        <input 
-                            type="file" 
-                            id="imageUpload" 
-                            accept="image/*" 
-                            multiple 
-                            onChange={handleImageChange} 
-                            className="w-full p-2 text-gray-700 border rounded-lg shadow-sm"
-                        />
-                    </div>
-
-                    {/* Image Previews */}
-                    <div className="flex flex-wrap col-span-2 gap-2 mt-4">
-                        {imagePreviews.map((img, index) => (
-                            <img
-                                key={index}
-                                src={img.startsWith("data") ? img : `https://api.sevenwonder.in/uploads/${img}`}
-                                alt={`Preview ${index}`}
-                                className="object-cover w-24 h-24 rounded-lg shadow-md"
-                                onError={(e) => (e.currentTarget.src = "/fallback-image.jpg")} // Fallback if image is broken
-                            />
-                        ))}
-                    </div>
-                </div>
-
-                <button type="submit" className="w-full py-3 text-white transition bg-blue-600 rounded-lg hover:bg-blue-700">
-                    Submit
+          <div className="flex flex-wrap gap-2 mt-4">
+            {formData.amenities.length === 0 && (
+              <p className="text-sm italic text-gray-500">No amenities added yet</p>
+            )}
+            
+            {formData.amenities.map((amenity, index) => (
+              <div key={index} className="flex items-center px-3 py-1 bg-blue-100 rounded-full">
+                <span className="text-blue-800">{amenity}</span>
+                <button
+                  type="button"
+                  onClick={() => handleRemoveAmenity(index)}
+                  className="ml-2 text-blue-800 hover:text-blue-600"
+                  aria-label={`Remove ${amenity}`}
+                >
+                  &times;
                 </button>
-            </form>
+              </div>
+            ))}
+          </div>
+        </FormSection>
+
+        {/* Description Section */}
+        <FormSection title="Description & Location">
+          <div className="space-y-4">
+            <div>
+              <label htmlFor="description" className="block mb-1 text-sm font-medium text-gray-700">
+                Description
+              </label>
+              <textarea
+                id="description"
+                value={formData.description}
+                onChange={handleChange}
+                className="px-4 py-2 w-full h-32 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"
+                placeholder="Provide a detailed description of the business center..."
+              />
+            </div>
+
+            <FormInput
+              id="googleMapLink"
+              label="Google Map Link"
+              value={formData.googleMapLink}
+              onChange={handleChange}
+              placeholder="https://maps.google.com/..."
+            />
+          </div>
+        </FormSection>
+
+        {/* Image Upload Section */}
+        <FormSection title="Images">
+          <div className="space-y-4">
+            <div className="flex justify-center items-center w-full">
+              <label
+                htmlFor="imageUpload"
+                className="flex flex-col justify-center items-center w-full h-32 bg-gray-50 rounded-lg border-2 border-gray-300 border-dashed transition-colors cursor-pointer hover:bg-gray-100"
+              >
+                <div className="flex flex-col justify-center items-center pt-5 pb-6">
+                  <svg
+                    className="mb-3 w-8 h-8 text-gray-500"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
+                    />
+                  </svg>
+                  <p className="mb-1 text-sm text-gray-500">
+                    <span className="font-semibold">Click to upload</span> or drag and drop
+                  </p>
+                  <p className="text-xs text-gray-500">PNG, JPG, JPEG up to 10MB</p>
+                </div>
+                <input
+                  type="file"
+                  id="imageUpload"
+                  accept="image/png, image/jpeg, image/jpg"
+                  multiple
+                  onChange={handleImageChange}
+                  className="hidden"
+                />
+              </label>
+            </div>
+
+            {imagePreviews.length > 0 && (
+              <div className="grid grid-cols-2 gap-4 mt-4 sm:grid-cols-3 md:grid-cols-4">
+                {imagePreviews.map((img, index) => (
+                  <div key={index} className="relative group">
+                    <img
+                      src={img.startsWith("data") ? img : `https://api.sevenwonder.in/uploads/${img}`}
+                      alt={`Preview ${index + 1}`}
+                      className="object-cover w-full h-24 rounded-lg shadow-md"
+                      onError={(e) => {
+                        const target = e.target as HTMLImageElement;
+                        target.src = "/fallback-image.jpg";
+                        target.onerror = null;
+                      }}
+                    />
+                    <button
+                      type="button"
+                      onClick={() => removeImage(index)}
+                      className="flex absolute top-1 right-1 justify-center items-center w-6 h-6 text-white bg-red-500 rounded-full opacity-0 transition-opacity group-hover:opacity-100"
+                      aria-label={`Remove image ${index + 1}`}
+                    >
+                      &times;
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {imagePreviews.length === 0 && (
+              <p className="text-sm italic text-center text-gray-500">No images uploaded yet</p>
+            )}
+          </div>
+        </FormSection>
+
+        <div className="flex justify-end mt-6 space-x-4">
+          <button
+            type="button"
+            onClick={resetForm}
+            className="px-6 py-2 text-gray-700 bg-gray-200 rounded-lg transition-colors hover:bg-gray-300"
+          >
+            Reset
+          </button>
+          <button
+            type="submit"
+            disabled={loading}
+            className={`px-6 py-2 text-white bg-blue-600 rounded-lg transition-colors ${
+              loading ? "opacity-70 cursor-not-allowed" : "hover:bg-blue-700"
+            }`}
+          >
+            {loading ? (
+              <span className="flex items-center">
+                <svg className="mr-2 -ml-1 w-4 h-4 text-white animate-spin" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                Submitting...
+              </span>
+            ) : (
+              "Submit"
+            )}
+          </button>
         </div>
-    );
+      </form>
+    </div>
+  );
+}
+
+// Reusable components for better organization
+interface FormSectionProps {
+  title: string;
+  children: React.ReactNode;
+}
+
+function FormSection({ title, children }: FormSectionProps) {
+  return (
+    <div className="p-4 bg-gray-50 rounded-lg md:p-6">
+      <h2 className="mb-4 text-lg font-semibold text-gray-700 md:text-xl">{title}</h2>
+      {children}
+    </div>
+  );
+}
+
+interface FormInputProps {
+  id: string;
+  label: string;
+  value: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  type?: string;
+  required?: boolean;
+  placeholder?: string;
+}
+
+function FormInput({
+  id,
+  label,
+  value,
+  onChange,
+  type = "text",
+  required = false,
+  placeholder = "",
+}: FormInputProps) {
+  return (
+    <div>
+      <label htmlFor={id} className="block mb-1 text-sm font-medium text-gray-700">
+        {label}
+      </label>
+      <input
+        type={type}
+        id={id}
+        value={value}
+        onChange={onChange}
+        className="px-4 py-2 w-full rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"
+        required={required}
+        placeholder={placeholder}
+      />
+    </div>
+  );
 }

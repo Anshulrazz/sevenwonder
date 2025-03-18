@@ -86,28 +86,28 @@ export default function ProjectsResidential() {
                         placeholder="Search by name or location"
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
-                        className="p-2 border rounded"
+                        className="p-2 rounded border"
                     />
                     <input
                         type="text"
                         placeholder="Filter by location"
                         value={locationFilter}
                         onChange={(e) => setLocationFilter(e.target.value)}
-                        className="p-2 border rounded"
+                        className="p-2 rounded border"
                     />
                     <input
                         type="number"
                         placeholder="Min Price"
                         value={minPrice}
                         onChange={(e) => setMinPrice(e.target.value)}
-                        className="p-2 border rounded"
+                        className="p-2 rounded border"
                     />
                     <input
                         type="number"
                         placeholder="Max Price"
                         value={maxPrice}
                         onChange={(e) => setMaxPrice(e.target.value)}
-                        className="p-2 border rounded"
+                        className="p-2 rounded border"
                     />
                 </div>
             </section>
@@ -136,12 +136,12 @@ export default function ProjectsResidential() {
                         </Card>
                     ))
                 ) : (
-                    <p className="text-center text-gray-500 col-span-full">No projects found.</p>
+                    <p className="col-span-full text-center text-gray-500">No projects found.</p>
                 )}
             </section>
 
             {totalPages > 1 && (
-                <div className="flex justify-center gap-4 py-6">
+                <div className="flex gap-4 justify-center py-6">
                     <button
                         onClick={() => handlePageChange(currentPage - 1)}
                         disabled={currentPage === 1}
