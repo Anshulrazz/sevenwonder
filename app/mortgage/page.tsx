@@ -12,11 +12,11 @@ function App() {
           backgroundImage: 'linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url("https://images.unsplash.com/photo-1560518883-ce09059eeffa?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80")'
         }}
       >
-        <div className="absolute inset-0 flex items-center justify-center">
-          <div className="text-center text-white px-4">
-            <h1 className="text-5xl font-bold mb-6">Mortgage Loans – Your Path to Homeownership</h1>
-            <p className="text-xl mb-8">Secure, Flexible & Affordable Home Financing Solutions</p>
-            <button className="bg-primary  text-white font-bold py-3 px-8 rounded-full transition duration-300">
+        <div className="flex absolute inset-0 justify-center items-center">
+          <div className="px-4 text-center text-white">
+            <h1 className="mb-6 text-5xl font-bold">Mortgage Loans – Your Path to Homeowners</h1>
+            <p className="mb-8 text-xl">Secure, Flexible & Affordable Home Financing Solutions</p>
+            <button className="px-8 py-3 font-bold text-white rounded-full transition duration-300 bg-primary">
               Get Started Today
             </button>
           </div>
@@ -24,34 +24,34 @@ function App() {
       </div>
 
       {/* Introduction Section */}
-      <section className="py-16 px-4 bg-white">
-        <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-3xl font-bold mb-6">Your Trusted Mortgage Partner</h2>
-          <p className="text-gray-600 text-lg mb-8">
+      <section className="px-4 py-16 bg-white">
+        <div className="mx-auto max-w-4xl text-center">
+          <h2 className="mb-6 text-3xl font-bold">Your Trusted Mortgage Partner</h2>
+          <p className="mb-8 text-lg text-gray-600">
             A mortgage loan is one of the most important financial commitments you'll make in your lifetime. 
             Whether you're a first-time homebuyer, upgrading to a new home, or refinancing an existing mortgage, 
             choosing the right mortgage option can save you thousands of dollars in the long run.
           </p>
-          <div className="grid md:grid-cols-3 gap-6">
+          <div className="grid gap-6 md:grid-cols-3">
             <div className="p-4">
-              <div className="text-primary flex justify-center mb-3">
+              <div className="flex justify-center mb-3 text-primary">
                 <Users className="w-8 h-8" />
               </div>
-              <h3 className="font-semibold mb-2">First-Time Buyers</h3>
+              <h3 className="mb-2 font-semibold">First-Time Buyers</h3>
               <p className="text-gray-600">Special programs and guidance for new homeowners</p>
             </div>
             <div className="p-4">
-              <div className="text-primary flex justify-center mb-3">
+              <div className="flex justify-center mb-3 text-primary">
                 <Building className="w-8 h-8" />
               </div>
-              <h3 className="font-semibold mb-2">Home Upgrades</h3>
+              <h3 className="mb-2 font-semibold">Home Upgrades</h3>
               <p className="text-gray-600">Solutions for moving to your next home</p>
             </div>
             <div className="p-4">
-              <div className="text-primary flex justify-center mb-3">
+              <div className="flex justify-center mb-3 text-primary">
                 <Calculator className="w-8 h-8" />
               </div>
-              <h3 className="font-semibold mb-2">Refinancing</h3>
+              <h3 className="mb-2 font-semibold">Refinancing</h3>
               <p className="text-gray-600">Optimize your existing mortgage</p>
             </div>
           </div>
@@ -59,10 +59,10 @@ function App() {
       </section>
 
       {/* Why Choose Us Section */}
-      <section className="py-20 px-4">
-        <div className="max-w-6xl mx-auto">
-          <h2 className="text-3xl font-bold text-center mb-16">Why Choose Our Mortgage Loan Services?</h2>
-          <div className="grid md:grid-cols-3 gap-8">
+      <section className="px-4 py-20">
+        <div className="mx-auto max-w-6xl">
+          <h2 className="mb-16 text-3xl font-bold text-center">Why Choose Our Mortgage Loan Services?</h2>
+          <div className="grid gap-8 md:grid-cols-3">
             {[
               { icon: <DollarSign className="w-12 h-12" />, title: "Competitive Rates", desc: "Enjoy some of the lowest mortgage rates in the market" },
               { icon: <Clock className="w-12 h-12" />, title: "Fast Pre-Approval", desc: "Get pre-approved in minutes" },
@@ -71,9 +71,9 @@ function App() {
               { icon: <FileCheck className="w-12 h-12" />, title: "Simple Process", desc: "Streamlined application and approval" },
               { icon: <Award className="w-12 h-12" />, title: "Trusted Service", desc: "Decades of mortgage lending experience" },
             ].map((item, index) => (
-              <div key={index} className="text-center p-6 bg-white rounded-lg shadow-lg hover:shadow-xl transition duration-300">
-                <div className="text-primary mb-4 flex justify-center">{item.icon}</div>
-                <h3 className="text-xl font-semibold mb-2">{item.title}</h3>
+              <div key={index} className="p-6 text-center bg-white rounded-lg shadow-lg transition duration-300 hover:shadow-xl">
+                <div className="flex justify-center mb-4 text-primary">{item.icon}</div>
+                <h3 className="mb-2 text-xl font-semibold">{item.title}</h3>
                 <p className="text-gray-600">{item.desc}</p>
               </div>
             ))}
@@ -82,10 +82,10 @@ function App() {
       </section>
 
       {/* Loan Types Section */}
-      <section className="bg-white py-20 px-4">
-        <div className="max-w-6xl mx-auto">
-          <h2 className="text-3xl font-bold text-center mb-16">Types of Mortgage Loans We Offer</h2>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <section className="px-4 py-20 bg-white">
+        <div className="mx-auto max-w-6xl">
+          <h2 className="mb-16 text-3xl font-bold text-center">Types of Mortgage Loans We Offer</h2>
+          <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
             {[
               { 
                 title: "Fixed-Rate Mortgage",
@@ -118,19 +118,19 @@ function App() {
                 features: ["Higher loan amounts", "Luxury properties", "Competitive rates"]
               },
             ].map((loan, index) => (
-              <div key={index} className="bg-gray-50 rounded-lg p-6 hover:shadow-lg transition duration-300">
-                <h3 className="text-xl font-semibold mb-3">{loan.title}</h3>
-                <p className="text-gray-600 mb-4">{loan.desc}</p>
-                <ul className="space-y-2 mb-4">
+              <div key={index} className="p-6 bg-gray-50 rounded-lg transition duration-300 hover:shadow-lg">
+                <h3 className="mb-3 text-xl font-semibold">{loan.title}</h3>
+                <p className="mb-4 text-gray-600">{loan.desc}</p>
+                <ul className="mb-4 space-y-2">
                   {loan.features.map((feature, i) => (
                     <li key={i} className="flex items-center text-gray-700">
-                      <Check className="w-4 h-4 text-green-500 mr-2" />
+                      <Check className="mr-2 w-4 h-4 text-green-500" />
                       {feature}
                     </li>
                   ))}
                 </ul>
-                <button className="text-primary font-semibold flex items-center hover:text-blue-800">
-                  Learn More <ChevronRight className="w-4 h-4 ml-1" />
+                <button className="flex items-center font-semibold text-primary hover:text-blue-800">
+                  Learn More <ChevronRight className="ml-1 w-4 h-4" />
                 </button>
               </div>
             ))}
@@ -139,12 +139,12 @@ function App() {
       </section>
 
       {/* Eligibility Requirements */}
-      <section className="py-20 px-4 bg-gray-50">
-        <div className="max-w-6xl mx-auto">
-          <h2 className="text-3xl font-bold text-center mb-16">Mortgage Loan Eligibility</h2>
-          <div className="grid md:grid-cols-2 gap-12">
-            <div className="bg-white p-8 rounded-lg shadow-lg">
-              <h3 className="text-2xl font-semibold mb-6">Basic Requirements</h3>
+      <section className="px-4 py-20 bg-gray-50">
+        <div className="mx-auto max-w-6xl">
+          <h2 className="mb-16 text-3xl font-bold text-center">Mortgage Loan Eligibility</h2>
+          <div className="grid gap-12 md:grid-cols-2">
+            <div className="p-8 bg-white rounded-lg shadow-lg">
+              <h3 className="mb-6 text-2xl font-semibold">Basic Requirements</h3>
               <ul className="space-y-4">
                 {[
                   { title: "Credit Score", desc: "Minimum 620+ for conventional loans" },
@@ -153,7 +153,7 @@ function App() {
                   { title: "Debt-to-Income Ratio", desc: "Usually 43% or lower" },
                 ].map((req, index) => (
                   <li key={index} className="flex items-start">
-                    <Check className="w-5 h-5 text-green-500 mr-3 mt-1" />
+                    <Check className="mt-1 mr-3 w-5 h-5 text-green-500" />
                     <div>
                       <h4 className="font-semibold">{req.title}</h4>
                       <p className="text-gray-600">{req.desc}</p>
@@ -162,8 +162,8 @@ function App() {
                 ))}
               </ul>
             </div>
-            <div className="bg-white p-8 rounded-lg shadow-lg">
-              <h3 className="text-2xl font-semibold mb-6">Required Documentation</h3>
+            <div className="p-8 bg-white rounded-lg shadow-lg">
+              <h3 className="mb-6 text-2xl font-semibold">Required Documentation</h3>
               <ul className="space-y-4">
                 {[
                   { title: "Identification", desc: "Valid government-issued ID" },
@@ -172,7 +172,7 @@ function App() {
                   { title: "Employment History", desc: "Past 2 years of employment" },
                 ].map((doc, index) => (
                   <li key={index} className="flex items-start">
-                    <FileCheck className="w-5 h-5 text-blue-500 mr-3 mt-1" />
+                    <FileCheck className="mt-1 mr-3 w-5 h-5 text-blue-500" />
                     <div>
                       <h4 className="font-semibold">{doc.title}</h4>
                       <p className="text-gray-600">{doc.desc}</p>
@@ -186,10 +186,10 @@ function App() {
       </section>
 
       {/* Application Process */}
-      <section className="py-20 px-4 bg-white">
-        <div className="max-w-6xl mx-auto">
-          <h2 className="text-3xl font-bold text-center mb-16">How to Apply for a Mortgage Loan</h2>
-          <div className="grid md:grid-cols-4 gap-8">
+      <section className="px-4 py-20 bg-white">
+        <div className="mx-auto max-w-6xl">
+          <h2 className="mb-16 text-3xl font-bold text-center">How to Apply for a Mortgage Loan</h2>
+          <div className="grid gap-8 md:grid-cols-4">
             {[
               { 
                 step: "1",
@@ -217,11 +217,11 @@ function App() {
               },
             ].map((step, index) => (
               <div key={index} className="text-center">
-                <div className="w-16 h-16 bg-primary rounded-full text-white text-2xl font-bold flex items-center justify-center mx-auto mb-4">
+                <div className="flex justify-center items-center mx-auto mb-4 w-16 h-16 text-2xl font-bold text-white rounded-full bg-primary">
                   {step.step}
                 </div>
-                <h3 className="text-xl font-semibold mb-2">{step.title}</h3>
-                <p className="text-gray-600 mb-4">{step.desc}</p>
+                <h3 className="mb-2 text-xl font-semibold">{step.title}</h3>
+                <p className="mb-4 text-gray-600">{step.desc}</p>
                 <ul className="text-sm text-gray-500">
                   {step.details.map((detail, i) => (
                     <li key={i} className="mb-1">{detail}</li>
@@ -234,9 +234,9 @@ function App() {
       </section>
 
       {/* FAQ Section */}
-      <section className="py-20 px-4 bg-gray-50">
-        <div className="max-w-4xl mx-auto">
-          <h2 className="text-3xl font-bold text-center mb-16">Frequently Asked Questions</h2>
+      <section className="px-4 py-20 bg-gray-50">
+        <div className="mx-auto max-w-4xl">
+          <h2 className="mb-16 text-3xl font-bold text-center">Frequently Asked Questions</h2>
           <div className="space-y-6">
             {[
               {
@@ -256,8 +256,8 @@ function App() {
                 a: "Fixed-rate mortgages maintain the same interest rate for the entire loan term, while adjustable-rate mortgages start with a lower fixed rate that later adjusts based on market conditions."
               },
             ].map((faq, index) => (
-              <div key={index} className="bg-white rounded-lg p-6 shadow-md">
-                <h3 className="text-xl font-semibold mb-3">{faq.q}</h3>
+              <div key={index} className="p-6 bg-white rounded-lg shadow-md">
+                <h3 className="mb-3 text-xl font-semibold">{faq.q}</h3>
                 <p className="text-gray-600">{faq.a}</p>
               </div>
             ))}
@@ -266,21 +266,21 @@ function App() {
       </section>
 
       {/* Contact Section */}
-      <section className="bg-primary text-white py-20 px-4">
-        <div className="max-w-6xl mx-auto text-center">
-          <h2 className="text-3xl font-bold mb-8">Get Started on Your Mortgage Today!</h2>
-          <p className="text-xl mb-12">Our mortgage experts are ready to help you achieve your homeownership dreams</p>
-          <div className="flex flex-col md:flex-row justify-center items-center gap-8">
+      <section className="px-4 py-20 text-white bg-primary">
+        <div className="mx-auto max-w-6xl text-center">
+          <h2 className="mb-8 text-3xl font-bold">Get Started on Your Mortgage Today!</h2>
+          <p className="mb-12 text-xl">Our mortgage experts are ready to help you achieve your homeownership dreams</p>
+          <div className="flex flex-col gap-8 justify-center items-center md:flex-row">
             <div className="flex items-center">
-              <Phone className="w-6 h-6 mr-2" />
+              <Phone className="mr-2 w-6 h-6" />
               <span> +91 90156 51565</span>
             </div>
             <div className="flex items-center">
-              <Mail className="w-6 h-6 mr-2" />
+              <Mail className="mr-2 w-6 h-6" />
               <span>sales@sevenwonder.in</span>
             </div>
             <div className="flex items-center">
-              <MapPin className="w-6 h-6 mr-2" />
+              <MapPin className="mr-2 w-6 h-6" />
               <span>G-20, 3rd Floor, Preet Vihar, Vikas Marg, New Delhi-110092</span>
             </div>
           </div>

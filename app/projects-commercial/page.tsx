@@ -7,21 +7,41 @@ import { Footer } from "@/components/footer";
 import Link from "next/link";
 import axios from "axios";
 
-export default function ProjectsResidential() {
-    const [businessCenters, setBusinessCenters] = useState([]);
+interface BusinessCenter {
+    _id: string;
+    title: string;
+    address: string;
+    BC: string;
+    rent: number;
+    images: string[];
+}
+
+export default function ProjectsCommercial() {
+    const [businessCenters, setBusinessCenters] = useState<BusinessCenter[]>([]);
     const [searchQuery, setSearchQuery] = useState("");
     const [activeTab, setActiveTab] = useState("All");
     const [locationFilter, setLocationFilter] = useState("");
     const [minPrice, setMinPrice] = useState("");
     const [maxPrice, setMaxPrice] = useState("");
     const [currentPage, setCurrentPage] = useState(1);
+    const [isLoading, setIsLoading] = useState(true);
 
     const itemsPerPage = 21;
 
     useEffect(() => {
-        axios.get("https://api.sevenwonder.in/api/business_center")
-            .then((response) => setBusinessCenters(response.data))
-            .catch((error) => console.error("Error fetching business centers:", error));
+        const fetchBusinessCenters = async () => {
+            try {
+                setIsLoading(true);
+                const response = await axios.get("https://api.sevenwonder.in/api/business_center");
+                setBusinessCenters(response.data);
+            } catch (error) {
+                console.error("Error fetching business centers:", error);
+            } finally {
+                setIsLoading(false);
+            }
+        };
+
+        fetchBusinessCenters();
     }, []);
 
     // Categories based on BC field
@@ -56,7 +76,7 @@ export default function ProjectsResidential() {
         currentPage * itemsPerPage
     );
 
-    const handlePageChange = (newPage) => {
+    const handlePageChange = (newPage: number) => {
         if (newPage >= 1 && newPage <= totalPages) {
             setCurrentPage(newPage);
         }
@@ -112,33 +132,41 @@ export default function ProjectsResidential() {
                 </div>
             </section>
 
-            <section className="grid grid-cols-1 gap-6 p-6 md:grid-cols-2 lg:grid-cols-3">
-                {displayedProjects.length > 0 ? (
-                    displayedProjects.map((center) => (
-                        <Card key={center._id} className="p-4">
-                            <div className="relative w-full h-56">
-                                <Image
-                                src={`https://api.sevenwonder.in${center.images[0]}`}
-                                    alt={center.title}
-                                    layout="fill"
-                                    objectFit="cover"
-                                    className="rounded-lg"
-                                />
-                            </div>
-                            <h3 className="mt-2 font-semibold">{center.title}</h3>
-                            <p className="text-sm text-gray-600">Price: ₹{center.rent}</p>
-                            <Link
-                                href={`/projects-commercial/${center._id}`}
-                                className="text-blue-500 hover:underline"
-                            >
-                                View Details
-                            </Link>
-                        </Card>
-                    ))
-                ) : (
-                    <p className="col-span-full text-center text-gray-500">No projects found.</p>
-                )}
-            </section>
+            {isLoading ? (
+                <div className="flex justify-center items-center py-20">
+                    <div className="flex flex-col items-center animate-pulse">
+                        <div className="w-16 h-16 rounded-full border-4 border-blue-500 animate-spin border-t-transparent"></div>
+                        <p className="mt-4 text-gray-600">Loading business centers...</p>
+                    </div>
+                </div>
+            ) : (
+                <section className="grid grid-cols-1 gap-6 p-6 md:grid-cols-2 lg:grid-cols-3">
+                    {displayedProjects.length > 0 ? (
+                        displayedProjects.map((center) => (
+                            <Card key={center._id} className="p-4">
+                                <div className="relative w-full h-56">
+                                    <Image
+                                        src={`https://api.sevenwonder.in${center.images[0]}`}
+                                        alt={center.title}
+                                        fill
+                                        className="rounded-lg object-cover"
+                                    />
+                                </div>
+                                <h3 className="mt-2 font-semibold">{center.title}</h3>
+                                <p className="text-sm text-gray-600">Price: ₹{center.rent.toLocaleString()}</p>
+                                <Link
+                                    href={`/projects-commercial/${center._id}`}
+                                    className="text-blue-500 hover:underline"
+                                >
+                                    View Details
+                                </Link>
+                            </Card>
+                        ))
+                    ) : (
+                        <p className="col-span-full text-center text-gray-500">No projects found.</p>
+                    )}
+                </section>
+            )}
 
             {totalPages > 1 && (
                 <div className="flex gap-4 justify-center py-6">

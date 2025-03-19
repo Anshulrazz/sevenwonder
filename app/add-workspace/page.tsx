@@ -5,6 +5,7 @@ import { useAppDispatch } from '@/hooks/hooks';
 import { postWorkspace } from '@/lib/actions/user';
 import { Building2, Camera, MapPin, Users, DollarSign, CheckCircle2, X } from 'lucide-react';
 import { useState, useEffect } from 'react';
+import { Toaster, toast } from 'sonner';
 
 const AddWorkspaceForm = () => {
     const dispatch = useAppDispatch();
@@ -14,7 +15,6 @@ const AddWorkspaceForm = () => {
         'https://images.unsplash.com/photo-1497366811353-6870744d04b2?auto=format&fit=crop&w=1200'
     ]);
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
-    const [msg, setMsg] = useState<string | null>(null);
     const [formData, setFormData] = useState({
         workspaceName: 'Modern Co-working Space',
         workspaceType: 'coworking-space',
@@ -45,26 +45,66 @@ const AddWorkspaceForm = () => {
                     imageArray.push(reader.result);
                     if (imageArray.length === files.length) {
                         setImages(imageArray);
+                        toast.success(`${files.length} image${files.length > 1 ? 's' : ''} uploaded successfully`);
                     }
                 }
             };
         });
     };
 
-
     const removeImage = (index: number) => {
         setImages(images.filter((_, i) => i !== index));
         if (currentImageIndex >= images.length - 1) {
             setCurrentImageIndex(0);
         }
+        toast.info('Image removed');
     };
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         const fData = { ...formData, images };
-        dispatch(postWorkspace(fData));
-        console.log(fData);
-        setMsg("Thanks for adding your workspace! ❤️😊");
+
+        try {
+            dispatch(postWorkspace(fData));
+            console.log(fData);
+            toast.success("Workspace added successfully! ❤️", {
+                description: "Your workspace has been listed and is now visible to users.",
+                duration: 5000,
+            });
+        } catch (error) {
+            toast.error("Failed to add workspace", {
+                description: "Please try again or contact support if the issue persists.",
+            });
+        }
+    };
+
+    const handleStepChange = (step: number) => {
+        // Validate current step before proceeding
+        if (currentStep === 1 && step > currentStep) {
+            if (!formData.workspaceName || !formData.workspaceType || !formData.capacity) {
+                toast.error("Please fill in all required fields");
+                return;
+            }
+        }
+
+        if (currentStep === 2 && step > currentStep) {
+            if (!formData.address) {
+                toast.error("Please provide an address");
+                return;
+            }
+            if (images.length === 0) {
+                toast.warning("Consider adding at least one image");
+            }
+        }
+
+        setCurrentStep(step);
+
+        if (step > currentStep) {
+            toast.info(`Step ${currentStep} completed`, {
+                description: `Moving to step ${step}`,
+                duration: 2000,
+            });
+        }
     };
 
     const amenityIcons: { [key: string]: JSX.Element } = {
@@ -78,15 +118,16 @@ const AddWorkspaceForm = () => {
 
     return (
         <>
+            <Toaster position="top-right" richColors expand closeButton />
             <Header />
-            <div className="min-h-screen py-24 bg-gray-50">
+            <div className="py-24 min-h-screen bg-gray-50">
                 <div className="px-4 mx-auto max-w-7xl">
                     <h1 className="mb-8 text-3xl font-bold text-gray-900">Add New Workspace</h1>
 
                     <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
                         {/* Preview Section */}
                         <div className="space-y-6">
-                            <div className="relative overflow-hidden bg-gray-100 shadow-lg aspect-video rounded-xl">
+                            <div className="overflow-hidden relative bg-gray-100 rounded-xl shadow-lg aspect-video">
                                 {images.length > 0 ? (
                                     <>
                                         <img
@@ -94,7 +135,7 @@ const AddWorkspaceForm = () => {
                                             alt="Workspace preview"
                                             className="object-cover w-full h-full transition-opacity duration-500"
                                         />
-                                        <div className="absolute flex gap-2 transform -translate-x-1/2 bottom-4 left-1/2">
+                                        <div className="flex absolute bottom-4 left-1/2 gap-2 transform -translate-x-1/2">
                                             {images.map((_, index) => (
                                                 <button
                                                     key={index}
@@ -108,27 +149,27 @@ const AddWorkspaceForm = () => {
                                         </div>
                                     </>
                                 ) : (
-                                    <div className="flex items-center justify-center h-full">
+                                    <div className="flex justify-center items-center h-full">
                                         <p className="text-gray-400">No images uploaded</p>
                                     </div>
                                 )}
                             </div>
 
                             {/* Preview Details */}
-                            <div className="p-6 space-y-4 bg-white shadow-lg rounded-xl">
+                            <div className="p-6 space-y-4 bg-white rounded-xl shadow-lg">
                                 <h2 className="text-2xl font-bold text-gray-900">
                                     {formData.workspaceName || 'Workspace Name'}
                                 </h2>
-                                <div className="flex items-center gap-2 text-gray-600">
+                                <div className="flex gap-2 items-center text-gray-600">
                                     <MapPin className="w-5 h-5" />
                                     <p>{formData.address || 'Address'}</p>
                                 </div>
-                                <div className="flex items-center gap-2 text-gray-600">
+                                <div className="flex gap-2 items-center text-gray-600">
                                     <Users className="w-5 h-5" />
                                     <p>Capacity: {formData.capacity || '0'} people</p>
                                 </div>
                                 <div className="grid grid-cols-2 gap-4">
-                                    <div className="p-3 rounded-lg bg-blue-50">
+                                    <div className="p-3 bg-blue-50 rounded-lg">
                                         <p className="text-sm text-gray-600">Per Month</p>
                                         <p className="text-xl font-bold text-blue-600">
                                             ₹{formData.pricePerHour || '0'}
@@ -141,7 +182,7 @@ const AddWorkspaceForm = () => {
                                         {formData.amenities.map((amenity) => (
                                             <span
                                                 key={amenity}
-                                                className="flex items-center gap-1 px-3 py-1 text-sm bg-gray-100 rounded-full"
+                                                className="flex gap-1 items-center px-3 py-1 text-sm bg-gray-100 rounded-full"
                                             >
                                                 {amenityIcons[amenity]}
                                                 <span className="capitalize">{amenity}</span>
@@ -153,14 +194,14 @@ const AddWorkspaceForm = () => {
                         </div>
 
                         {/* Form Section */}
-                        <form onSubmit={handleSubmit} className="p-8 bg-white shadow-lg rounded-xl">
+                        <form onSubmit={handleSubmit} className="p-8 bg-white rounded-xl shadow-lg">
                             {/* Step Indicators */}
                             <div className="flex gap-4 mb-8">
                                 {[1, 2, 3].map((step) => (
                                     <button
                                         key={step}
                                         type="button"
-                                        onClick={() => setCurrentStep(step)}
+                                        onClick={() => handleStepChange(step)}
                                         className={`flex-1 py-3 rounded-lg transition-all ${currentStep === step
                                             ? 'bg-primary text-white shadow-lg scale-105'
                                             : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
@@ -168,7 +209,7 @@ const AddWorkspaceForm = () => {
                                     >
                                         Step {step}
                                         {currentStep > step && (
-                                            <CheckCircle2 className="inline-block w-5 h-5 ml-2" />
+                                            <CheckCircle2 className="inline-block ml-2 w-5 h-5" />
                                         )}
                                     </button>
                                 ))}
@@ -177,7 +218,7 @@ const AddWorkspaceForm = () => {
                             {/* Basic Information Section */}
                             {currentStep === 1 && (
                                 <div className="space-y-6">
-                                    <div className="flex items-center gap-3 mb-6">
+                                    <div className="flex gap-3 items-center mb-6">
                                         <Building2 className="w-6 h-6 text-primary" />
                                         <h2 className="text-xl font-semibold">Basic Information</h2>
                                     </div>
@@ -190,7 +231,7 @@ const AddWorkspaceForm = () => {
                                             type="text"
                                             required
                                             value={formData.workspaceName}
-                                            className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500"
+                                            className="p-3 w-full rounded-lg border focus:ring-2 focus:ring-blue-500"
                                             onChange={(e) =>
                                                 setFormData({ ...formData, workspaceName: e.target.value })
                                             }
@@ -205,13 +246,14 @@ const AddWorkspaceForm = () => {
                                             <select
                                                 required
                                                 value={formData.workspaceType}
-                                                className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500"
+                                                className="p-3 w-full rounded-lg border focus:ring-2 focus:ring-blue-500"
                                                 onChange={(e) =>
                                                     setFormData({ ...formData, workspaceType: e.target.value })
                                                 }
                                             >
                                                 <option value="">Select Type</option>
                                                 <option value="private-office">Private Office</option>
+                                                <option value="commercial-office">Commercial Office</option>
                                                 <option value="coworking-space">Co-working Space</option>
                                                 <option value="meeting-room">Meeting Room</option>
                                             </select>
@@ -221,13 +263,13 @@ const AddWorkspaceForm = () => {
                                             <label className="block mb-2 text-sm font-medium text-gray-700">
                                                 Capacity*
                                             </label>
-                                            <div className="flex items-center gap-3">
+                                            <div className="flex gap-3 items-center">
                                                 <Users className="text-gray-400" />
                                                 <input
                                                     type="number"
                                                     required
                                                     value={formData.capacity}
-                                                    className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500"
+                                                    className="p-3 w-full rounded-lg border focus:ring-2 focus:ring-blue-500"
                                                     onChange={(e) =>
                                                         setFormData({ ...formData, capacity: e.target.value })
                                                     }
@@ -241,7 +283,7 @@ const AddWorkspaceForm = () => {
                             {/* Location & Images Section */}
                             {currentStep === 2 && (
                                 <div className="space-y-6">
-                                    <div className="flex items-center gap-3 mb-6">
+                                    <div className="flex gap-3 items-center mb-6">
                                         <MapPin className="w-6 h-6 text-primary" />
                                         <h2 className="text-xl font-semibold">Location & Images</h2>
                                     </div>
@@ -254,7 +296,7 @@ const AddWorkspaceForm = () => {
                                             type="text"
                                             required
                                             value={formData.address}
-                                            className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500"
+                                            className="p-3 w-full rounded-lg border focus:ring-2 focus:ring-blue-500"
                                             onChange={(e) =>
                                                 setFormData({ ...formData, address: e.target.value })
                                             }
@@ -276,14 +318,14 @@ const AddWorkspaceForm = () => {
                                                     <button
                                                         type="button"
                                                         onClick={() => removeImage(index)}
-                                                        className="absolute p-1 text-white transition-opacity bg-red-500 rounded-full opacity-0 top-2 right-2 group-hover:opacity-100"
+                                                        className="absolute top-2 right-2 p-1 text-white bg-red-500 rounded-full opacity-0 transition-opacity group-hover:opacity-100"
                                                     >
                                                         <X className="w-4 h-4" />
                                                     </button>
                                                 </div>
                                             ))}
                                             {images.length < 5 && (
-                                                <label className="flex items-center justify-center transition-colors border-2 border-dashed rounded-lg cursor-pointer aspect-square hover:border-blue-500">
+                                                <label className="flex justify-center items-center rounded-lg border-2 border-dashed transition-colors cursor-pointer aspect-square hover:border-blue-500">
                                                     <input
                                                         type="file"
                                                         multiple
@@ -302,7 +344,7 @@ const AddWorkspaceForm = () => {
                             {/* Pricing & Amenities Section */}
                             {currentStep === 3 && (
                                 <div className="space-y-6">
-                                    <div className="flex items-center gap-3 mb-6">
+                                    <div className="flex gap-3 items-center mb-6">
                                         <DollarSign className="w-6 h-6 text-primary" />
                                         <h2 className="text-xl font-semibold">Pricing & Amenities</h2>
                                     </div>
@@ -316,7 +358,7 @@ const AddWorkspaceForm = () => {
                                                 type="number"
                                                 required
                                                 value={formData.pricePerHour}
-                                                className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500"
+                                                className="p-3 w-full rounded-lg border focus:ring-2 focus:ring-blue-500"
                                                 onChange={(e) =>
                                                     setFormData({ ...formData, pricePerHour: e.target.value })
                                                 }
@@ -330,7 +372,7 @@ const AddWorkspaceForm = () => {
                                                 type="number"
                                                 required
                                                 value={formData.area}
-                                                className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500"
+                                                className="p-3 w-full rounded-lg border focus:ring-2 focus:ring-blue-500"
                                                 onChange={(e) =>
                                                     setFormData({ ...formData, area: e.target.value })
                                                 }
@@ -351,17 +393,19 @@ const AddWorkspaceForm = () => {
                                                             ? 'bg-blue-50 border-blue-200'
                                                             : 'hover:bg-gray-50'
                                                             }`}
+                                                        onClick={() => {
+                                                            const isSelected = formData.amenities.includes(amenity);
+                                                            const amenities = isSelected
+                                                                ? formData.amenities.filter((a) => a !== amenity)
+                                                                : [...formData.amenities, amenity];
+                                                            setFormData({ ...formData, amenities });
+                                                        }}
                                                     >
                                                         <input
                                                             type="checkbox"
                                                             checked={formData.amenities.includes(amenity)}
                                                             className="hidden"
-                                                            onChange={(e) => {
-                                                                const amenities = e.target.checked
-                                                                    ? [...formData.amenities, amenity]
-                                                                    : formData.amenities.filter((a) => a !== amenity);
-                                                                setFormData({ ...formData, amenities });
-                                                            }}
+                                                            onChange={() => { }}
                                                         />
                                                         {amenityIcons[amenity]}
                                                         <span className="capitalize">{amenity}</span>
@@ -378,7 +422,7 @@ const AddWorkspaceForm = () => {
                                         <textarea
                                             rows={4}
                                             value={formData.description}
-                                            className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500"
+                                            className="p-3 w-full rounded-lg border focus:ring-2 focus:ring-blue-500"
                                             onChange={(e) =>
                                                 setFormData({ ...formData, description: e.target.value })
                                             }
@@ -392,7 +436,7 @@ const AddWorkspaceForm = () => {
                                 {currentStep > 1 && (
                                     <button
                                         type="button"
-                                        onClick={() => setCurrentStep(currentStep - 1)}
+                                        onClick={() => handleStepChange(currentStep - 1)}
                                         className="px-6 py-2 text-gray-600 hover:text-gray-800"
                                     >
                                         Previous
@@ -400,13 +444,12 @@ const AddWorkspaceForm = () => {
                                 )}
                                 <button
                                     type={currentStep === 3 ? 'submit' : 'button'}
-                                    onClick={() => currentStep < 3 && setCurrentStep(currentStep + 1)}
-                                    className="px-6 py-2 ml-auto text-white transition-colors rounded-lg bg-primary hover:bg-primary"
+                                    onClick={() => currentStep < 3 && handleStepChange(currentStep + 1)}
+                                    className="px-6 py-2 ml-auto text-white rounded-lg transition-colors bg-primary hover:bg-primary"
                                 >
                                     {currentStep === 3 ? 'Submit Workspace' : 'Next'}
                                 </button>
                             </div>
-                            <p>{msg}</p>
                         </form>
                     </div>
                 </div>

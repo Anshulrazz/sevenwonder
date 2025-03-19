@@ -8,11 +8,12 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card"
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { Header } from "@/components/header"
 import { useAppDispatch } from "@/hooks/hooks"
 import { loginUser } from "@/lib/actions/user"
 import { FcGoogle } from "react-icons/fc" // Google icon for button
-
+import axios from "axios"
 export default function LoginPage() {
   const dispatch = useAppDispatch();
   const [formData, setFormData] = useState({
@@ -21,6 +22,12 @@ export default function LoginPage() {
   })
   const [error, setError] = useState("")
   const router = useRouter()
+  
+  // State for forgot password popup
+  const [forgotPasswordOpen, setForgotPasswordOpen] = useState(false)
+  const [resetEmail, setResetEmail] = useState("")
+  const [resetEmailSent, setResetEmailSent] = useState(false)
+  const [resetError, setResetError] = useState("")
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
@@ -57,11 +64,37 @@ export default function LoginPage() {
     }
   }
 
+  const handleForgotPasswordClick = (e: React.MouseEvent) => {
+    e.preventDefault()
+    setResetEmail(formData.email) // Pre-fill with email from login form if available
+    setResetEmailSent(false)
+    setResetError("")
+    setForgotPasswordOpen(true)
+  }
+
+  const handleResetSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setResetError("")
+    
+    if (!resetEmail) {
+      setResetError("Please enter your email address")
+      return
+    }
+    
+    try {
+      const response = await axios.post("http://localhost:4000/api/auth/forgot-password", { email: resetEmail })
+      setResetEmailSent(true)
+      // Reset form is kept open to show success message
+    } catch (err) {
+      setResetError("Failed to send reset email. Please try again.")
+    }
+  }
+
   return (
     <>
       <Header />
-      <div className="flex flex-col items-center justify-center min-h-screen p-4 bg-gray-0">
-        <Link href="/" className="flex items-center gap-2 mb-8">
+      <div className="flex flex-col justify-center items-center p-4 min-h-screen bg-gray-0">
+        <Link href="/" className="flex gap-2 items-center mb-8">
           <Image src={logo} alt="Seven Wonders" width={32} height={32} />
           <span className="text-2xl font-semibold">Seven Wonders</span>
         </Link>
@@ -107,19 +140,74 @@ export default function LoginPage() {
               <span className="px-2 text-sm text-gray-500">OR</span>
               <div className="flex-grow border-t border-gray-300"></div>
             </div>
-            <Button onClick={handleGoogleLogin} variant="outline" className="w-full flex items-center justify-center gap-2">
+            <Button onClick={handleGoogleLogin} variant="outline" className="flex gap-2 justify-center items-center w-full">
               <FcGoogle size={20} /> Continue with Google
             </Button>
           </CardContent>
           <CardFooter className="flex justify-between">
-            <Link href="/forgot-password" className="text-sm text-primary ">
+            <button 
+              onClick={handleForgotPasswordClick} 
+              className="text-sm text-primary hover:underline"
+            >
               Forgot password?
-            </Link>
-            <Link href="/register" className="text-sm text-primary ">
+            </button>
+            <Link href="/register" className="text-sm text-primary hover:underline">
               Create an account
             </Link>
           </CardFooter>
         </Card>
+
+        {/* Forgot Password Dialog */}
+        <Dialog open={forgotPasswordOpen} onOpenChange={setForgotPasswordOpen}>
+          <DialogContent className="sm:max-w-md">
+            <DialogHeader>
+              <DialogTitle>Reset your password</DialogTitle>
+              <DialogDescription>
+                Enter your email address and we'll send you a link to reset your password.
+              </DialogDescription>
+            </DialogHeader>
+            
+            {resetEmailSent ? (
+              <div className="py-4 text-center">
+                <p className="mb-2 text-green-600">✓ Reset email sent!</p>
+                <p className="text-sm text-gray-600">
+                  Check your email for a link to reset your password. If it doesn't appear within a few minutes, check your spam folder.
+                </p>
+              </div>
+            ) : (
+              <form onSubmit={handleResetSubmit} className="space-y-4">
+                <div className="space-y-2">
+                  <Label htmlFor="reset-email">Email</Label>
+                  <Input
+                    id="reset-email"
+                    type="email"
+                    placeholder="you@example.com"
+                    value={resetEmail}
+                    onChange={(e) => setResetEmail(e.target.value)}
+                    required
+                  />
+                </div>
+                {resetError && <p className="text-sm text-red-500">{resetError}</p>}
+                <DialogFooter className="sm:justify-between">
+                  <Button type="button" variant="outline" onClick={() => setForgotPasswordOpen(false)}>
+                    Cancel
+                  </Button>
+                  <Button type="submit">
+                    Send reset link
+                  </Button>
+                </DialogFooter>
+              </form>
+            )}
+            
+            {resetEmailSent && (
+              <DialogFooter>
+                <Button type="button" onClick={() => setForgotPasswordOpen(false)}>
+                  Close
+                </Button>
+              </DialogFooter>
+            )}
+          </DialogContent>
+        </Dialog>
       </div>
     </>
   )

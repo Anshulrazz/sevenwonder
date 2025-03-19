@@ -1,8 +1,8 @@
 "use client"
 
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import Link from "next/link"
-import { Phone, Menu } from "lucide-react"
+import { Phone, Menu, ChevronDown, ChevronRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
 import Image from "next/image"
@@ -10,7 +10,6 @@ import logo from '../app/logo.png'
 import { useAppDispatch, useAppSelector } from "@/hooks/hooks"
 import { useRouter } from "next/navigation"
 import { getContacts, getRequirment, loadUser } from "@/lib/actions/user"
-
 
 const navItems = [
   {
@@ -83,29 +82,36 @@ const navItems = [
   }
 ];
 
-
 export function Header() {
-  const { isAuthenticated, } = useAppSelector((state) => state.user);// Manage authentication state
+  const { isAuthenticated } = useAppSelector((state) => state.user);
   const router = useRouter();
   const dispatch = useAppDispatch();
+  const [openItems, setOpenItems] = useState({});
+  const [isScrolled, setIsScrolled] = useState(false);
+
   useEffect(() => {
     dispatch(loadUser());
     dispatch(getContacts());
     dispatch(getRequirment());
+    
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 10);
+    };
+    
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, [dispatch]);
+
   const handleLogout = () => {
-    fetch("http://localhost:4000/api/auth/logout", {
+    fetch("https://api.sevenwonder.in/api/auth/logout", {
       method: "GET",
       credentials: "include",
     })
       .then((response) => {
         if (response.ok) {
-          // Handle successful logout
           router.push("/login");
-          //refresh 
           window.location.reload();
         } else {
-          // Handle error
           console.error("Logout failed");
         }
       })
@@ -115,32 +121,45 @@ export function Header() {
   }
 
   const handleLogin = () => {
-    router.push("/login")
+    router.push("/login");
+  }
+
+  const toggleDropdown = (itemName) => {
+    setOpenItems(prev => ({
+      ...prev,
+      [itemName]: !prev[itemName]
+    }));
   }
 
   return (
-    <header className="fixed z-50 w-full border-b bg-white/80 backdrop-blur-sm">
-
-      <div className="container flex items-center justify-between h-16 px-4 mx-auto">
-        <Link href="/" className="flex items-center gap-2">
-          <Image src={logo} alt="Seven Wonders" width={32} height={32} />
-          <span className="text-xl font-semibold">Seven Wonders</span>
+    <header className={`fixed z-50 w-full border-b transition-all duration-300 ${
+      isScrolled ? "shadow-sm backdrop-blur-md bg-white/90" : "backdrop-blur-sm bg-white/80"
+    }`}>
+      <div className="container flex justify-between items-center px-4 mx-auto h-16">
+        <Link href="/" className="flex gap-2 items-center">
+          <Image src={logo} alt="Seven Wonders" width={32} height={32} className="object-contain" />
+          <span className="text-lg font-semibold md:text-xl">Seven Wonders</span>
         </Link>
 
-        <nav className="items-center hidden gap-4 lg:flex">
+        {/* Desktop Navigation */}
+        <nav className="hidden gap-4 items-center lg:flex">
           {navItems.map((item) => (
             <div key={item.name} className="relative group">
-              <Link href={item.href} className="py-2">
+              <Link 
+                href={item.href} 
+                className="flex gap-1 items-center px-1 py-2 text-gray-700 transition-colors hover:text-black"
+              >
                 {item.name}
+                <ChevronDown className="w-4 h-4 opacity-60 transition-opacity group-hover:opacity-100" />
               </Link>
               {item.dropdown && (
-                <div className="absolute left-0 invisible w-48 mt-2 transition-all duration-300 ease-in-out bg-white rounded-md shadow-lg opacity-0 ring-1 ring-black ring-opacity-5 group-hover:opacity-100 group-hover:visible">
-                  <div className="py-1">
+                <div className="absolute left-0 invisible z-50 mt-2 w-56 bg-white rounded-md ring-1 shadow-lg opacity-0 transition-all duration-200 ease-in-out ring-black/5 group-hover:opacity-100 group-hover:visible">
+                  <div className="overflow-hidden py-1 rounded-md">
                     {item.dropdown.map((subItem) => (
                       <Link
                         key={subItem.name}
                         href={subItem.href}
-                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-black"
                       >
                         {subItem.name}
                       </Link>
@@ -150,71 +169,97 @@ export function Header() {
               )}
             </div>
           ))}
-
         </nav>
 
-        <div className="items-center hidden gap-4 lg:flex">
-          <Link href="tel:+919015651565" className="flex items-center gap-2">
+        {/* Desktop Call/Login */}
+        <div className="hidden gap-4 items-center lg:flex">
+          <Link href="tel:+919015651565" className="flex gap-2 items-center text-gray-700 transition-colors hover:text-black">
             <Phone className="w-4 h-4" />
             <span>+91-90-1565-1565</span>
           </Link>
           {isAuthenticated ? (
-            <Button variant="outline" onClick={handleLogout}>
+            <Button variant="outline" onClick={handleLogout} className="hover:bg-gray-100">
               LOGOUT
             </Button>
           ) : (
-            <Button variant="outline" onClick={handleLogin}>
+            <Button variant="outline" onClick={handleLogin} className="hover:bg-gray-100">
               LOGIN
             </Button>
           )}
         </div>
 
-        <Sheet>
-          <SheetTrigger asChild>
-            <Button variant="ghost" size="icon" className="lg:hidden">
-              <Menu className="w-6 h-6" />
-              <span className="sr-only">Open menu</span>
-            </Button>
-          </SheetTrigger>
-          <SheetContent side="right">
-            <SheetHeader>
-              <SheetTitle>Menu</SheetTitle>
-            </SheetHeader>
-            <nav className="flex flex-col gap-4 mt-8">
-              {navItems.map((item) => (
-                <div key={item.name}>
-                  <Link href={item.href} className="text-lg font-semibold">
-                    {item.name}
-                  </Link>
-                  {item.dropdown && (
-                    <div className="flex flex-col gap-2 mt-2 ml-4">
-                      {item.dropdown.map((subItem) => (
-                        <Link key={subItem.name} href={subItem.href} className="text-sm text-gray-600">
-                          {subItem.name}
-                        </Link>
-                      ))}
+        {/* Mobile Login Button */}
+        <div className="flex gap-2 items-center lg:hidden">
+          <Link href="tel:+919015651565" className="flex justify-center items-center w-8 h-8 text-gray-700">
+            <Phone className="w-5 h-5" />
+          </Link>
+          
+          <Sheet>
+            <SheetTrigger asChild>
+              <Button variant="ghost" size="icon" className="lg:hidden">
+                <Menu className="w-6 h-6" />
+                <span className="sr-only">Open menu</span>
+              </Button>
+            </SheetTrigger>
+            <SheetContent side="right" className="w-[280px] sm:w-[350px] overflow-y-auto">
+              <SheetHeader>
+                <SheetTitle className="flex gap-2 items-center">
+                  <Image src={logo} alt="Seven Wonders" width={24} height={24} />
+                  <span>Seven Wonders</span>
+                </SheetTitle>
+              </SheetHeader>
+              
+              <nav className="flex flex-col gap-1 mt-6">
+                {navItems.map((item) => (
+                  <div key={item.name} className="py-1 border-b border-gray-100">
+                    <div 
+                      className="flex justify-between items-center py-2 cursor-pointer"
+                      onClick={() => toggleDropdown(item.name)}
+                    >
+                      <span className="font-medium">{item.name}</span>
+                      {item.dropdown && (
+                        openItems[item.name] ? 
+                          <ChevronDown className="w-4 h-4" /> : 
+                          <ChevronRight className="w-4 h-4" />
+                      )}
                     </div>
-                  )}
-                </div>
-              ))}
-            </nav>
-            <div className="flex flex-col gap-4 mt-8">
-              <Link href="tel:+91 90156 51565" className="flex items-center gap-2">
-                <Phone className="w-4 h-4" />
-                <span>+91 90156 51565</span>
-              </Link>
-              {isAuthenticated ? (
-                <Button variant="outline" className="w-full" onClick={handleLogout}>
-                  LOGOUT
-                </Button>
-              ) : (
-                <Button variant="outline" className="w-full" onClick={handleLogin}>
-                  LOGIN
-                </Button>
-              )}
-            </div>
-          </SheetContent>
-        </Sheet>
+                    
+                    {item.dropdown && openItems[item.name] && (
+                      <div className="flex flex-col gap-1 pl-2 mt-1 mb-2 ml-4 border-l border-gray-100">
+                        {item.dropdown.map((subItem) => (
+                          <Link 
+                            key={subItem.name} 
+                            href={subItem.href} 
+                            className="py-2 text-sm text-gray-600 hover:text-black"
+                          >
+                            {subItem.name}
+                          </Link>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </nav>
+              
+              <div className="flex flex-col gap-4 mt-8">
+                <Link href="tel:+919015651565" className="flex gap-2 justify-center items-center py-2 rounded-md border">
+                  <Phone className="w-4 h-4" />
+                  <span>+91 90156 51565</span>
+                </Link>
+                
+                {isAuthenticated ? (
+                  <Button variant="outline" className="w-full" onClick={handleLogout}>
+                    LOGOUT
+                  </Button>
+                ) : (
+                  <Button variant="outline" className="w-full" onClick={handleLogin}>
+                    LOGIN
+                  </Button>
+                )}
+              </div>
+            </SheetContent>
+          </Sheet>
+        </div>
       </div>
     </header>
   )
