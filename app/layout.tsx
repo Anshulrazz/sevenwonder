@@ -90,7 +90,7 @@ export default function RootLayout({
     
     // Play sound on user interaction
     const handleUserInteraction = () => {
-      const audio = new Audio("/sound.mp3");
+      const audio = new Audio("/souund.mp3");
       audio.play().catch((error) => console.log("Audio playback error:", error));
       
       // Remove event listeners after first interaction
