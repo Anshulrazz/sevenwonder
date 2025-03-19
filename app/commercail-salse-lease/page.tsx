@@ -141,7 +141,7 @@ export default function CommercialProperties() {
                     {!isLoading && (
                         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                             {filteredProperties.map((workspace) => (
-                                <Link key={workspace._id} href={`/commercial/${workspace._id}`} className="h-full">
+                                <Link key={workspace._id} href={`/commercail-salse-lease/${workspace._id}`} className="h-full">
                                     <Card
                                         className="overflow-hidden h-full flex flex-col shadow-md hover:shadow-2xl hover:translate-y-[-5px] rounded-xl"
                                     >
