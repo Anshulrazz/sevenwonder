@@ -4,6 +4,7 @@ import Image from "next/image";
 import { Card } from "@/components/ui/card";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
+import { Pagination } from "@/components/ui/pagination";
 import Link from "next/link";
 import axios from "axios";
 
@@ -79,6 +80,8 @@ export default function ProjectsCommercial() {
     const handlePageChange = (newPage: number) => {
         if (newPage >= 1 && newPage <= totalPages) {
             setCurrentPage(newPage);
+            // Scroll to top of the results
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
     };
 
@@ -93,7 +96,10 @@ export default function ProjectsCommercial() {
                             className={`p-2 rounded ${
                                 activeTab === category ? "bg-primary text-white" : "bg-gray-200"
                             }`}
-                            onClick={() => setActiveTab(category)}
+                            onClick={() => {
+                                setActiveTab(category);
+                                setCurrentPage(1); // Reset to first page when changing category
+                            }}
                         >
                             {category}
                         </button>
@@ -105,28 +111,40 @@ export default function ProjectsCommercial() {
                         type="text"
                         placeholder="Search by name or location"
                         value={searchQuery}
-                        onChange={(e) => setSearchQuery(e.target.value)}
+                        onChange={(e) => {
+                            setSearchQuery(e.target.value);
+                            setCurrentPage(1); // Reset to first page when searching
+                        }}
                         className="p-2 rounded border"
                     />
                     <input
                         type="text"
                         placeholder="Filter by location"
                         value={locationFilter}
-                        onChange={(e) => setLocationFilter(e.target.value)}
+                        onChange={(e) => {
+                            setLocationFilter(e.target.value);
+                            setCurrentPage(1); // Reset to first page when filtering
+                        }}
                         className="p-2 rounded border"
                     />
                     <input
                         type="number"
                         placeholder="Min Price"
                         value={minPrice}
-                        onChange={(e) => setMinPrice(e.target.value)}
+                        onChange={(e) => {
+                            setMinPrice(e.target.value);
+                            setCurrentPage(1); // Reset to first page when changing price
+                        }}
                         className="p-2 rounded border"
                     />
                     <input
                         type="number"
                         placeholder="Max Price"
                         value={maxPrice}
-                        onChange={(e) => setMaxPrice(e.target.value)}
+                        onChange={(e) => {
+                            setMaxPrice(e.target.value);
+                            setCurrentPage(1); // Reset to first page when changing price
+                        }}
                         className="p-2 rounded border"
                     />
                 </div>
@@ -140,52 +158,43 @@ export default function ProjectsCommercial() {
                     </div>
                 </div>
             ) : (
-                <section className="grid grid-cols-1 gap-6 p-6 md:grid-cols-2 lg:grid-cols-3">
-                    {displayedProjects.length > 0 ? (
-                        displayedProjects.map((center) => (
-                            <Card key={center._id} className="p-4">
-                                <div className="relative w-full h-56">
-                                    <Image
-                                        src={`https://api.sevenwonder.in${center.images[0]}`}
-                                        alt={center.title}
-                                        fill
-                                        className="rounded-lg object-cover"
-                                    />
-                                </div>
-                                <h3 className="mt-2 font-semibold">{center.title}</h3>
-                                <p className="text-sm text-gray-600">Price: ₹{center.rent.toLocaleString()}</p>
-                                <Link
-                                    href={`/projects-commercial/${center._id}`}
-                                    className="text-blue-500 hover:underline"
-                                >
-                                    View Details
-                                </Link>
-                            </Card>
-                        ))
-                    ) : (
-                        <p className="col-span-full text-center text-gray-500">No projects found.</p>
-                    )}
-                </section>
-            )}
+                <>
+                    <section className="grid grid-cols-1 gap-6 p-6 md:grid-cols-2 lg:grid-cols-3">
+                        {displayedProjects.length > 0 ? (
+                            displayedProjects.map((center) => (
+                                <Card key={center._id} className="p-4">
+                                    <div className="relative w-full h-56">
+                                        <Image
+                                            src={`https://api.sevenwonder.in${center.images[0]}`}
+                                            alt={center.title}
+                                            fill
+                                            className="rounded-lg object-cover"
+                                        />
+                                    </div>
+                                    <h3 className="mt-2 font-semibold">{center.title}</h3>
+                                    <p className="text-sm text-gray-600">Price: ₹{center.rent.toLocaleString()}</p>
+                                    <Link
+                                        href={`/projects-commercial/${center._id}`}
+                                        className="text-blue-500 hover:underline"
+                                    >
+                                        View Details
+                                    </Link>
+                                </Card>
+                            ))
+                        ) : (
+                            <p className="col-span-full text-center text-gray-500">No projects found.</p>
+                        )}
+                    </section>
 
-            {totalPages > 1 && (
-                <div className="flex gap-4 justify-center py-6">
-                    <button
-                        onClick={() => handlePageChange(currentPage - 1)}
-                        disabled={currentPage === 1}
-                        className="px-4 py-2 bg-gray-300 rounded"
-                    >
-                        Previous
-                    </button>
-                    <span className="px-4 py-2">{`Page ${currentPage} of ${totalPages}`}</span>
-                    <button
-                        onClick={() => handlePageChange(currentPage + 1)}
-                        disabled={currentPage === totalPages}
-                        className="px-4 py-2 bg-gray-300 rounded"
-                    >
-                        Next
-                    </button>
-                </div>
+                    {totalPages > 1 && (
+                        <Pagination
+                            currentPage={currentPage}
+                            totalPages={totalPages}
+                            onPageChange={handlePageChange}
+                            className="py-6"
+                        />
+                    )}
+                </>
             )}
 
             <Footer />

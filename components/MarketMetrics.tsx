@@ -10,9 +10,9 @@ interface MetricCardProps {
 }
 
 const MetricCard: React.FC<MetricCardProps> = ({ title, value, change, isPositive, icon }) => (
-  <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
-    <div className="flex items-center justify-between mb-4">
-      <span className="text-gray-500 text-sm">{title}</span>
+  <div className="p-6 bg-white rounded-xl border border-gray-100 shadow-sm">
+    <div className="flex justify-between items-center mb-4">
+      <span className="text-sm text-gray-500">{title}</span>
       <span className="text-gray-600">{icon}</span>
     </div>
     <div className="flex items-baseline">
@@ -36,7 +36,7 @@ export const MarketMetrics: React.FC = () => {
     },
     {
       title: 'Commercial Rates',
-      value: '₹3000/sqft',
+      value: '₹15000/sqft',
       change: '-2.1%',
       isPositive: false,
       icon: <Building2 size={20} />
@@ -50,7 +50,7 @@ export const MarketMetrics: React.FC = () => {
     },
     {
       title: 'Rental Yield',
-      value: '5.8%',
+      value: '2.8%',
       change: '+0.5%',
       isPositive: true,
       icon: <DollarSign size={20} />
@@ -58,7 +58,7 @@ export const MarketMetrics: React.FC = () => {
   ];
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+    <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
       {metrics.map((metric, index) => (
         <MetricCard key={index} {...metric} />
       ))}

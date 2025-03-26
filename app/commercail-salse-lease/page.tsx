@@ -1,246 +1,263 @@
-"use client";
+'use client';
 
-import * as React from "react";
-import { useState, useEffect, useMemo } from "react";
-import Image from "next/image";
-import { Card } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
+import React from 'react';
+import Image from 'next/image';
+import { motion } from 'framer-motion';
+import { FaBuilding, FaMapMarkerAlt, FaDollarSign, FaPhone, FaEnvelope, FaChartLine, FaHandshake, FaFileContract, FaUsers, FaShieldAlt, FaLightbulb, FaCalculator, FaChartBar } from 'react-icons/fa';
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
-import { Search, MapPin, Building, Tag, ArrowRight } from "lucide-react";
-import axios from "axios";
-import Link from "next/link";
+const CommercialSalesLease = () => {
+    const benefits = [
+        {
+            icon: <FaChartLine className="text-4xl text-[#DD1D4A]" />,
+            title: "Market Analysis",
+            description: "Comprehensive market research and analysis to help you make informed decisions about your commercial real estate investment."
+        },
+        {
+            icon: <FaHandshake className="text-4xl text-[#DD1D4A]" />,
+            title: "Expert Negotiation",
+            description: "Skilled negotiators who work to secure the best possible terms for your commercial property transaction."
+        },
+        {
+            icon: <FaFileContract className="text-4xl text-[#DD1D4A]" />,
+            title: "Legal Compliance",
+            description: "Ensure all transactions comply with local, state, and federal regulations for commercial real estate."
+        }
+    ];
 
-export default function CommercialProperties() {
-    const [properties, setProperties] = useState([]);
-    const [searchQuery, setSearchQuery] = useState("");
-    const [workspaceType, setWorkspaceType] = useState("");
-    const [priceRange, setPriceRange] = useState("");
-    const [isLoading, setIsLoading] = useState(true);
+    const types = [
+        {
+            title: "Office Space",
+            description: "Professional spaces suitable for businesses, from small startups to large corporations.",
+            features: ["Modern amenities", "High-speed internet", "Meeting rooms", "Parking facilities"]
+        },
+        {
+            title: "Retail Space",
+            description: "Prime locations for retail businesses with high foot traffic and visibility.",
+            features: ["Storefront access", "Display windows", "Loading areas", "Customer parking"]
+        },
+        {
+            title: "Industrial Space",
+            description: "Functional spaces designed for manufacturing, warehousing, and distribution.",
+            features: ["High ceilings", "Loading docks", "Heavy-duty flooring", "Security systems"]
+        }
+    ];
 
-    // Fetch commercial properties data from the API
-    useEffect(() => {
-        const fetchProperties = async () => {
-            setIsLoading(true);
-            try {
-                const response = await axios.get("https://api.sevenwonder.in/api/workspace");
-                if (response.data && response.data.success) {
-                    // No longer filtering by workspaceType - showing all workspaces
-                    setProperties(response.data.workspaces);
-                } else {
-                    console.error("Failed to fetch properties: ", response.data?.message || "Unknown error");
-                }
-            } catch (error) {
-                console.error("Error fetching properties:", error);
-            } finally {
-                setIsLoading(false);
-            }
-        };
+    const additionalServices = [
+        {
+            icon: <FaUsers className="text-4xl text-[#DD1D4A]" />,
+            title: "Tenant Representation",
+            description: "Expert guidance in finding and securing the perfect commercial space for your business needs."
+        },
+        {
+            icon: <FaShieldAlt className="text-4xl text-[#DD1D4A]" />,
+            title: "Risk Assessment",
+            description: "Comprehensive evaluation of potential risks and opportunities in commercial real estate investments."
+        },
+        {
+            icon: <FaLightbulb className="text-4xl text-[#DD1D4A]" />,
+            title: "Strategic Planning",
+            description: "Long-term planning and strategy development for your commercial real estate portfolio."
+        }
+    ];
 
-        fetchProperties();
-    }, []);
-
-    // Filter properties based on search query and filters
-    const filteredProperties = useMemo(() => {
-        return properties.filter((workspace) => {
-            const matchesQuery = searchQuery
-                ? ((workspace.workspaceName?.toLowerCase() || "").includes(searchQuery.toLowerCase()) ||
-                    (workspace.address?.toLowerCase() || "").includes(searchQuery.toLowerCase()))
-                : true;
-            const matchesType = workspace.workspaceType === "commercial-office"
-
-            // Adapt to check pricePerHour instead of price
-            const matchesPrice = priceRange
-                ? (workspace.pricePerHour && workspace.pricePerHour <= parseInt(priceRange))
-                : true;
-
-            return matchesQuery && matchesType && matchesPrice;
-        });
-    }, [searchQuery, workspaceType, priceRange, properties]);
-
-    // Format price with commas for Indian currency
-    const formatPrice = (price) => {
-        if (!price) return "0";
-        return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-    };
+    const marketInsights = [
+        {
+            icon: <FaCalculator className="text-4xl text-[#DD1D4A]" />,
+            title: "Financial Analysis",
+            description: "Detailed financial modeling and analysis to evaluate investment opportunities and returns."
+        },
+        {
+            icon: <FaChartBar className="text-4xl text-[#DD1D4A]" />,
+            title: "Market Trends",
+            description: "Stay informed about current market trends and future projections in commercial real estate."
+        }
+    ];
 
     return (
-        <>
+        <div className="min-h-screen bg-gray-50">
             <Header />
-            <section className="relative py-16 md:py-24">
-                <div className="container px-4 mx-auto">
-                    {/* Hero Section with Search */}
-                    <div className="overflow-hidden relative z-10 py-12 mb-12 text-center rounded-2xl shadow-xl">
-                        <div className="absolute inset-0 -z-10">
-                            <div className="relative w-full h-full">
-                                <Image
-                                    src="https://i.etsystatic.com/43771025/r/il/e478bf/5018553333/il_fullxfull.5018553333_1rlm.jpg"
-                                    alt="Commercial Buildings"
-                                    fill
-                                    className="object-cover object-center brightness-95"
-                                    priority
-                                />
-                            </div>
-                            <div className="absolute inset-0 bg-black bg-opacity-40"></div>
-                        </div>
-                        <h1 className="mb-4 text-4xl font-bold text-white sm:text-5xl md:text-6xl">
-                            Find Your Perfect <span className="text-yellow-400">Workspace</span>
-                        </h1>
-                        <p className="mx-auto mb-8 max-w-2xl text-lg text-white md:text-xl">
-                            Discover premium offices, co-working spaces, and flexible work environments for your growing business needs.
-                        </p>
-                        <div className="flex flex-row gap-4 items-center p-4 mx-auto max-w-xl bg-white rounded-lg shadow-lg">
-                            <div className="relative flex-1">
-                                <Search className="absolute top-3 left-3 text-gray-400" size={20} />
-                                <Input
-                                    placeholder="Search by workspace name or location..."
-                                    value={searchQuery}
-                                    onChange={(e) => setSearchQuery(e.target.value)}
-                                    className="py-3 pr-4 pl-10 w-full text-lg rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                />
-                            </div>
-                            <select
-                                className="p-3 text-gray-700 bg-gray-50 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:outline-none shrink-0"
-                                value={priceRange}
-                                onChange={(e) => setPriceRange(e.target.value)}
-                                aria-label="Price range filter"
-                            >
-                                <option value="">Any Budget</option>
-                                <option value="5000">Under ₹5,000</option>
-                                <option value="10000">Under ₹10,000</option>
-                                <option value="20000">Under ₹20,000</option>
-                                <option value="50000">Under ₹50,000</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    {/* Properties Section */}
-                    <div className="mb-8">
-                        <div className="flex justify-between items-center">
-                            <h2 className="font-sans text-3xl font-bold text-gray-800">
-                                Available Workspaces <span className="text-yellow-400">For You</span> 🏢
-                            </h2>
-                            <p className="text-gray-600">
-                                {filteredProperties.length} properties found
-                            </p>
-                        </div>
-                        <div className="mt-2 mb-6 w-20 h-1 bg-yellow-400 rounded-full"></div>
-                    </div>
-
-                    {/* Loading State */}
-                    {isLoading && (
-                        <div className="flex justify-center items-center py-20">
-                            <div className="flex flex-col items-center animate-pulse">
-                                <div className="w-16 h-16 rounded-full border-4 border-blue-500 animate-spin border-t-transparent"></div>
-                                <p className="mt-4 text-gray-600">Loading available properties...</p>
-                            </div>
-                        </div>
-                    )}
-
-                    {/* Grid of workspace Cards */}
-                    {!isLoading && (
-                        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-                            {filteredProperties.map((workspace) => (
-                                <Link key={workspace._id} href={`/commercail-salse-lease/${workspace._id}`} className="h-full">
-                                    <Card
-                                        className="overflow-hidden h-full flex flex-col shadow-md hover:shadow-2xl hover:translate-y-[-5px] rounded-xl"
-                                    >
-                                        <div className="overflow-hidden relative w-full h-60">
-                                            <div className="relative w-full h-full">
-                                                <Image
-                                                    src={workspace.images && workspace.images.length > 0
-                                                        ? `https://api.sevenwonder.in${workspace.images[0]}`
-                                                        : "https://api.sevenwonder.in/placeholder.svg"}
-                                                    alt={workspace.workspaceName || "Commercial workspace"}
-                                                    fill
-                                                    className="object-cover hover:scale-105"
-                                                />
-                                            </div>
-                                            <div className="absolute bottom-0 left-0 px-3 py-1 m-3 text-sm font-medium text-white bg-yellow-400 rounded-full">
-                                                {workspace.workspaceType === "coworking-space" ? "Co-working" : workspace.workspaceType === "private-office" ? "Private Office" : "Workspace"}
-                                            </div>
-                                        </div>
-                                        <div className="flex flex-col flex-grow p-6 bg-white">
-                                            <h3 className="mb-2 text-xl font-semibold text-gray-800 line-clamp-2">
-                                                {workspace.workspaceName || "Unnamed workspace"}
-                                            </h3>
-                                            <div className="flex gap-2 items-start mb-3 text-gray-600">
-                                                <MapPin size={18} className="mt-1 shrink-0" />
-                                                <p className="line-clamp-2">{workspace.address || "Address not available"}</p>
-                                            </div>
-                                            {workspace.description && (
-                                                <p className="mb-3 text-sm text-gray-600 line-clamp-2">
-                                                    {workspace.description}
-                                                </p>
-                                            )}
-                                            <div className="pt-4 mt-auto border-t border-gray-100">
-                                                <p className="mb-2 text-xl font-bold text-yellow-400">
-                                                    ₹{formatPrice(workspace.pricePerHour)}
-                                                    <span className="ml-1 text-sm font-normal text-gray-500">
-                                                        / hour
-                                                    </span>
-                                                </p>
-                                                <div className="flex flex-wrap gap-2 mt-2">
-                                                    <div className="flex items-center px-3 py-1 text-sm text-gray-500 bg-gray-100 rounded-full">
-                                                        <Building size={14} className="mr-1" />
-                                                        Capacity: {workspace.capacity || "N/A"}
-                                                    </div>
-                                                    {workspace.amenities && workspace.amenities.length > 0 && (
-                                                        <div className="flex items-center px-3 py-1 text-sm text-gray-500 bg-gray-100 rounded-full">
-                                                            <Tag size={14} className="mr-1" />
-                                                            {workspace.amenities.slice(0, 2).join(", ")}
-                                                            {workspace.amenities.length > 2 ? "..." : ""}
-                                                        </div>
-                                                    )}
-                                                </div>
-                                                <div className="flex items-center mt-4 text-sm font-medium text-yellow-400 hover:underline">
-                                                    View details <ArrowRight size={16} className="ml-1" />
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </Card>
-                                </Link>
-                            ))}
-                        </div>
-                    )}
-
-                    {/* No Results Message */}
-                    {!isLoading && filteredProperties.length === 0 && (
-                        <div className="py-16 text-center bg-gray-50 rounded-xl">
-                            <Building size={64} className="mx-auto mb-4 text-gray-400" />
-                            <h3 className="mb-2 text-2xl font-semibold text-gray-700">No workspaces found</h3>
-                            <p className="mb-6 text-gray-600">
-                                We couldn't find any workspaces matching your search criteria.
-                            </p>
-                            <button
-                                onClick={() => {
-                                    setSearchQuery("");
-                                    setWorkspaceType("");
-                                    setPriceRange("");
-                                }}
-                                className="px-6 py-3 text-white bg-yellow-400 rounded-lg hover:bg-blue-700"
-                            >
-                                Clear all filters
+            {/* Hero Section */}
+            <section className="relative h-[70vh] bg-gradient-to-r from-[#DD1D4A] to-[#B3183F]">
+                <div className="absolute inset-0 bg-black opacity-40"></div>
+                <div className="container flex relative z-10 items-center px-4 mx-auto h-full">
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.8 }}
+                        className="max-w-2xl text-white"
+                    >
+                        <h1 className="mb-6 text-5xl font-bold">Commercial Real Estate Solutions</h1>
+                        <p className="mb-8 text-xl">Your trusted partner in commercial property sales and leasing</p>
+                        <div className="flex gap-4">
+                            <button className="px-8 py-3 font-semibold text-[#DD1D4A] bg-white rounded-lg transition hover:bg-gray-100">
+                                Learn More
+                            </button>
+                            <button className="px-8 py-3 font-semibold text-white rounded-lg border-2 border-white transition hover:bg-white hover:text-[#DD1D4A]">
+                                Get Started
                             </button>
                         </div>
-                    )}
+                    </motion.div>
+                </div>
+            </section>
 
-                    {/* Call to Action */}
-                    <div className="p-8 mt-20 text-center bg-blue-50 rounded-xl">
-                        <h3 className="mb-3 text-2xl font-bold text-gray-800">
-                            Need a custom workspace solution?
-                        </h3>
-                        <p className="mx-auto mb-6 max-w-2xl text-gray-600">
-                            Our workspace experts can help you find the perfect environment
-                            tailored to your specific business requirements.
-                        </p>
-                        <Link href="/contact" className="inline-flex items-center px-6 py-3 text-white bg-yellow-400 rounded-lg hover:bg-blue-700">
-                            Contact Our Team <ArrowRight size={16} className="ml-2" />
-                        </Link>
+            {/* Why Choose Us Section */}
+            <section className="py-20 bg-white">
+                <div className="container px-4 mx-auto">
+                    <h2 className="mb-12 text-3xl font-bold text-center">Why Choose Us</h2>
+                    <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
+                        {benefits.map((benefit, index) => (
+                            <motion.div
+                                key={index}
+                                initial={{ opacity: 0, y: 20 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 0.5, delay: index * 0.2 }}
+                                className="p-6 bg-gray-50 rounded-lg"
+                            >
+                                <div className="mb-4">{benefit.icon}</div>
+                                <h3 className="mb-2 text-xl font-semibold">{benefit.title}</h3>
+                                <p className="text-gray-600">{benefit.description}</p>
+                            </motion.div>
+                        ))}
+                    </div>
+                </div>
+            </section>
+
+            {/* Types of Commercial Space */}
+            <section className="py-20 bg-gray-50">
+                <div className="container px-4 mx-auto">
+                    <h2 className="mb-12 text-3xl font-bold text-center">Types of Commercial Space</h2>
+                    <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
+                        {types.map((type, index) => (
+                            <motion.div
+                                key={index}
+                                initial={{ opacity: 0, y: 20 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 0.5, delay: index * 0.2 }}
+                                className="p-6 bg-white rounded-lg shadow-lg"
+                            >
+                                <h3 className="mb-4 text-xl font-semibold">{type.title}</h3>
+                                <p className="mb-4 text-gray-600">{type.description}</p>
+                                <ul className="space-y-2">
+                                    {type.features.map((feature, idx) => (
+                                        <li key={idx} className="flex items-center text-gray-600">
+                                            <span className="w-2 h-2 mr-2 bg-[#DD1D4A] rounded-full"></span>
+                                            {feature}
+                                        </li>
+                                    ))}
+                                </ul>
+                            </motion.div>
+                        ))}
+                    </div>
+                </div>
+            </section>
+
+            {/* Additional Services */}
+            <section className="py-20 bg-white">
+                <div className="container px-4 mx-auto">
+                    <h2 className="mb-12 text-3xl font-bold text-center">Additional Services</h2>
+                    <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
+                        {additionalServices.map((service, index) => (
+                            <motion.div
+                                key={index}
+                                initial={{ opacity: 0, y: 20 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 0.5, delay: index * 0.2 }}
+                                className="p-6 bg-gray-50 rounded-lg"
+                            >
+                                <div className="mb-4">{service.icon}</div>
+                                <h3 className="mb-2 text-xl font-semibold">{service.title}</h3>
+                                <p className="text-gray-600">{service.description}</p>
+                            </motion.div>
+                        ))}
+                    </div>
+                </div>
+            </section>
+
+            {/* Market Insights */}
+            <section className="py-20 bg-gray-50">
+                <div className="container px-4 mx-auto">
+                    <h2 className="mb-12 text-3xl font-bold text-center">Market Insights</h2>
+                    <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
+                        {marketInsights.map((insight, index) => (
+                            <motion.div
+                                key={index}
+                                initial={{ opacity: 0, y: 20 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 0.5, delay: index * 0.2 }}
+                                className="p-6 bg-white rounded-lg shadow-lg"
+                            >
+                                <div className="mb-4">{insight.icon}</div>
+                                <h3 className="mb-2 text-xl font-semibold">{insight.title}</h3>
+                                <p className="text-gray-600">{insight.description}</p>
+                            </motion.div>
+                        ))}
+                    </div>
+                </div>
+            </section>
+
+            {/* Process Section */}
+            <section className="py-20 bg-white">
+                <div className="container px-4 mx-auto">
+                    <h2 className="mb-12 text-3xl font-bold text-center">Our Process</h2>
+                    <div className="mx-auto max-w-3xl">
+                        <div className="space-y-8">
+                            <div className="flex gap-4 items-start">
+                                <div className="flex-shrink-0 w-8 h-8 bg-[#DD1D4A] text-white rounded-full flex items-center justify-center font-bold">1</div>
+                                <div>
+                                    <h3 className="mb-2 text-xl font-semibold">Initial Consultation</h3>
+                                    <p className="text-gray-600">We begin with a detailed consultation to understand your specific needs, budget, and timeline for your commercial real estate project.</p>
+                                </div>
+                            </div>
+                            <div className="flex gap-4 items-start">
+                                <div className="flex-shrink-0 w-8 h-8 bg-[#DD1D4A] text-white rounded-full flex items-center justify-center font-bold">2</div>
+                                <div>
+                                    <h3 className="mb-2 text-xl font-semibold">Market Analysis</h3>
+                                    <p className="text-gray-600">Our team conducts thorough market research to identify the best opportunities and provide you with detailed insights.</p>
+                                </div>
+                            </div>
+                            <div className="flex gap-4 items-start">
+                                <div className="flex-shrink-0 w-8 h-8 bg-[#DD1D4A] text-white rounded-full flex items-center justify-center font-bold">3</div>
+                                <div>
+                                    <h3 className="mb-2 text-xl font-semibold">Property Selection</h3>
+                                    <p className="text-gray-600">We help you identify and evaluate properties that match your criteria and business objectives.</p>
+                                </div>
+                            </div>
+                            <div className="flex gap-4 items-start">
+                                <div className="flex-shrink-0 w-8 h-8 bg-[#DD1D4A] text-white rounded-full flex items-center justify-center font-bold">4</div>
+                                <div>
+                                    <h3 className="mb-2 text-xl font-semibold">Transaction Management</h3>
+                                    <p className="text-gray-600">Our experts handle all aspects of the transaction, from negotiation to closing, ensuring a smooth process.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            {/* CTA Section */}
+            <section className="py-20 bg-[#DD1D4A]">
+                <div className="container px-4 mx-auto text-center">
+                    <h2 className="mb-6 text-3xl font-bold text-white">Ready to Start Your Commercial Real Estate Journey?</h2>
+                    <p className="mb-8 text-xl text-white opacity-90">Let us help you find the perfect commercial space for your business</p>
+                    <div className="flex gap-4 justify-center">
+                        <a href="/contact">
+                            <button className="px-8 py-3 font-semibold text-[#DD1D4A] bg-white rounded-lg transition hover:bg-gray-100">
+                                Schedule Consultation
+                            </button>
+                        </a>
+
+                        <a href="/brochure.pdf" download>
+                            <button className="px-8 py-3 font-semibold text-white rounded-lg border-2 border-white transition hover:bg-white hover:text-[#DD1D4A]">
+                                Download Brochure
+                            </button>
+                        </a>
                     </div>
                 </div>
             </section>
             <Footer />
-        </>
+        </div>
     );
-}
+};
+
+export default CommercialSalesLease;
