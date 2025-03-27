@@ -30,11 +30,11 @@ export default function RootLayout({
   keywords?: string;
 }) {
   const [isShow, setIsShow] = useState(false);
-  
+
   useEffect(() => {
     // Set metadata in the document head
     document.title = title;
-    
+
     // Show offer toast
     toast.success('We offer Zero Rent Policy 🎉❤️', {
       position: "top-right",
@@ -49,7 +49,7 @@ export default function RootLayout({
         window.location.href = '/zero-rent-policy';
       }
     });
-    
+
     // Add AI Chatbot script
     const script = document.createElement('script');
     script.innerHTML = `!function(w, d, s, ...args){
@@ -67,7 +67,7 @@ export default function RootLayout({
       apiHost: 'https://api-cf-us-1.sendbird.com',
     });`;
     document.body.appendChild(script);
-    
+
     // Update meta tags
     const metaTags = {
       description: description,
@@ -85,7 +85,7 @@ export default function RootLayout({
       "twitter:description": description,
       "twitter:image": image,
     };
-    
+
     // Update or create meta tags
     Object.entries(metaTags).forEach(([name, content]) => {
       if (name.startsWith("og:") || name.startsWith("twitter:")) {
@@ -111,7 +111,7 @@ export default function RootLayout({
         }
       }
     });
-    
+
     // Set favicon
     const favicon = document.querySelector('link[rel="icon"]');
     if (favicon) {
@@ -122,21 +122,21 @@ export default function RootLayout({
       link.setAttribute("href", image);
       document.head.appendChild(link);
     }
-    
+
     // Play sound on user interaction
     const handleUserInteraction = () => {
       const audio = new Audio("/souund.mp3");
       audio.play().catch((error) => console.log("Audio playback error:", error));
-      
+
       // Remove event listeners after first interaction
       document.removeEventListener("click", handleUserInteraction);
       document.removeEventListener("touchstart", handleUserInteraction);
     };
-    
+
     // Add event listeners for user interaction
     document.addEventListener("click", handleUserInteraction);
     document.addEventListener("touchstart", handleUserInteraction);
-    
+
     // Cleanup function
     return () => {
       document.removeEventListener("click", handleUserInteraction);
@@ -171,7 +171,7 @@ export default function RootLayout({
                     <h2 className="mb-6 text-2xl font-bold text-center text-blue-900">Have a Query?</h2>
                     <form className="space-y-4">
                       <input type="text" name="fullName" placeholder="Full Name" className="p-3 w-full rounded-md border" required />
-                      <input type="tel" name="contactNumber" placeholder="Contact Number" className="p-3 w-full rounded-md border" required />  
+                      <input type="tel" name="contactNumber" placeholder="Contact Number" className="p-3 w-full rounded-md border" required />
                       <textarea name="message" placeholder="Message" className="p-3 w-full rounded-md border" required />
                       <button type="submit" className="py-3 w-full text-white bg-red-600 rounded-md hover:bg-red-700">
                         Submit
@@ -188,8 +188,9 @@ export default function RootLayout({
           type="text/javascript"
           src="https://d3mkw6s8thqya7.cloudfront.net/integration-plugin.js"
           id="aisensy-wa-widget"
-          widget-id="Hw0TAI"
-        ></script>
+          widget-id="JD8lZS"
+        >
+        </script>
       </body>
     </html>
   );

@@ -9,7 +9,6 @@ const partners = [
     { name: "Tech Mahindra", logo: "https://static.vecteezy.com/system/resources/previews/018/970/078/non_2x/patanjali-editorial-logo-free-vector.jpg" },
     { name: "Google", logo: "https://vectorseek.com/wp-content/uploads/2023/09/Haldiram-Logo-Vector.svg-.png" },
     { name: "Microsoft", logo: "https://www.hindustantimes.com/ht-img/img/2023/08/19/550x309/caratlane_titan_1692433234063_1692433234267.png" },
-    { name: "Amazon", logo: "https://circularrevolution.wales/wp-content/uploads/2023/08/bluestonelogo.png" },
     { name: "IBM", logo: "https://logos-world.net/wp-content/uploads/2020/04/KFC-Logo-1991-1997.png" },
     { name: "Intel", logo: "https://static.wixstatic.com/media/0f4e14_ce3fb10a7de44c639760c9ab2f505bec~mv2.png/v1/fill/w_640,h_360,al_c,usm_0.66_1.00_0.01/0f4e14_ce3fb10a7de44c639760c9ab2f505bec~mv2.png" },
     { name: "Samsung", logo: "https://mysandesh.in/wp-content/uploads/2023/11/Samsung_Logo_result-696x387.webp" },
