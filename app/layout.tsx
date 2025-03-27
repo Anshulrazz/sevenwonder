@@ -9,6 +9,8 @@ import { useEffect, useState } from "react";
 import { X } from "lucide-react";
 import GoogleProvider from './GoogleOAuthProvider';
 import Head from "next/head";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -32,6 +34,39 @@ export default function RootLayout({
   useEffect(() => {
     // Set metadata in the document head
     document.title = title;
+    
+    // Show offer toast
+    toast.success('We offer Zero Rent Policy 🎉❤️', {
+      position: "top-right",
+      autoClose: 60000, // 1 minute in milliseconds
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+      onClick: () => {
+        window.location.href = '/zero-rent-policy';
+      }
+    });
+    
+    // Add AI Chatbot script
+    const script = document.createElement('script');
+    script.innerHTML = `!function(w, d, s, ...args){
+      var div = d.createElement('div');
+      div.id = 'aichatbot';
+      d.body.appendChild(div);
+      w.chatbotConfig = args;
+      var f = d.getElementsByTagName(s)[0],
+      j = d.createElement(s);
+      j.defer = true;
+      j.type = 'module';
+      j.src = 'https://aichatbot.sendbird.com/index.js';
+      f.parentNode.insertBefore(j, f);
+    }(window, document, 'script', 'E5A230BB-DF01-4CF0-9E6C-686F93CB1D56', 'yUx_oqrtEnIOz12Dgrelo', {
+      apiHost: 'https://api-cf-us-1.sendbird.com',
+    });`;
+    document.body.appendChild(script);
     
     // Update meta tags
     const metaTags = {
@@ -116,6 +151,7 @@ export default function RootLayout({
           <StoreProvider>
             <Providers>
               <MouseMoveEffect />
+              <ToastContainer />
               <button
                 onClick={() => setIsShow(true)}
                 className="fixed right-0 top-1/2 z-50 flex h-[120px] w-10 -translate-y-1/2 items-center justify-center bg-red-600 px-2 text-sm font-bold text-white shadow-lg transition-all hover:bg-red-700"

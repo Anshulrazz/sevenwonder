@@ -117,7 +117,7 @@ const teamData = [
       {
         name: "Vikram Singh",
         role: "IT Assistant",
-        image: "/team/rohit.png",
+        image: "/team/vikram.png",
         bio: "Vikram ensures our technology infrastructure operates flawlessly 24/7, with a 99.9% uptime record for critical systems. His proactive maintenance protocols have prevented potential disruptions and security vulnerabilities. He provides responsive technical support, ensuring team members can focus on serving clients without technological barriers.",
       },
     ],
@@ -153,6 +153,7 @@ export default function Team() {
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredTeam, setFilteredTeam] = useState(teamData);
   const [activeFilters, setActiveFilters] = useState([]);
+  const [imageErrors, setImageErrors] = useState<Record<string, boolean>>({});
 
   // Initialize all departments as expanded
   useEffect(() => {
@@ -219,6 +220,19 @@ export default function Team() {
   const clearFilters = () => {
     setSearchTerm("");
     setActiveFilters([]);
+  };
+
+  // Function to handle image errors
+  const handleImageError = (memberName: string) => {
+    setImageErrors(prev => ({
+      ...prev,
+      [memberName]: true
+    }));
+  };
+
+  // Function to get initials from name
+  const getInitials = (name: string) => {
+    return name.split(' ').map(word => word[0]).join('').toUpperCase();
   };
 
   return (
@@ -361,11 +375,18 @@ export default function Team() {
                             <div className="absolute inset-0 bg-gradient-to-br from-blue-50 to-purple-50 rounded-2xl opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
                             <div className="relative z-10">
                               <div className="relative mx-auto mb-5 w-40 h-40">
-                                <img
-                                  src={member.image}
-                                  alt={member.name}
-                                  className="object-cover w-full h-full rounded-full border-4 border-white shadow-lg transition-transform duration-300 transform group-hover:scale-105"
-                                />
+                                {!imageErrors[member.name] ? (
+                                  <img
+                                    src={member.image}
+                                    alt={member.name}
+                                    className="object-cover w-full h-full rounded-full border-4 border-white shadow-lg transition-transform duration-300 transform group-hover:scale-105"
+                                    onError={() => handleImageError(member.name)}
+                                  />
+                                ) : (
+                                  <div className="flex justify-center items-center w-full h-full text-4xl font-bold text-white bg-gradient-to-br from-blue-500 to-purple-600 rounded-full border-4 border-white shadow-lg">
+                                    {getInitials(member.name)}
+                                  </div>
+                                )}
                                 <div className="absolute inset-0 rounded-full border-2 border-transparent transition-colors duration-300 group-hover:border-purple-300"></div>
                               </div>
                               <h4 className="mb-1 text-xl font-bold text-gray-900 transition-colors group-hover:text-purple-700">{member.name}</h4>
@@ -428,11 +449,18 @@ export default function Team() {
                 <div className="px-6 pt-0 pb-6 -mt-20">
                   <div className="flex flex-col md:flex-row">
                     <div className="mx-auto -mt-2 mb-4 md:mx-0 md:mb-0 md:mr-6">
-                      <img 
-                        src={selectedMember.image} 
-                        alt={selectedMember.name}
-                        className="object-cover w-32 h-32 rounded-full border-4 border-white shadow-xl"
-                      />
+                      {!imageErrors[selectedMember.name] ? (
+                        <img 
+                          src={selectedMember.image} 
+                          alt={selectedMember.name}
+                          className="object-cover w-32 h-32 rounded border-4 border-white shadow-xl"
+                          onError={() => handleImageError(selectedMember.name)}
+                        />
+                      ) : (
+                        <div className="flex justify-center items-center w-32 h-32 text-3xl font-bold text-white bg-gradient-to-br from-blue-500 to-purple-600 rounded-full border-4 border-white shadow-xl">
+                          {getInitials(selectedMember.name)}
+                        </div>
+                      )}
                     </div>
                     <div className="flex-1 text-center md:text-left">
                       <h3 className="mt-4 text-2xl font-bold text-gray-900">{selectedMember.name}</h3>
