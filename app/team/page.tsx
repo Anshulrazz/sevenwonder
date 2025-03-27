@@ -370,7 +370,7 @@ export default function Team() {
                               </div>
                               <h4 className="mb-1 text-xl font-bold text-gray-900 transition-colors group-hover:text-purple-700">{member.name}</h4>
                               <p className="mb-2 font-medium text-purple-600">{member.role}</p>
-                              <p className="text-sm leading-relaxed text-gray-600 line-clamp-3 group-hover:line-clamp-none">{member.bio}</p>
+                              <p className="text-sm leading-relaxed text-gray-600 line-clamp-3 group-hover">{member.bio}</p>
                               <div className="flex justify-center mt-4 space-x-3 opacity-70 transition-opacity duration-300 group-hover:opacity-100">
                                 <button className="p-2 text-blue-600 bg-blue-100 rounded-full transition-colors hover:bg-blue-200">
                                   <Linkedin className="w-4 h-4" />
